@@ -25,7 +25,8 @@ profile memory, BLAS, LAPACK, and FFTW.
 
 [Library usage report](./abinit/test/peak_stats-p496734_library_report.txt)
 
-``` python ../../peak_analysis_v2.py peak_stats-p496734.csv --mem peak_mem-p496734.csv
+python ../../peak_analysis_v2.py peak_stats-p496734.csv --mem peak_mem-p496734.csv
+``` Output:
 Loading memory log from: peak_mem-p496734.csv
 Memory graphs saved to: peak_mem-p496734_graphs.png
 
