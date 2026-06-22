@@ -27,3 +27,5 @@
 # Keep your own working folders if needed
 !**/work/
 
+**/.*.swp
+**/.git/
