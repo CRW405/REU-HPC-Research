@@ -12,7 +12,6 @@
 - Created a script to run and profile ABINIT
 - Created a python script to do basic analysis profiling outputs
 - Sorted the top 100 list for actionable and unique items
-    - Used AI to help sort and categorize the list as well as write me up a summary of each program
 
 ## What I learned this week
 
