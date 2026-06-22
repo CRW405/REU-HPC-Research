@@ -1,0 +1,29 @@
+# Generic bulky trees anywhere below your project
+**/build/
+**/cmake/
+**/install/
+**/lib/
+**/src/
+**/patch/
+
+# Specific cloned source trees / vendor dirs
+**/*-src/
+**/BerkeleyGW/
+**/abinit-10.4.7/
+**/dftbplus-25.1/
+**/dftbplus-25.1-src/
+**/gromacs_2026.2/
+**/gromacs-src/
+**/peak/
+**/peak-src/
+**/gpaw/
+**/gpaw-src/
+**/libxc-src/
+**/libvdwxc-src/
+**/wannier-src/
+**/develop/
+**/yambo/
+
+# Keep your own working folders if needed
+!**/work/
+
