@@ -1,13 +1,9 @@
 
 # Weekly Report
 
-## TODO:
-
-- write research plan
-
 ## What I worked on this week
 
-### built all programs in the project dir
+### Built all programs in the project dir
 
 ### Created a script to run and profile ABINIT
 
@@ -19,9 +15,9 @@ programs
 I ran ABINIT on its 0th test case on 2 nodes with 16 MPI tasks. I set PEAK to
 profile memory, BLAS, LAPACK, and FFTW.
 
-![Memory Graph](./abinit/test/peak_mem-p496734_graphs.png)
+![Memory Graph](../abinit/test/peak_mem-p496734_graphs.png)
 
-![Stat Graph](./abinit/test/peak_stats-p496734_graphs.png)
+![Stat Graph](../abinit/test/peak_stats-p496734_graphs.png)
 
 [Library usage report](./abinit/test/peak_stats-p496734_library_report.txt)
 
@@ -76,21 +72,54 @@ LAPACK          10           0.11       0.0015
 ABINIT's 0th test seems to very heavily on BLAS for matrix and vector operations,
 specifically ddot for vector dot products and zgemm for matrix multiplication
 
+#### Methodology
+
+1. Build the program
+2. Wrote a script to run the program
+3. Ran under idev
+4. After successful test run, I ran under PEAK with memory, BLAS, LAPACK, and
+FFTW profiling enabled
+5. Did some basic analysis and visualization of the outputs using a python script
+
 ### Created a python script to do basic analysis profiling outputs
 
 I created a python script to visualize the outputs of PEAK. It graphs both stat
-and mem csv's as well data about target group libraries.
+and mem csv's as well as data about target group libraries.
+
+[peak_analysis_v2.py](./peak_analysis_v2.py)
 
 ### Sorted the top 100 list for actionable and unique items
 
 Removed generic names, interpretors, and consolidated names.
-Also had claude write up a blurb for eacg item so I have a better idea of the
+Also had AI write up a blurb for each item so I have a better idea of the
 programs use and operations.
+
+[Filtered top 100 list](./filtered_list.txt)
+[Filtering Report](./tacc_hpc_top100_complete_guide.md)
+
+### Put together a general research data gathering plan / guideline / methodology for myself
+
+1. Build the program
+2. Use the ABINIT script as a base for a run script
+3. Test run under idev
+4. Enable PEAK profiling for memory, BLAS, LAPACK, and FFTW
+5. Use another script to generate and submit different SLURM jobs in order to test
+affects of Node and MPI scaling. Multiple test inputs will also be run.
+6. Use the python script to organize and visualize the data, grouped by the different
+scalings
+
+### Developed a workflow for myself
+
+- I'm familiar with git so I'll be using a git repo on both the remote and local
+to keep my data, notes, and scripts organized and available to myself and the group.
 
 ## What I learned this week
 
 - building on HPC systems
 - how to run PEAK on HPC systems and profile for BLAS, LAPACK, and FFTW
-- Im a bit more familiar with the top 100 items now
+- I'm a bit more familiar with the top 100 items now
 
 ## Questions / Issues
+
+- Does my proposed data gathering plan sound good?
+- Does the data gathered from ABINIT seem correct?
