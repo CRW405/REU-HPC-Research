@@ -1,7 +1,7 @@
 #!/bin/bash
 #===============================================================================
 # Application Configuration Template
-# 
+#
 # This file is sourced by run_script.sh and generate_jobs.sh
 # All settings can be overridden by command-line flags
 #===============================================================================
@@ -13,20 +13,22 @@
 # Application name (used in job names and output directories)
 APP_NAME="abinit"
 
+APP_BUILD_PATH="/scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit"
+
 # Application binary path
-APP_BINARY="../builds/abinit/install/bin/abinit"
+APP_BINARY="${APP_BUILD_PATH}/install/bin/abinit"
 
 # Test cases - format: "name:input_path"
 # Each test case will get its own directory structure
 TEST_CASES=(
-    "test0:../builds/abinit/abinit-10.4.7/tests/v1/Input/t00.abi"
-    "test1:../builds/abinit/abinit-10.4.7/tests/v1/Input/t01.abi"
+    "test0:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t00.abi"
+    "test1:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t01.abi"
 )
 
 # Application-specific environment variables
 # Format: "VAR_NAME=value"
 APP_ENV=(
-    "ABI_PSPDIR=../builds/abinit/abinit-10.4.7/tests/Pspdir/"
+    "ABI_PSPDIR=${APP_BUILD_PATH}/abinit-10.4.7/tests/Pspdir/"
 )
 
 #===============================================================================
@@ -42,7 +44,7 @@ MODULES=(
 
 # Custom library paths to add to LD_LIBRARY_PATH
 LIBRARY_PATHS=(
-    "/scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/install/lib"
+    "${APP_BUILD_PATH}/install/lib"
     "/opt/apps/intel24/netcdf/4.9.2/lib64"
 )
 

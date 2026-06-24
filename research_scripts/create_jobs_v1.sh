@@ -1,7 +1,7 @@
 #!/bin/bash
 #===============================================================================
 # PEAK Scaling Study Job Generator
-# 
+#
 # Generates and submits SLURM jobs for node/MPI scaling studies
 # Based on LAMMPS assignment methodology
 #
@@ -14,21 +14,25 @@
 
 # Application Settings
 APP_NAME="abinit"
-APP_VERSION="10.4.7"
-STUDY_NAME="scaling_study_$(date +%Y%m%d)"
+# APP_VERSION="10.4.7"
+STUDY_NAME="abinit_$(date +%Y%m%d)"
 
 # Path to your modular run script
-RUN_SCRIPT_TEMPLATE="./run_peak_profile.sh"
+RUN_SCRIPT_TEMPLATE="./run_v1.sh"
 
 # SLURM Account Settings
-SLURM_ACCOUNT="your_account"      # Your TACC allocation
+SLURM_ACCOUNT="EAR23006"      # Your TACC allocation
 SLURM_PARTITION="normal"           # Or "development" for testing
 SLURM_QUEUE="normal"               # Queue name
 
 # Test Cases (can define multiple input files)
+TEST_PATH="/scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/abinit-10.4.7/tests/v1/Input"
 declare -a TEST_CASES=(
-    "test0:../abinit-10.4.7/tests/v1/Input/t00.abi"
-    "test1:../abinit-10.4.7/tests/v1/Input/t01.abi"
+    "t00:${TEST_PATH}/t00.abi"
+    "t01:${TEST_PATH}/t01.abi"
+    "t02:${TEST_PATH}/t02.abi"
+    "t03:${TEST_PATH}/t03.abi"
+    "t04:${TEST_PATH}/t04.abi"
 )
 
 # Single-Node Scaling Configurations (MPI tasks per node)
@@ -97,10 +101,10 @@ generate_slurm_script() {
     local nodes=$5
     local ntasks=$6
     local time_limit=$7
-    
+
     local job_name="${APP_NAME}_${case_name}_${config}"
     local slurm_file="${output_dir}/job.slurm"
-    
+
     cat > "${slurm_file}" << EOF
 #!/bin/bash
 #SBATCH -J ${job_name}
@@ -206,21 +210,21 @@ echo "---------------------------------------"
 
 for test_case in "${TEST_CASES[@]}"; do
     IFS=':' read -r case_name input_file <<< "$test_case"
-    
+
     echo ""
     echo "Test Case: ${case_name}"
-    
+
     for config in "${SINGLE_NODE_CONFIGS[@]}"; do
         # Extract number of tasks
         ntasks=${config#n}
         nodes=1
-        
+
         # Create output directory
         output_dir="${BASE_DIR}/${case_name}/${config}"
         mkdir -p "${output_dir}"
-        
+
         echo "  ${config}: ${nodes} node, ${ntasks} tasks"
-        
+
         # Generate SLURM script
         generate_slurm_script "${case_name}" "${config}" "${input_file}" \
             "${output_dir}" "${nodes}" "${ntasks}" "${SINGLE_NODE_TIME}"
@@ -236,21 +240,21 @@ echo "--------------------------------------"
 
 for test_case in "${TEST_CASES[@]}"; do
     IFS=':' read -r case_name input_file <<< "$test_case"
-    
+
     echo ""
     echo "Test Case: ${case_name}"
-    
+
     for config in "${MULTI_NODE_CONFIGS[@]}"; do
         # Extract number of nodes
         nodes=${config#N}
         ntasks=$((nodes * TASKS_PER_NODE))
-        
+
         # Create output directory
         output_dir="${BASE_DIR}/${case_name}/${config}"
         mkdir -p "${output_dir}"
-        
+
         echo "  ${config}: ${nodes} nodes, ${ntasks} tasks (${TASKS_PER_NODE} per node)"
-        
+
         # Generate SLURM script
         generate_slurm_script "${case_name}" "${config}" "${input_file}" \
             "${output_dir}" "${nodes}" "${ntasks}" "${MULTI_NODE_TIME}"
@@ -272,10 +276,10 @@ echo "=============================="
 find . -name "peak_stats-*.csv" | while read stats_file; do
     dir=$(dirname "$stats_file")
     mem_file="${dir}/peak_mem-*.csv"
-    
+
     echo ""
     echo "Analyzing: ${dir}"
-    
+
     if ls ${mem_file} 1> /dev/null 2>&1; then
         python3 ${ANALYSIS_SCRIPT} "${stats_file}" --mem ${mem_file}
     else
@@ -301,10 +305,10 @@ echo "Configuration,Nodes,Tasks,TotalTime_s,PeakMemory_MB,BLAS_Calls,LAPACK_Call
 find . -name "peak_stats-*.csv" -o -name "peak_mem-*.csv" | sort | while read file; do
     dir=$(basename $(dirname "$file"))
     case=$(basename $(dirname $(dirname "$file")))
-    
+
     # Extract metrics (customize based on your app's output format)
     # This is a template - you'll need to adjust for your specific needs
-    
+
     echo "Processing: ${case}/${dir}"
 done
 
@@ -321,23 +325,23 @@ if [[ "${SUBMIT_JOBS}" == "true" ]]; then
     echo "==============================================================================="
     echo "Submitting Jobs to SLURM"
     echo "==============================================================================="
-    
+
     job_count=0
     while read slurm_file; do
         job_dir=$(dirname "${slurm_file}")
         echo "Submitting: ${slurm_file}"
-        
+
         cd "${job_dir}"
         sbatch job.slurm
         job_id=$?
         cd - > /dev/null
-        
+
         ((job_count++))
-        
+
         # Small delay to avoid overwhelming the scheduler
         sleep 0.5
     done < "${BASE_DIR}/all_jobs.txt"
-    
+
     echo ""
     echo "Submitted ${job_count} jobs"
     echo ""

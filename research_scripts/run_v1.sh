@@ -10,7 +10,7 @@
 
 # Application Identification
 APP_NAME="abinit"                    # Name for output files
-APP_VERSION="10.4.7"                 # Optional version tracking
+# APP_VERSION="10.4.7"                 # Optional version tracking
 
 # Module Setup
 MODULES_TO_LOAD=(
