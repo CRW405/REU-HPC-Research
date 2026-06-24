@@ -1,0 +1,103 @@
+#!/bin/bash
+#===============================================================================
+# Application Configuration Template
+# 
+# This file is sourced by run_script.sh and generate_jobs.sh
+# All settings can be overridden by command-line flags
+#===============================================================================
+
+#===============================================================================
+# APPLICATION SETTINGS
+#===============================================================================
+
+# Application name (used in job names and output directories)
+APP_NAME="abinit"
+
+# Application binary path
+APP_BINARY="../builds/abinit/install/bin/abinit"
+
+# Test cases - format: "name:input_path"
+# Each test case will get its own directory structure
+TEST_CASES=(
+    "test0:../builds/abinit/abinit-10.4.7/tests/v1/Input/t00.abi"
+    "test1:../builds/abinit/abinit-10.4.7/tests/v1/Input/t01.abi"
+)
+
+# Application-specific environment variables
+# Format: "VAR_NAME=value"
+APP_ENV=(
+    "ABI_PSPDIR=../builds/abinit/abinit-10.4.7/tests/Pspdir/"
+)
+
+#===============================================================================
+# MODULE SETTINGS
+#===============================================================================
+
+# Modules to load (in order)
+MODULES=(
+    "intel"
+    "impi"
+    "netcdf"
+)
+
+# Custom library paths to add to LD_LIBRARY_PATH
+LIBRARY_PATHS=(
+    "/scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/install/lib"
+    "/opt/apps/intel24/netcdf/4.9.2/lib64"
+)
+
+#===============================================================================
+# MPI SETTINGS
+#===============================================================================
+
+# MPI workarounds (if needed)
+# Format: "VAR_NAME=value"
+MPI_ENV=(
+    "I_MPI_SHM=by_node"
+    "FI_PROVIDER=tcp"
+)
+
+#===============================================================================
+# SLURM SETTINGS
+#===============================================================================
+
+# SLURM account/allocation
+SLURM_ACCOUNT="TG-ASC130002"
+
+# SLURM partition
+SLURM_PARTITION="normal"
+
+# Time limits
+SINGLE_NODE_TIME="01:00:00"
+MULTI_NODE_TIME="02:00:00"
+
+# Tasks per node (Frontera default)
+TASKS_PER_NODE=56
+
+#===============================================================================
+# PEAK PROFILING SETTINGS
+#===============================================================================
+
+# Path to PEAK library
+LIBPEAK_PATH="/scratch/11603/crw405/2.project/1.build_scripts/1.peak/peak/lib/libpeak.so"
+
+# Target groups for profiling (comma-separated)
+PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW,PBLAS,ScaLAPACK"
+
+# Memory profiling settings
+PEAK_MEMORY_PROFILE="TRUE"
+PEAK_MEMORY_TRACK_ALL="TRUE"
+PEAK_MEMLOG_CHUNK_EVENTS=10000000
+
+#===============================================================================
+# OUTPUT SETTINGS
+#===============================================================================
+
+# Default run name (can be overridden with --name flag)
+RUN_NAME="${APP_NAME}"
+
+# Output directory base (runs will be created as subdirectories)
+OUTPUT_BASE="."
+
+# Cleanup previous outputs before running
+CLEAN_PREVIOUS="TRUE"
