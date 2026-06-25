@@ -64,10 +64,10 @@ MPI_ENV=(
 #===============================================================================
 
 # SLURM account/allocation
-SLURM_ACCOUNT="TG-ASC130002"
+SLURM_ACCOUNT="EAR23006"
 
 # SLURM partition
-SLURM_PARTITION="normal"
+SLURM_PARTITION="development"
 
 # Time limits
 SINGLE_NODE_TIME="01:00:00"
