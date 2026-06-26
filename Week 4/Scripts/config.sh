@@ -70,11 +70,11 @@ MPI_ENV=(
 SLURM_ACCOUNT="EAR23006"
 
 # SLURM partition
-SLURM_PARTITION="skx-dev"
+SLURM_PARTITION="skx"
 
 # Time limits
-SINGLE_NODE_TIME="01:00:00"
-MULTI_NODE_TIME="02:00:00"
+SINGLE_NODE_TIME="00:10:00"
+MULTI_NODE_TIME="00:20:00"
 
 # Tasks per node (Frontera default)
 TASKS_PER_NODE=56
@@ -105,4 +105,4 @@ RUN_NAME="${APP_NAME}"
 OUTPUT_BASE="."
 
 # Cleanup previous outputs before running
-CLEAN_PREVIOUS="TRUE"
+CLEAN_PREVIOUS="FALSE"

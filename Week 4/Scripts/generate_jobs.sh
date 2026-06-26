@@ -120,7 +120,7 @@ BASE_DIR="${ABS_OUTPUT_BASE}/${RUN_NAME}-${RUN_MODE}-${TIMESTAMP}"
 SINGLE_NODE_CONFIGS=("n1" "n2" "n4" "n8" "n16" "n32" "n56")
 
 # Multi-node scaling configurations (56 tasks per node)
-MULTI_NODE_CONFIGS=("N1" "N2" "N4" "N8" "N16")
+MULTI_NODE_CONFIGS=("N2" "N4" "N8" "N16")
 
 echo "==============================================================================="
 echo "SLURM Job Generator for Scaling Studies"
@@ -153,20 +153,20 @@ generate_job_script() {
     local time_limit=$6
     local enable_peak=$7
     local scaling_type=$8  # "single_node" or "multi_node"
-    
+
     local job_name="${APP_NAME}_${test_name}_${config}"
     local output_dir="${BASE_DIR}/${test_name}/${scaling_type}/${config}"
     local slurm_file="${output_dir}/job.slurm"
-    
+
     # Create output directory
     mkdir -p "${output_dir}"
-    
+
     # Determine PEAK status string
     local peak_status="nopeak"
     if [ "$enable_peak" = "true" ]; then
         peak_status="peak"
     fi
-    
+
     # Generate SLURM script with absolute paths
     cat > "${slurm_file}" << EOF
 #!/bin/bash
@@ -328,7 +328,7 @@ case "$RUN_MODE" in
         echo ""
         echo "Generating TEST mode jobs (single n1 configuration, no PEAK)..."
         echo "-----------------------------------------------------------------------"
-        
+
         for test_case in "${TEST_CASES[@]}"; do
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
@@ -336,12 +336,12 @@ case "$RUN_MODE" in
             generate_job_script "${test_name}" "${test_input}" "n1" 1 1 "${SINGLE_NODE_TIME}" "false" "single_node"
         done
         ;;
-        
+
     peak)
         echo ""
         echo "Generating PEAK mode jobs (full scaling with PEAK enabled)..."
         echo "-----------------------------------------------------------------------"
-        
+
         # Single-node scaling
         echo ""
         echo "Single-Node Scaling..."
@@ -349,14 +349,14 @@ case "$RUN_MODE" in
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
             echo "Test case: ${test_name}"
-            
+
             for config in "${SINGLE_NODE_CONFIGS[@]}"; do
                 ntasks=${config#n}
                 echo "  ${config}: 1 node, ${ntasks} tasks (PEAK)"
                 generate_job_script "${test_name}" "${test_input}" "${config}" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "true" "single_node"
             done
         done
-        
+
         # Multi-node scaling
         echo ""
         echo "Multi-Node Scaling..."
@@ -364,7 +364,7 @@ case "$RUN_MODE" in
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
             echo "Test case: ${test_name}"
-            
+
             for config in "${MULTI_NODE_CONFIGS[@]}"; do
                 nodes=${config#N}
                 ntasks=$((nodes * TASKS_PER_NODE))
@@ -373,23 +373,23 @@ case "$RUN_MODE" in
             done
         done
         ;;
-        
+
     full)
         echo ""
         echo "Generating FULL mode jobs (scaling with and without PEAK)..."
         echo "-----------------------------------------------------------------------"
-        
+
         for enable_peak in "false" "true"; do
             local peak_label="nopeak"
             if [ "$enable_peak" = "true" ]; then
                 peak_label="peak"
             fi
-            
+
             echo ""
             echo "=========================================="
             echo "Generating jobs with PEAK: ${peak_label}"
             echo "=========================================="
-            
+
             # Single-node scaling
             echo ""
             echo "Single-Node Scaling (${peak_label})..."
@@ -397,14 +397,14 @@ case "$RUN_MODE" in
                 IFS=':' read -r test_name test_input <<< "$test_case"
                 echo ""
                 echo "Test case: ${test_name}"
-                
+
                 for config in "${SINGLE_NODE_CONFIGS[@]}"; do
                     ntasks=${config#n}
                     echo "  ${config}: 1 node, ${ntasks} tasks (${peak_label})"
                     generate_job_script "${test_name}" "${test_input}" "${config}_${peak_label}" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "${enable_peak}" "single_node"
                 done
             done
-            
+
             # Multi-node scaling
             echo ""
             echo "Multi-Node Scaling (${peak_label})..."
@@ -412,7 +412,7 @@ case "$RUN_MODE" in
                 IFS=':' read -r test_name test_input <<< "$test_case"
                 echo ""
                 echo "Test case: ${test_name}"
-                
+
                 for config in "${MULTI_NODE_CONFIGS[@]}"; do
                     nodes=${config#N}
                     ntasks=$((nodes * TASKS_PER_NODE))
