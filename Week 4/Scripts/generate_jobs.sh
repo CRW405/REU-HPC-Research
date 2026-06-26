@@ -15,7 +15,6 @@
 #   -p, --peak            Peak only: scaling with PEAK enabled
 #   -f, --full            Full suite: scaling with and without PEAK
 #   --input NAME:PATH     Override/add single test case
-#   --submit              Submit jobs to queue after generation
 #   --help                Show this help message
 #===============================================================================
 
@@ -26,7 +25,6 @@
 CONFIG_FILE="./config.sh"
 RUN_NAME_OVERRIDE=""
 RUN_MODE=""
-SUBMIT_JOBS=false
 SHOW_HELP=false
 INPUT_OVERRIDE=""
 
@@ -55,10 +53,6 @@ while [[ $# -gt 0 ]]; do
         --input)
             INPUT_OVERRIDE="$2"
             shift 2
-            ;;
-        --submit)
-            SUBMIT_JOBS=true
-            shift
             ;;
         --help|-h)
             SHOW_HELP=true
@@ -108,7 +102,19 @@ fi
 #===============================================================================
 
 TIMESTAMP=$(date '+%m%d%Y-%H%M%S')
-BASE_DIR="${OUTPUT_BASE}/${RUN_NAME}-${RUN_MODE}-${TIMESTAMP}"
+
+# Convert OUTPUT_BASE to absolute path
+if [[ "$OUTPUT_BASE" = /* ]]; then
+    ABS_OUTPUT_BASE="$OUTPUT_BASE"
+else
+    ABS_OUTPUT_BASE="$(cd "$(dirname "$OUTPUT_BASE")" && pwd)/$(basename "$OUTPUT_BASE")"
+    # Handle case where OUTPUT_BASE is just "."
+    if [ "$OUTPUT_BASE" = "." ]; then
+        ABS_OUTPUT_BASE="$(pwd)"
+    fi
+fi
+
+BASE_DIR="${ABS_OUTPUT_BASE}/${RUN_NAME}-${RUN_MODE}-${TIMESTAMP}"
 
 # Single-node MPI scaling configurations
 SINGLE_NODE_CONFIGS=("n1" "n2" "n4" "n8" "n16" "n32" "n56")
@@ -124,7 +130,6 @@ echo "Run name: ${RUN_NAME}"
 echo "Run mode: ${RUN_MODE}"
 echo "Base directory: ${BASE_DIR}"
 echo "Test cases: ${#TEST_CASES[@]}"
-echo "Submit jobs: ${SUBMIT_JOBS}"
 echo "Timestamp: ${TIMESTAMP}"
 echo ""
 
@@ -162,7 +167,7 @@ generate_job_script() {
         peak_status="peak"
     fi
     
-    # Generate SLURM script
+    # Generate SLURM script with absolute paths
     cat > "${slurm_file}" << EOF
 #!/bin/bash
 #SBATCH -J ${job_name}
@@ -173,6 +178,7 @@ generate_job_script() {
 #SBATCH -n ${ntasks}
 #SBATCH -t ${time_limit}
 #SBATCH -A ${SLURM_ACCOUNT}
+#SBATCH --chdir=${output_dir}
 
 #===============================================================================
 # SLURM Job: ${job_name}
@@ -195,10 +201,7 @@ echo "\${pre}Tasks per node: \$((${ntasks} / ${nodes}))"
 echo "\${pre}Test case: ${test_name}"
 echo "\${pre}PEAK profiling: ${peak_status}"
 echo "\${pre}======================================================================"
-
-# Change to output directory
-cd ${output_dir}
-echo "\${pre}Working directory: \$(pwd)"
+echo "\${pre}Working directory: ${output_dir}"
 
 # Load modules
 echo "\${pre}Loading modules..."
@@ -247,8 +250,8 @@ EOF
 # PEAK configuration
 echo "\${pre}Configuring PEAK profiling..."
 export PEAK_LIB_PATH=${LIBPEAK_PATH}
-export PEAK_STATSLOG_PATH=peak_stats
-export PEAK_MEMLOG_PATH=peak_mem
+export PEAK_STATSLOG_PATH=${output_dir}/peak_stats
+export PEAK_MEMLOG_PATH=${output_dir}/peak_mem
 export PEAK_TARGET_GROUP=${PEAK_TARGET_GROUPS}
 export PEAK_MEMORY_PROFILE=${PEAK_MEMORY_PROFILE}
 export PEAK_MEMORY_TRACK_ALL=${PEAK_MEMORY_TRACK_ALL}
@@ -259,6 +262,8 @@ export LD_PRELOAD=\${PEAK_LIB_PATH}
 
 echo "\${pre}  Target groups: ${PEAK_TARGET_GROUPS}"
 echo "\${pre}  Memory profiling: ${PEAK_MEMORY_PROFILE}"
+echo "\${pre}  Stats output: \${PEAK_STATSLOG_PATH}-pXXXXX.csv"
+echo "\${pre}  Memory output: \${PEAK_MEMLOG_PATH}-pXXXXX.csv"
 EOF
     fi
 
@@ -276,7 +281,7 @@ echo "\${pre}Binary: \${APP_BIN}"
 echo "\${pre}Input: \${INPUT_FILE}"
 
 # Run application
-\${APP_BIN} \${INPUT_FILE} > ${APP_NAME}.stdout 2> ${APP_NAME}.stderr
+\${APP_BIN} \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
 
 exit_code=\$?
 end_time=\$SECONDS
@@ -292,14 +297,14 @@ echo "\${pre}Exit code: \${exit_code}"
 echo "\${pre}Elapsed time: \${elapsed} seconds (\${hours}h \${minutes}m \${seconds}s)"
 echo "\${pre}======================================================================"
 echo "\${pre}Output files:"
-echo "\${pre}  Standard output: ${APP_NAME}.stdout"
-echo "\${pre}  Standard error: ${APP_NAME}.stderr"
+echo "\${pre}  Standard output: ${output_dir}/${APP_NAME}.stdout"
+echo "\${pre}  Standard error: ${output_dir}/${APP_NAME}.stderr"
 EOF
 
     if [ "$enable_peak" = "true" ]; then
         cat >> "${slurm_file}" << EOF
 echo "\${pre}  PEAK outputs:"
-ls -lh peak_*.csv 2>/dev/null || echo "\${pre}    No PEAK files found"
+ls -lh ${output_dir}/peak_*.csv 2>/dev/null || echo "\${pre}    No PEAK files found"
 EOF
     fi
 
@@ -435,44 +440,16 @@ echo "Base directory: ${BASE_DIR}"
 echo ""
 
 #===============================================================================
-# SUBMIT JOBS (if requested)
+# SUBMISSION INSTRUCTIONS
 #===============================================================================
 
-if [ "$SUBMIT_JOBS" = true ]; then
-    echo "==============================================================================="
-    echo "Submitting jobs to SLURM queue..."
-    echo "==============================================================================="
-    
-    submitted=0
-    failed=0
-    
-    while IFS= read -r job_file; do
-        echo "Submitting: ${job_file}"
-        if sbatch "${job_file}"; then
-            ((submitted++))
-        else
-            echo "  ERROR: Failed to submit ${job_file}"
-            ((failed++))
-        fi
-    done < "${JOB_LIST}"
-    
-    echo ""
-    echo "==============================================================================="
-    echo "Submission Summary"
-    echo "==============================================================================="
-    echo "Successfully submitted: ${submitted}"
-    echo "Failed: ${failed}"
-    echo ""
-    echo "Check job status with: squeue -u \$USER"
-else
-    echo "Jobs NOT submitted. To submit, run:"
-    echo "  ./generate_jobs.sh --submit"
-    echo ""
-    echo "Or submit individually:"
-    echo "  sbatch ${BASE_DIR}/<test_case>/<scaling_type>/<config>/job.slurm"
-    echo ""
-    echo "Or submit all at once:"
-    echo "  while read job; do sbatch \"\$job\"; done < ${JOB_LIST}"
-fi
-
+echo "To submit jobs:"
+echo ""
+echo "Submit individually:"
+echo "  sbatch ${BASE_DIR}/<test_case>/<scaling_type>/<config>/job.slurm"
+echo ""
+echo "Or submit all at once:"
+echo "  while read job; do sbatch \"\$job\"; done < ${JOB_LIST}"
+echo ""
+echo "Check job status with: squeue -u \$USER"
 echo "==============================================================================="
