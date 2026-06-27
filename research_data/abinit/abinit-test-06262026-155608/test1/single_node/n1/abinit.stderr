@@ -1,0 +1,18 @@
+Image              PC                Routine            Line        Source             
+abinit             00000000033C94AD  Unknown               Unknown  Unknown
+abinit             00000000018C7520  Unknown               Unknown  Unknown
+abinit             0000000000410DBE  Unknown               Unknown  Unknown
+abinit             000000000041007D  Unknown               Unknown  Unknown
+libc.so.6          0000151D3E42A610  Unknown               Unknown  Unknown
+libc.so.6          0000151D3E42A6C0  __libc_start_main     Unknown  Unknown
+abinit             000000000040FF95  Unknown               Unknown  Unknown
+ 
+--- !ERROR
+src_file: m_common.F90
+src_line: 1892
+mpi_rank: 0
+message: |
+    `pseudos` variable must be specified in input when the code is invoked with the `abinit t01.in` syntax
+...
+ 
+Abort(13) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 13) - process 0

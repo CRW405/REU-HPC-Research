@@ -1,0 +1,5 @@
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-test-06262026-155608/test0/single_node/n1/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-test-06262026-155608/test1/single_node/n1/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-test-06262026-155608/test2/single_node/n1/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-test-06262026-155608/test3/single_node/n1/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-test-06262026-155608/test4/single_node/n1/job.slurm
