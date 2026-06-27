@@ -11,9 +11,10 @@
 # Options:
 #   --config FILE         Config file to source (default: ./config.sh)
 #   --name NAME           Run name (default: from config)
-#   -t, --test            Test mode: single n1 job only
-#   -p, --peak            Peak only: scaling with PEAK enabled
-#   -f, --full            Full suite: scaling with and without PEAK
+#   -t, --test            Test mode: single n1 job without PEAK
+#   -tp, --test-peak      Test+Peak mode: single n1 job with PEAK enabled
+#   -p, --peak            Peak only: full scaling with PEAK enabled
+#   -f, --full            Full suite: full scaling with and without PEAK
 #   --input NAME:PATH     Override/add single test case
 #   --help                Show this help message
 #===============================================================================
@@ -40,6 +41,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -t|--test)
             RUN_MODE="test"
+            shift
+            ;;
+        -tp|--test-peak)
+            RUN_MODE="test-peak"
             shift
             ;;
         -p|--peak)
@@ -72,7 +77,7 @@ if [ "$SHOW_HELP" = true ]; then
 fi
 
 if [ -z "$RUN_MODE" ]; then
-    echo "ERROR: Must specify run mode: -t (test), -p (peak), or -f (full)"
+    echo "ERROR: Must specify run mode: -t (test), -tp (test-peak), -p (peak), or -f (full)"
     exit 1
 fi
 
@@ -104,23 +109,17 @@ fi
 TIMESTAMP=$(date '+%m%d%Y-%H%M%S')
 
 # Convert OUTPUT_BASE to absolute path
-if [[ "$OUTPUT_BASE" = /* ]]; then
-    ABS_OUTPUT_BASE="$OUTPUT_BASE"
-else
-    ABS_OUTPUT_BASE="$(cd "$(dirname "$OUTPUT_BASE")" && pwd)/$(basename "$OUTPUT_BASE")"
-    # Handle case where OUTPUT_BASE is just "."
-    if [ "$OUTPUT_BASE" = "." ]; then
-        ABS_OUTPUT_BASE="$(pwd)"
-    fi
+if [[ ! "$OUTPUT_BASE" = /* ]]; then
+    OUTPUT_BASE="$(cd "$(dirname "$OUTPUT_BASE")" && pwd)/$(basename "$OUTPUT_BASE")"
 fi
 
-BASE_DIR="${ABS_OUTPUT_BASE}/${RUN_NAME}-${RUN_MODE}-${TIMESTAMP}"
+BASE_DIR="${OUTPUT_BASE}/${RUN_NAME}-${RUN_MODE}-${TIMESTAMP}"
 
 # Single-node MPI scaling configurations
 SINGLE_NODE_CONFIGS=("n1" "n2" "n4" "n8" "n16" "n32" "n56")
 
 # Multi-node scaling configurations (56 tasks per node)
-MULTI_NODE_CONFIGS=("N2" "N4" "N8" "N16")
+MULTI_NODE_CONFIGS=("N1" "N2" "N4" "N8" "N16")
 
 echo "==============================================================================="
 echo "SLURM Job Generator for Scaling Studies"
@@ -140,6 +139,10 @@ mkdir -p "${BASE_DIR}"
 JOB_LIST="${BASE_DIR}/all_jobs.txt"
 > "${JOB_LIST}"  # Clear file
 
+# Create timing log file with header
+TIMING_LOG="${BASE_DIR}/timing_summary.csv"
+echo "job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id" > "${TIMING_LOG}"
+
 #===============================================================================
 # FUNCTION: Generate SLURM Job Script
 #===============================================================================
@@ -153,32 +156,32 @@ generate_job_script() {
     local time_limit=$6
     local enable_peak=$7
     local scaling_type=$8  # "single_node" or "multi_node"
-
+    
     local job_name="${APP_NAME}_${test_name}_${config}"
     local output_dir="${BASE_DIR}/${test_name}/${scaling_type}/${config}"
     local slurm_file="${output_dir}/job.slurm"
-
+    
     # Create output directory
     mkdir -p "${output_dir}"
-
+    
     # Determine PEAK status string
     local peak_status="nopeak"
     if [ "$enable_peak" = "true" ]; then
         peak_status="peak"
     fi
-
-    # Generate SLURM script with absolute paths
+    
+    # Generate SLURM script
     cat > "${slurm_file}" << EOF
 #!/bin/bash
 #SBATCH -J ${job_name}
 #SBATCH -o ${output_dir}/slurm.out
 #SBATCH -e ${output_dir}/slurm.err
+#SBATCH --chdir=${output_dir}
 #SBATCH -p ${SLURM_PARTITION}
 #SBATCH -N ${nodes}
 #SBATCH -n ${ntasks}
 #SBATCH -t ${time_limit}
 #SBATCH -A ${SLURM_ACCOUNT}
-#SBATCH --chdir=${output_dir}
 
 #===============================================================================
 # SLURM Job: ${job_name}
@@ -187,8 +190,13 @@ generate_job_script() {
 # PEAK: ${peak_status}
 #===============================================================================
 
-start_time=\$SECONDS
+# Timing variables
+start_epoch=\$(date +%s)
+start_time=\$(date '+%Y-%m-%d %H:%M:%S')
 pre="[${config}]: "
+
+# Timing log file (absolute path)
+TIMING_LOG="${TIMING_LOG}"
 
 echo "\${pre}======================================================================"
 echo "\${pre}SLURM Job Start"
@@ -200,7 +208,10 @@ echo "\${pre}MPI Tasks: ${ntasks}"
 echo "\${pre}Tasks per node: \$((${ntasks} / ${nodes}))"
 echo "\${pre}Test case: ${test_name}"
 echo "\${pre}PEAK profiling: ${peak_status}"
+echo "\${pre}Start time: \${start_time}"
 echo "\${pre}======================================================================"
+
+# Working directory
 echo "\${pre}Working directory: ${output_dir}"
 
 # Load modules
@@ -262,8 +273,8 @@ export LD_PRELOAD=\${PEAK_LIB_PATH}
 
 echo "\${pre}  Target groups: ${PEAK_TARGET_GROUPS}"
 echo "\${pre}  Memory profiling: ${PEAK_MEMORY_PROFILE}"
-echo "\${pre}  Stats output: \${PEAK_STATSLOG_PATH}-pXXXXX.csv"
-echo "\${pre}  Memory output: \${PEAK_MEMLOG_PATH}-pXXXXX.csv"
+echo "\${pre}  Stats output: ${output_dir}/peak_stats-pXXXXX.csv"
+echo "\${pre}  Memory output: ${output_dir}/peak_mem-pXXXXX.csv"
 EOF
     fi
 
@@ -284,17 +295,21 @@ echo "\${pre}Input: \${INPUT_FILE}"
 \${APP_BIN} \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
 
 exit_code=\$?
-end_time=\$SECONDS
-elapsed=\$((end_time - start_time))
-hours=\$((elapsed / 3600))
-minutes=\$(((elapsed % 3600) / 60))
-seconds=\$((elapsed % 60))
+
+# Calculate timing
+end_epoch=\$(date +%s)
+end_time=\$(date '+%Y-%m-%d %H:%M:%S')
+elapsed_seconds=\$((end_epoch - start_epoch))
+hours=\$((elapsed_seconds / 3600))
+minutes=\$(((elapsed_seconds % 3600) / 60))
+seconds=\$((elapsed_seconds % 60))
 
 echo "\${pre}======================================================================"
 echo "\${pre}Run completed"
 echo "\${pre}======================================================================"
 echo "\${pre}Exit code: \${exit_code}"
-echo "\${pre}Elapsed time: \${elapsed} seconds (\${hours}h \${minutes}m \${seconds}s)"
+echo "\${pre}End time: \${end_time}"
+echo "\${pre}Elapsed time: \${elapsed_seconds} seconds (\${hours}h \${minutes}m \${seconds}s)"
 echo "\${pre}======================================================================"
 echo "\${pre}Output files:"
 echo "\${pre}  Standard output: ${output_dir}/${APP_NAME}.stdout"
@@ -310,6 +325,25 @@ EOF
 
     cat >> "${slurm_file}" << EOF
 echo "\${pre}======================================================================"
+
+# Log timing data to CSV (append to shared timing log)
+echo "${job_name},${test_name},${config},${nodes},${ntasks},${enable_peak},\${start_time},\${end_time},\${elapsed_seconds},\${exit_code},\${SLURM_JOB_ID}" >> "\${TIMING_LOG}"
+
+# Also save individual timing file
+cat > ${output_dir}/timing.txt << TIMING_EOF
+Job Name: ${job_name}
+Test Case: ${test_name}
+Configuration: ${config}
+Nodes: ${nodes}
+Tasks: ${ntasks}
+PEAK Enabled: ${enable_peak}
+SLURM Job ID: \${SLURM_JOB_ID}
+Start Time: \${start_time}
+End Time: \${end_time}
+Elapsed Seconds: \${elapsed_seconds}
+Elapsed (formatted): \${hours}h \${minutes}m \${seconds}s
+Exit Code: \${exit_code}
+TIMING_EOF
 
 exit \${exit_code}
 EOF
@@ -328,7 +362,7 @@ case "$RUN_MODE" in
         echo ""
         echo "Generating TEST mode jobs (single n1 configuration, no PEAK)..."
         echo "-----------------------------------------------------------------------"
-
+        
         for test_case in "${TEST_CASES[@]}"; do
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
@@ -336,12 +370,25 @@ case "$RUN_MODE" in
             generate_job_script "${test_name}" "${test_input}" "n1" 1 1 "${SINGLE_NODE_TIME}" "false" "single_node"
         done
         ;;
-
+    
+    test-peak)
+        echo ""
+        echo "Generating TEST-PEAK mode jobs (single n1 configuration with PEAK)..."
+        echo "-----------------------------------------------------------------------"
+        
+        for test_case in "${TEST_CASES[@]}"; do
+            IFS=':' read -r test_name test_input <<< "$test_case"
+            echo ""
+            echo "Test case: ${test_name}"
+            generate_job_script "${test_name}" "${test_input}" "n1_peak" 1 1 "${SINGLE_NODE_TIME}" "true" "single_node"
+        done
+        ;;
+        
     peak)
         echo ""
         echo "Generating PEAK mode jobs (full scaling with PEAK enabled)..."
         echo "-----------------------------------------------------------------------"
-
+        
         # Single-node scaling
         echo ""
         echo "Single-Node Scaling..."
@@ -349,14 +396,14 @@ case "$RUN_MODE" in
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
             echo "Test case: ${test_name}"
-
+            
             for config in "${SINGLE_NODE_CONFIGS[@]}"; do
                 ntasks=${config#n}
                 echo "  ${config}: 1 node, ${ntasks} tasks (PEAK)"
-                generate_job_script "${test_name}" "${test_input}" "${config}" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "true" "single_node"
+                generate_job_script "${test_name}" "${test_input}" "${config}_peak" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "true" "single_node"
             done
         done
-
+        
         # Multi-node scaling
         echo ""
         echo "Multi-Node Scaling..."
@@ -364,32 +411,32 @@ case "$RUN_MODE" in
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
             echo "Test case: ${test_name}"
-
+            
             for config in "${MULTI_NODE_CONFIGS[@]}"; do
                 nodes=${config#N}
                 ntasks=$((nodes * TASKS_PER_NODE))
                 echo "  ${config}: ${nodes} nodes, ${ntasks} tasks (PEAK)"
-                generate_job_script "${test_name}" "${test_input}" "${config}" "${nodes}" "${ntasks}" "${MULTI_NODE_TIME}" "true" "multi_node"
+                generate_job_script "${test_name}" "${test_input}" "${config}_peak" "${nodes}" "${ntasks}" "${MULTI_NODE_TIME}" "true" "multi_node"
             done
         done
         ;;
-
+        
     full)
         echo ""
         echo "Generating FULL mode jobs (scaling with and without PEAK)..."
         echo "-----------------------------------------------------------------------"
-
+        
         for enable_peak in "false" "true"; do
             local peak_label="nopeak"
             if [ "$enable_peak" = "true" ]; then
                 peak_label="peak"
             fi
-
+            
             echo ""
             echo "=========================================="
             echo "Generating jobs with PEAK: ${peak_label}"
             echo "=========================================="
-
+            
             # Single-node scaling
             echo ""
             echo "Single-Node Scaling (${peak_label})..."
@@ -397,14 +444,14 @@ case "$RUN_MODE" in
                 IFS=':' read -r test_name test_input <<< "$test_case"
                 echo ""
                 echo "Test case: ${test_name}"
-
+                
                 for config in "${SINGLE_NODE_CONFIGS[@]}"; do
                     ntasks=${config#n}
                     echo "  ${config}: 1 node, ${ntasks} tasks (${peak_label})"
                     generate_job_script "${test_name}" "${test_input}" "${config}_${peak_label}" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "${enable_peak}" "single_node"
                 done
             done
-
+            
             # Multi-node scaling
             echo ""
             echo "Multi-Node Scaling (${peak_label})..."
@@ -412,7 +459,7 @@ case "$RUN_MODE" in
                 IFS=':' read -r test_name test_input <<< "$test_case"
                 echo ""
                 echo "Test case: ${test_name}"
-
+                
                 for config in "${MULTI_NODE_CONFIGS[@]}"; do
                     nodes=${config#N}
                     ntasks=$((nodes * TASKS_PER_NODE))
@@ -436,21 +483,16 @@ echo "Job Generation Complete"
 echo "==============================================================================="
 echo "Total jobs generated: ${total_jobs}"
 echo "Job list: ${JOB_LIST}"
+echo "Timing log: ${TIMING_LOG}"
 echo "Base directory: ${BASE_DIR}"
 echo ""
-
-#===============================================================================
-# SUBMISSION INSTRUCTIONS
-#===============================================================================
-
-echo "To submit jobs:"
-echo ""
-echo "Submit individually:"
-echo "  sbatch ${BASE_DIR}/<test_case>/<scaling_type>/<config>/job.slurm"
-echo ""
-echo "Or submit all at once :"
-echo "(WARNING!!! Dont submit 110 jobs at once or Tommy will get you. This is intended for the -t flag where you only have 5 jobs)"
+echo "To submit jobs, run:"
 echo "  while read job; do sbatch \"\$job\"; done < ${JOB_LIST}"
 echo ""
-echo "Check job status with: squeue -u \$USER"
+echo "Or submit individually:"
+echo "  sbatch ${BASE_DIR}/<test_case>/<scaling_type>/<config>/job.slurm"
+echo ""
+echo "After jobs complete, check timing data:"
+echo "  cat ${TIMING_LOG}"
+echo "  column -t -s, ${TIMING_LOG} | less -S"
 echo "==============================================================================="
