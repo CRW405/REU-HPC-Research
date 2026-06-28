@@ -84,9 +84,10 @@ get_resource_signature() {
     local ntasks=$(get_sbatch_value "$file" "-n")
     local time=$(get_sbatch_value "$file" "-t")
     local partition=$(get_sbatch_value "$file" "-p")
+    local account=$(get_sbatch_value "$file" "-A")
     
-    # Create signature: nodes_ntasks_time_partition
-    echo "${nodes}_${ntasks}_${time}_${partition}"
+    # Create signature: nodes_ntasks_time_partition_account
+    echo "${nodes}_${ntasks}_${time}_${partition}_${account}"
 }
 
 #===============================================================================
@@ -125,7 +126,7 @@ echo "-----------------------------------------------------------------------"
 
 declare -A job_groups  # signature -> list of job files
 declare -A job_metadata  # job_file -> test_name:config:peak
-declare -A group_resources  # signature -> nodes:ntasks:time:partition (for display)
+declare -A group_resources  # signature -> nodes:ntasks:time:partition:account (for display)
 
 total_jobs=0
 
@@ -146,7 +147,8 @@ while IFS= read -r -d '' jobfile; do
         ntasks=$(get_sbatch_value "$jobfile" "-n")
         time=$(get_sbatch_value "$jobfile" "-t")
         partition=$(get_sbatch_value "$jobfile" "-p")
-        group_resources[$sig]="${nodes}:${ntasks}:${time}:${partition}"
+        account=$(get_sbatch_value "$jobfile" "-A")
+        group_resources[$sig]="${nodes}:${ntasks}:${time}:${partition}:${account}"
     fi
     
     # Group by signature
@@ -189,7 +191,7 @@ done | sort -rn | awk '{print $2}')
 
 for sig in $sorted_sigs; do
     # Parse resource info
-    IFS=':' read -r nodes ntasks time partition <<< "${group_resources[$sig]}"
+    IFS=':' read -r nodes ntasks time partition account <<< "${group_resources[$sig]}"
     
     # Get jobs in this group
     IFS='|' read -ra jobs <<< "${job_groups[$sig]}"
@@ -198,16 +200,16 @@ for sig in $sorted_sigs; do
     if [ "$num_jobs" -lt 2 ]; then
         ((singleton_count++))
         if [ "$DRY_RUN" = true ]; then
-            echo "❌ Singleton (N=${nodes}, n=${ntasks}, t=${time}, p=${partition}): 1 job (no consolidation)"
+            echo "❌ Singleton (N=${nodes}, n=${ntasks}, t=${time}, p=${partition}, A=${account}): 1 job (no consolidation)"
         fi
     else
         ((array_count++))
         ((total_in_arrays += num_jobs))
         
-        array_name="array_${array_count}_N${nodes}_n${ntasks}"
+        array_name="array_N${nodes}_n${ntasks}"
         
         echo "✅ Array ${array_count}: ${array_name}"
-        echo "   Resources: N=${nodes}, n=${ntasks}, time=${time}, partition=${partition}"
+        echo "   Resources: N=${nodes}, n=${ntasks}, time=${time}, partition=${partition}, account=${account}"
         echo "   Jobs: ${num_jobs} → 1 array (${num_jobs}:1 consolidation)"
         
         if [ "$DRY_RUN" = true ]; then
@@ -235,310 +237,258 @@ echo "Before: ${total_jobs} individual job submissions"
 echo "After:  ${array_count} array submissions + ${singleton_count} individual jobs"
 echo "        = $((array_count + singleton_count)) total submissions"
 echo ""
-echo "Job reduction:           ${total_jobs} → $((array_count + singleton_count))"
-echo "Reduction factor:        $(awk "BEGIN {printf \"%.1fx\", ${total_jobs}/($array_count + $singleton_count)}")"
+if [ "$total_jobs" -gt 0 ]; then
+    reduction=$(awk "BEGIN {printf \"%.1f\", ${total_jobs} / ($array_count + $singleton_count)}")
+    echo "Job reduction:           ${total_jobs} → $((array_count + singleton_count))"
+    echo "Reduction factor:        ${reduction}x"
+fi
 echo "======================================================================="
+echo ""
 
+# If dry run, stop here
 if [ "$DRY_RUN" = true ]; then
-    echo ""
-    echo "This was a dry run. No files were created."
-    echo "To generate array scripts, run without -d/--dry-run flag:"
-    echo "  ./convert_to_arrays.sh ${BASE_DIR} ${MAX_CONCURRENT}"
+    echo "Dry run complete. No files created."
+    echo "Run without --dry-run to generate array scripts."
     exit 0
 fi
 
 #===============================================================================
-# STEP 3: Create job arrays for each group
+# STEP 3: Generate array scripts
 #===============================================================================
 
-echo ""
-echo "Step 3: Generating job array scripts..."
+echo "Step 3: Generating array scripts..."
 echo "-----------------------------------------------------------------------"
-echo ""
 
 # Create output directory
-mkdir -p "${ARRAY_DIR}"
-> "${ARRAY_LIST}"
+mkdir -p "$ARRAY_DIR"
 
-array_count=0
-singleton_list="${ARRAY_DIR}/singleton_jobs.txt"
-> "${singleton_list}"
+# Clear or create list files
+> "$ARRAY_LIST"
+SINGLETON_LIST="${ARRAY_DIR}/singleton_jobs.txt"
+> "$SINGLETON_LIST"
 
-for sig in "${!job_groups[@]}"; do
-    # Parse signature
-    IFS='_' read -r nodes ntasks time partition <<< "$sig"
+array_idx=0
+
+for sig in $sorted_sigs; do
+    # Parse resource info
+    IFS=':' read -r nodes ntasks time partition account <<< "${group_resources[$sig]}"
     
     # Get jobs in this group
     IFS='|' read -ra jobs <<< "${job_groups[$sig]}"
     num_jobs=${#jobs[@]}
     
-    # Only create array if there's more than one job
     if [ "$num_jobs" -lt 2 ]; then
-        echo "Skipping group ${sig}: only 1 job (no benefit from array)"
-        echo "${jobs[0]}" >> "${singleton_list}"
+        # Singleton - just add to list for manual submission
+        echo "${jobs[0]}" >> "$SINGLETON_LIST"
         continue
     fi
     
-    ((array_count++))
+    ((array_idx++))
     
-    array_name="array_${array_count}_N${nodes}_n${ntasks}"
-    array_script="${ARRAY_DIR}/${array_name}.slurm"
+    # Create array script name
+    array_name="array_N${nodes}_n${ntasks}"
+    array_file="${ARRAY_DIR}/${array_name}.slurm"
     
-    echo "Creating array: ${array_name}"
-    echo "  Resources: ${nodes} nodes, ${ntasks} tasks, ${time}, partition=${partition}"
-    echo "  Jobs in array: ${num_jobs}"
+    echo "Creating ${array_name}.slurm (${num_jobs} jobs)..."
     
-    # Start building the array script
-    cat > "$array_script" << EOF
+    # Write array script header
+    cat > "$array_file" <<EOF
 #!/bin/bash
 #SBATCH -J ${array_name}
-#SBATCH -o ${ARRAY_DIR}/${array_name}_%a.out
-#SBATCH -e ${ARRAY_DIR}/${array_name}_%a.err
-#SBATCH -p ${partition}
 #SBATCH -N ${nodes}
 #SBATCH -n ${ntasks}
 #SBATCH -t ${time}
+#SBATCH -p ${partition}
+#SBATCH -A ${account}
+#SBATCH -o ${array_name}_%A_%a.out
+#SBATCH -e ${array_name}_%A_%a.err
 #SBATCH --array=0-$((num_jobs - 1))%${MAX_CONCURRENT}
 
 #===============================================================================
-# Job Array: ${array_name}
+# Auto-generated job array consolidating ${num_jobs} jobs
 # Generated: $(date)
-# Total jobs: ${num_jobs}
-# Max concurrent: ${MAX_CONCURRENT}
 #===============================================================================
 
-echo "==============================================================================="
-echo "Array Job: ${array_name}"
-echo "Array Task ID: \${SLURM_ARRAY_TASK_ID}"
-echo "SLURM Job ID: \${SLURM_JOB_ID}"
-echo "==============================================================================="
-
-# Map array index to specific job configuration
+# Map array task ID to original job directory and script
 case \${SLURM_ARRAY_TASK_ID} in
 EOF
-
+    
     # Add case entries for each job
     for idx in "${!jobs[@]}"; do
         jobfile="${jobs[$idx]}"
-        metadata="${job_metadata[$jobfile]}"
-        IFS=':' read -r test config peak <<< "$metadata"
+        jobdir=$(dirname "$jobfile")
         
-        # Get original job directory and relevant paths
-        orig_dir=$(dirname "$jobfile")
+        # Get the original job's working directory (relative to BASE_DIR)
+        rel_jobdir=$(realpath --relative-to="$BASE_DIR" "$jobdir")
         
-        echo "    ${idx})"  >> "$array_script"
-        echo "        TEST_NAME=\"${test}\"" >> "$array_script"
-        echo "        CONFIG=\"${config}\"" >> "$array_script"
-        echo "        PEAK_ENABLED=\"${peak}\"" >> "$array_script"
-        echo "        WORK_DIR=\"${orig_dir}\"" >> "$array_script"
-        echo "        ;;" >> "$array_script"
-        
-        echo "    [${idx}] ${test}/${config} (${peak})"
+        cat >> "$array_file" <<EOF
+  ${idx})
+    echo "Running: ${rel_jobdir}"
+    cd "${BASE_DIR}/${rel_jobdir}"
+    # Source the original job commands
+    source "./job.slurm"
+    ;;
+EOF
     done
     
-    cat >> "$array_script" << 'EOF'
-    *)
-        echo "ERROR: Invalid SLURM_ARRAY_TASK_ID: ${SLURM_ARRAY_TASK_ID}"
-        exit 1
-        ;;
+    # Close the case statement
+    cat >> "$array_file" <<EOF
+  *)
+    echo "ERROR: Invalid SLURM_ARRAY_TASK_ID=\${SLURM_ARRAY_TASK_ID}"
+    exit 1
+    ;;
 esac
-
-echo "Configuration: ${TEST_NAME} / ${CONFIG} / ${PEAK_ENABLED}"
-echo "Working directory: ${WORK_DIR}"
-echo "==============================================================================="
-
-# Change to work directory
-cd "${WORK_DIR}" || exit 1
-
-# Source the original job script (skip SBATCH lines, execute the rest)
-echo "Executing job from: ${WORK_DIR}/job.slurm"
-echo ""
-
-# Extract and execute non-SBATCH lines from original script
-grep -v "^#SBATCH" "${WORK_DIR}/job.slurm" | grep -v "^#!/bin/bash" | bash
-
-# Capture exit status
-exit_status=$?
-
-echo ""
-echo "==============================================================================="
-echo "Job completed with exit status: ${exit_status}"
-echo "==============================================================================="
-
-exit ${exit_status}
 EOF
-
-    chmod +x "$array_script"
-    echo "$array_script" >> "${ARRAY_LIST}"
-    echo ""
+    
+    # Add to master list
+    echo "$array_file" >> "$ARRAY_LIST"
+    
 done
 
+echo ""
+echo "Generated ${array_idx} array scripts in ${ARRAY_DIR}/"
+if [ "$singleton_count" -gt 0 ]; then
+    echo "Note: ${singleton_count} singleton jobs listed in ${SINGLETON_LIST}"
+fi
+echo ""
+
 #===============================================================================
-# STEP 4: Create master submission script
+# STEP 4: Generate master submit script
 #===============================================================================
 
-echo ""
-echo "Step 4: Creating master submission script..."
+echo "Step 4: Generating master submit script..."
 echo "-----------------------------------------------------------------------"
 
-cat > "${SUBMIT_SCRIPT}" << 'EOF'
+cat > "$SUBMIT_SCRIPT" <<'SUBMIT_EOF'
 #!/bin/bash
 #===============================================================================
-# Master Job Array Submission Script
-#
-# Submits all generated job arrays while respecting TACC limits:
-#   - Max 20 active jobs
-#   - Max 80 total jobs
-#
-# Usage:
-#   ./submit_all_arrays.sh
+# Master Array Submit Script
+# Submits all consolidated job arrays with automatic throttling
 #===============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ARRAY_LIST="${SCRIPT_DIR}/array_jobs.txt"
 SINGLETON_LIST="${SCRIPT_DIR}/singleton_jobs.txt"
 
-MAX_ACTIVE=20
-MAX_TOTAL=80
+MAX_TOTAL_JOBS=80
+WAIT_TIME=60  # seconds between checks
 
 echo "==============================================================================="
-echo "Master Array Submission Script"
+echo "Submitting ABINIT Job Arrays"
 echo "==============================================================================="
-echo "Starting at: $(date)"
 echo ""
 
-if [ ! -f "$ARRAY_LIST" ]; then
-    echo "ERROR: Array list not found: $ARRAY_LIST"
-    exit 1
-fi
-
 #===============================================================================
-# FUNCTION: Count user's current jobs
+# Function: Get current job count
 #===============================================================================
-count_jobs() {
+get_job_count() {
     squeue -u $USER -h | wc -l
 }
 
 #===============================================================================
-# FUNCTION: Wait for job count to drop below threshold
+# Function: Wait for job slots
 #===============================================================================
-wait_for_capacity() {
-    local threshold=$1
-    local current=$(count_jobs)
-    
-    while [ "$current" -ge "$threshold" ]; do
-        echo "Current jobs: ${current} / ${MAX_TOTAL} (waiting for capacity...)"
-        sleep 30
-        current=$(count_jobs)
+wait_for_slots() {
+    local needed=$1
+    while true; do
+        current=$(get_job_count)
+        available=$((MAX_TOTAL_JOBS - current))
+        
+        if [ "$available" -ge "$needed" ]; then
+            break
+        fi
+        
+        echo "Currently ${current}/${MAX_TOTAL_JOBS} jobs. Waiting for ${needed} slots..."
+        echo "Will check again in ${WAIT_TIME} seconds."
+        sleep $WAIT_TIME
     done
 }
 
 #===============================================================================
-# STEP 1: Submit job arrays
+# Submit array jobs
 #===============================================================================
 
-echo "Step 1: Submitting job arrays..."
-echo "-----------------------------------------------------------------------"
-
-submitted_count=0
-total_arrays=$(wc -l < "$ARRAY_LIST")
-
-while IFS= read -r array_script; do
-    ((submitted_count++))
-    
-    # Wait if we're approaching the total job limit
-    # Leave some margin (e.g., MAX_TOTAL - 10) to avoid race conditions
-    wait_for_capacity $((MAX_TOTAL - 10))
-    
-    echo "[${submitted_count}/${total_arrays}] Submitting: $(basename $array_script)"
-    sbatch "$array_script"
-    
-    if [ $? -eq 0 ]; then
-        echo "  ✓ Submitted successfully"
-    else
-        echo "  ✗ Submission failed"
-    fi
-    
-    # Brief pause between submissions
-    sleep 2
-    
-done < "$ARRAY_LIST"
-
-echo ""
-echo "Array submission complete: ${submitted_count} arrays submitted"
-echo ""
-
-#===============================================================================
-# STEP 2: Submit singleton jobs (if any)
-#===============================================================================
-
-if [ -f "$SINGLETON_LIST" ] && [ -s "$SINGLETON_LIST" ]; then
-    echo "Step 2: Submitting singleton jobs..."
+if [ -f "$ARRAY_LIST" ]; then
+    echo "Submitting array jobs from: $ARRAY_LIST"
     echo "-----------------------------------------------------------------------"
     
-    singleton_count=$(wc -l < "$SINGLETON_LIST")
-    submitted_singletons=0
-    
-    while IFS= read -r jobfile; do
-        ((submitted_singletons++))
+    while read -r array_script; do
+        if [ ! -f "$array_script" ]; then
+            echo "WARNING: File not found: $array_script"
+            continue
+        fi
         
-        # Wait for capacity
-        wait_for_capacity $((MAX_TOTAL - 5))
+        # Each array script counts as 1 submission (Slurm manages the elements)
+        wait_for_slots 1
         
-        echo "[${submitted_singletons}/${singleton_count}] Submitting: ${jobfile}"
-        sbatch "$jobfile"
+        echo "Submitting: $(basename "$array_script")"
+        sbatch "$array_script"
         
         if [ $? -eq 0 ]; then
             echo "  ✓ Submitted successfully"
         else
             echo "  ✗ Submission failed"
         fi
+        echo ""
         
+        # Small delay to avoid overwhelming Slurm
         sleep 2
         
-    done < "$SINGLETON_LIST"
-    
-    echo ""
-    echo "Singleton submission complete: ${submitted_singletons} jobs submitted"
+    done < "$ARRAY_LIST"
 else
-    echo "Step 2: No singleton jobs to submit"
+    echo "No array jobs to submit (${ARRAY_LIST} not found)"
+fi
+
+#===============================================================================
+# Report on singleton jobs
+#===============================================================================
+
+if [ -f "$SINGLETON_LIST" ] && [ -s "$SINGLETON_LIST" ]; then
+    num_singletons=$(wc -l < "$SINGLETON_LIST")
+    echo ""
+    echo "==============================================================================="
+    echo "Note: ${num_singletons} singleton jobs were not grouped into arrays."
+    echo "These must be submitted individually if desired:"
+    echo "  ${SINGLETON_LIST}"
+    echo "==============================================================================="
 fi
 
 echo ""
 echo "==============================================================================="
-echo "All submissions complete"
-echo "Finished at: $(date)"
+echo "Submission complete!"
+echo "==============================================================================="
 echo ""
 echo "Monitor your jobs with:"
 echo "  squeue -u \$USER"
-echo "  watch -n 10 'squeue -u \$USER'"
-echo "==============================================================================="
-EOF
-
-chmod +x "${SUBMIT_SCRIPT}"
-
-#===============================================================================
-# STEP 5: Summary and next steps
-#===============================================================================
-
+echo "  watch -n 30 'squeue -u \$USER'"
 echo ""
-echo "==============================================================================="
+SUBMIT_EOF
+
+chmod +x "$SUBMIT_SCRIPT"
+
+echo "Created: ${SUBMIT_SCRIPT}"
+echo ""
+
+#===============================================================================
+# FINAL SUMMARY
+#===============================================================================
+
+echo "======================================================================="
 echo "CONVERSION COMPLETE"
-echo "==============================================================================="
-echo "Created ${array_count} job array scripts in: ${ARRAY_DIR}/"
-echo "Singleton jobs listed in: ${singleton_list}"
+echo "======================================================================="
 echo ""
-echo "Next steps:"
-echo "  1. Review the generated array scripts (optional):"
-echo "     ls -lh ${ARRAY_DIR}/*.slurm"
+echo "Output directory: ${ARRAY_DIR}/"
+echo "  - ${array_idx} array scripts created"
+if [ "$singleton_count" -gt 0 ]; then
+    echo "  - ${singleton_count} singleton jobs listed"
+fi
+echo "  - Master submit script: submit_all_arrays.sh"
 echo ""
-echo "  2. Submit all arrays automatically:"
-echo "     ${SUBMIT_SCRIPT}"
+echo "To submit all arrays:"
+echo "  cd ${ARRAY_DIR}"
+echo "  ./submit_all_arrays.sh"
 echo ""
-echo "  3. Or submit arrays individually:"
-echo "     sbatch ${ARRAY_DIR}/array_1_*.slurm"
+echo "Or submit individual arrays:"
+echo "  sbatch ${ARRAY_DIR}/array_N1_n56.slurm"
 echo ""
-echo "  4. Monitor job status:"
-echo "     squeue -u \$USER"
-echo "     watch -n 10 'squeue -u \$USER'"
-echo "==============================================================================="
+echo "======================================================================="
