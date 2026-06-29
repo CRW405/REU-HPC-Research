@@ -1,0 +1,11 @@
+array_N8_n384.slurm
+array_N4_n192.slurm
+array_N2_n96.slurm
+array_N1_n8.slurm
+array_N16_n768.slurm
+array_N1_n48.slurm
+array_N1_n4.slurm
+array_N1_n32.slurm
+array_N1_n2.slurm
+array_N1_n16.slurm
+array_N1_n1.slurm

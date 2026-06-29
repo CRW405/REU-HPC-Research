@@ -1,0 +1,180 @@
+nohup: ignoring input
+=======================================================================
+Submitting all job arrays (SAFE MODE - ONE AT A TIME)
+=======================================================================
+Each array will be submitted only after the previous completes.
+Only one array will be in the queue at a time.
+
+Submitting array_N8_n384.slurm...
+
+-----------------------------------------------------------------
+          Welcome to the Stampede3 Supercomputer                 
+-----------------------------------------------------------------
+
+No reservation for this job
+--> Verifying valid submit host (login4)...OK
+--> Verifying valid jobname...OK
+--> Verifying valid ssh keys...OK
+--> Verifying access to desired queue (skx)...OK
+--> Checking available allocation (EAR23006)...OK
+--> Quotas are not currently enabled for filesystem /home1/11603/crw405...OK
+--> Verifying that quota for filesystem /work2/11603/crw405/stampede3 is at  0.01% allocated...OK
+Submitted batch job 3255685
+  → Job ID: 3255685
+  → Waiting for array to complete...
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+  → Array complete!
+
+Submitting array_N4_n192.slurm...
+
+-----------------------------------------------------------------
+          Welcome to the Stampede3 Supercomputer                 
+-----------------------------------------------------------------
+
+No reservation for this job
+--> Verifying valid submit host (login4)...OK
+--> Verifying valid jobname...OK
+--> Verifying valid ssh keys...OK
+--> Verifying access to desired queue (skx)...OK
+--> Checking available allocation (EAR23006)...OK
+--> Quotas are not currently enabled for filesystem /home1/11603/crw405...OK
+--> Verifying that quota for filesystem /work2/11603/crw405/stampede3 is at  0.01% allocated...OK
+Submitted batch job 3255745
+  → Job ID: 3255745
+  → Waiting for array to complete...
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+  → Array complete!
+
+Submitting array_N2_n96.slurm...
+
+-----------------------------------------------------------------
+          Welcome to the Stampede3 Supercomputer                 
+-----------------------------------------------------------------
+
+No reservation for this job
+--> Verifying valid submit host (login4)...OK
+--> Verifying valid jobname...OK
+--> Verifying valid ssh keys...OK
+--> Verifying access to desired queue (skx)...OK
+--> Checking available allocation (EAR23006)...OK
+--> Quotas are not currently enabled for filesystem /home1/11603/crw405...OK
+--> Verifying that quota for filesystem /work2/11603/crw405/stampede3 is at  0.01% allocated...OK
+Submitted batch job 3255784
+  → Job ID: 3255784
+  → Waiting for array to complete...
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: COMPLETING (checking again in 60s...)
+  → Array complete!
+
+Submitting array_N1_n8.slurm...
+
+-----------------------------------------------------------------
+          Welcome to the Stampede3 Supercomputer                 
+-----------------------------------------------------------------
+
+No reservation for this job
+--> Verifying valid submit host (login4)...OK
+--> Verifying valid jobname...OK
+--> Verifying valid ssh keys...OK
+--> Verifying access to desired queue (skx)...OK
+--> Checking available allocation (EAR23006)...OK
+--> Quotas are not currently enabled for filesystem /home1/11603/crw405...OK
+--> Verifying that quota for filesystem /work2/11603/crw405/stampede3 is at  0.01% allocated...OK
+Submitted batch job 3255842
+  → Job ID: 3255842
+  → Waiting for array to complete...
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: COMPLETING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: RUNNING (checking again in 60s...)
+  → Array complete!
+
+Submitting array_N16_n768.slurm...
+
+-----------------------------------------------------------------
+          Welcome to the Stampede3 Supercomputer                 
+-----------------------------------------------------------------
+
+No reservation for this job
+--> Verifying valid submit host (login4)...OK
+--> Verifying valid jobname...OK
+--> Verifying valid ssh keys...OK
+--> Verifying access to desired queue (skx)...OK
+--> Checking available allocation (EAR23006)...OK
+--> Quotas are not currently enabled for filesystem /home1/11603/crw405...OK
+--> Verifying that quota for filesystem /work2/11603/crw405/stampede3 is at  0.01% allocated...OK
+Submitted batch job 3255891
+  → Job ID: 3255891
+  → Waiting for array to complete...
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)
+     Status: PENDING (checking again in 60s...)

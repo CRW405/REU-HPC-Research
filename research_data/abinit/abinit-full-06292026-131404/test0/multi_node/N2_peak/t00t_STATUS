@@ -1,0 +1,8 @@
+ 
+ Status file, reporting on built-in test v1
+ 
+ ==> The run finished cleanly.
+     Moreover, comparison of the total energy, and other (few) relevant quantities with reference values has been successful.
+     This does not mean that no problem is present, however. 
+     Please run the complete set of ABINIT tests to gain a better confidence in your installation.
+ 

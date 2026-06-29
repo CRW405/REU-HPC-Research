@@ -22,7 +22,7 @@ APP_BINARY="${APP_BUILD_PATH}/install/bin/abinit"
 # Each test case will get its own directory structure
 TEST_CASES=(
     "test0:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t00.abi"
-    "test1:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t01.abi"
+    "test1:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t05.abi"
     "test2:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t02.abi"
     "test3:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t03.abi"
     "test4:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t04.abi"
@@ -77,7 +77,7 @@ SINGLE_NODE_TIME="00:10:00"
 MULTI_NODE_TIME="00:20:00"
 
 # Tasks per node (Frontera default)
-TASKS_PER_NODE=56
+TASKS_PER_NODE=48
 
 #===============================================================================
 # PEAK PROFILING SETTINGS
