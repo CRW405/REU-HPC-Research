@@ -11,7 +11,6 @@
 #
 # Options:
 #   -d, --dry-run     Show grouping analysis without creating files
-#   -s, --sequential  Generate submit script that runs arrays one after another
 #
 # Arguments:
 #   base_directory    Root directory containing test0, test1, etc.
@@ -19,20 +18,19 @@
 #   max_concurrent    Max concurrent jobs per array (default: 10)
 #
 # Output:
-#   Creates job_arrays/ directory with consolidated array scripts
+#   Creates job_arrays/ directory with:
+#     - Consolidated array scripts
+#     - submit_all_parallel.sh (submit all arrays at once)
+#     - submit_all_dependency.sh (chain arrays with SLURM dependencies)
+#     - submit_all_safe.sh (submit one at a time, wait for completion)
 #===============================================================================
 
 # Parse options
 DRY_RUN=false
-SEQUENTIAL=false
 while [[ $# -gt 0 ]]; do
     case $1 in
         -d|--dry-run)
             DRY_RUN=true
-            shift
-            ;;
-        -s|--sequential)
-            SEQUENTIAL=true
             shift
             ;;
         *)
@@ -57,18 +55,15 @@ fi
 
 ARRAY_DIR="${BASE_DIR}/job_arrays"
 LOGS_DIR="${ARRAY_DIR}/logs"
-SUBMIT_SCRIPT="${ARRAY_DIR}/submit_all_arrays.sh"
+SUBMIT_PARALLEL="${ARRAY_DIR}/submit_all_parallel.sh"
+SUBMIT_DEPENDENCY="${ARRAY_DIR}/submit_all_dependency.sh"
+SUBMIT_SAFE="${ARRAY_DIR}/submit_all_safe.sh"
 ARRAY_LIST="${ARRAY_DIR}/array_jobs.txt"
 
 echo "==============================================================================="
 echo "SLURM Job to Array Converter"
 if [ "$DRY_RUN" = true ]; then
     echo "MODE: DRY RUN (no files will be created)"
-fi
-if [ "$SEQUENTIAL" = true ]; then
-    echo "SUBMISSION MODE: Sequential (one array at a time)"
-else
-    echo "SUBMISSION MODE: Parallel (up to $MAX_CONCURRENT jobs per array)"
 fi
 echo "==============================================================================="
 echo "Base directory: ${BASE_DIR}"
@@ -238,53 +233,50 @@ for sig in $sorted_sigs; do
     fi
 done
 
-echo "======================================================================="
+echo "======================================================================"
 echo "CONSOLIDATION SUMMARY"
-echo "======================================================================="
+echo "======================================================================"
 echo "Total jobs found:        ${total_jobs}"
 echo "Jobs in arrays:          ${total_in_arrays}"
 echo "Singleton jobs:          ${singleton_count}"
 echo "Number of arrays:        ${array_count}"
 echo ""
 echo "Before: ${total_jobs} individual job submissions"
-if [ "$singleton_count" -gt 0 ]; then
-    echo "After:  ${array_count} array submissions + ${singleton_count} individual jobs"
-    echo "        = $((array_count + singleton_count)) total submissions"
-else
-    echo "After:  ${array_count} array submissions"
-fi
+echo "After:  ${array_count} array submissions + ${singleton_count} individual jobs"
+echo "        = $((array_count + singleton_count)) total submissions"
 echo ""
 
-if [ "$total_jobs" -gt 0 ] && [ "$array_count" -gt 0 ]; then
-    reduction=$((total_jobs * 100 / (array_count + singleton_count)))
+if [ "$total_in_arrays" -gt 0 ]; then
     reduction_factor=$(echo "scale=1; $total_jobs / ($array_count + $singleton_count)" | bc)
     echo "Job reduction:           ${total_jobs} → $((array_count + singleton_count))"
     echo "Reduction factor:        ${reduction_factor}x"
 fi
-echo "======================================================================="
+echo "======================================================================"
+echo ""
+
+#===============================================================================
+# Exit here if dry-run
+#===============================================================================
 
 if [ "$DRY_RUN" = true ]; then
-    echo ""
-    echo "✨ This was a dry run. No files were created."
-    echo "   To generate array scripts, run without --dry-run:"
-    echo "   ./convert_to_arrays.sh ${BASE_DIR} ${MAX_CONCURRENT}"
+    echo "Dry-run complete. No files were created."
+    echo "Run without --dry-run to generate array scripts."
     exit 0
 fi
 
 #===============================================================================
-# STEP 3: Generate array scripts
+# STEP 3: Create output directories and generate array scripts
 #===============================================================================
 
-echo ""
-echo "Step 3: Generating job array scripts..."
+echo "Step 3: Creating array scripts..."
 echo "-----------------------------------------------------------------------"
 
-# Create output directories
-mkdir -p "${ARRAY_DIR}"
-mkdir -p "${LOGS_DIR}"
+# Create directories
+mkdir -p "$ARRAY_DIR"
+mkdir -p "$LOGS_DIR"
 
-# Clear array list
-> "${ARRAY_LIST}"
+# Clear old array list
+> "$ARRAY_LIST"
 
 array_num=0
 
@@ -303,336 +295,401 @@ for sig in $sorted_sigs; do
     
     ((array_num++))
     
+    # Array script name (without numeric prefix)
     array_name="array_N${nodes}_n${ntasks}"
     array_script="${ARRAY_DIR}/${array_name}.slurm"
     
     echo "Creating ${array_name}.slurm (${num_jobs} jobs)..."
     
-    # Calculate array range (0-indexed)
-    max_index=$((num_jobs - 1))
+    # Calculate array range
+    max_idx=$((num_jobs - 1))
     
-    # Write array script header
-    cat > "${array_script}" << HEADER_EOF
+    # Write array script
+    cat > "$array_script" << 'EOF_HEADER'
 #!/bin/bash
+EOF_HEADER
+
+    # Write SBATCH directives with actual values (not variables)
+    cat >> "$array_script" << EOF_SBATCH
 #SBATCH -J ${array_name}
 #SBATCH -N ${nodes}
 #SBATCH -n ${ntasks}
 #SBATCH -t ${time}
 #SBATCH -p ${partition}
 #SBATCH -A ${account}
-#SBATCH --array=0-${max_index}%${MAX_CONCURRENT}
+#SBATCH --array=0-${max_idx}%${MAX_CONCURRENT}
 #SBATCH -o ${LOGS_DIR}/${array_name}-%A_%a.out
 #SBATCH -e ${LOGS_DIR}/${array_name}-%A_%a.err
 
 #===============================================================================
 # Job Array: ${array_name}
 # Generated: $(date)
-# Array size: ${num_jobs} jobs (indices 0-${max_index})
+# Array size: ${num_jobs} jobs (indices 0-${max_idx})
+# Resources: N=${nodes}, n=${ntasks}, time=${time}, partition=${partition}, account=${account}
 # Max concurrent: ${MAX_CONCURRENT}
 #===============================================================================
 
-echo "================================================================="
-echo "Job Array: ${array_name}"
+echo "======================================================================="
+echo "Array Job Start: ${array_name}"
+echo "======================================================================="
 echo "Array Job ID: \${SLURM_ARRAY_JOB_ID}"
 echo "Array Task ID: \${SLURM_ARRAY_TASK_ID}"
+echo "Job ID: \${SLURM_JOB_ID}"
 echo "Hostname: \$(hostname)"
-echo "Start Time: \$(date)"
-echo "================================================================="
+echo "Start time: \$(date)"
+echo "======================================================================="
 
 # Map array task ID to original job directory
 case \${SLURM_ARRAY_TASK_ID} in
-HEADER_EOF
+EOF_SBATCH
 
-    # Add case statement entries for each job
+    # Add case entries for each job
     for idx in "${!jobs[@]}"; do
         jobfile="${jobs[$idx]}"
-        jobdir=$(dirname "$jobfile")
+        original_dir=$(dirname "$jobfile")
+        abs_dir=$(cd "$original_dir" && pwd)
+        
         metadata="${job_metadata[$jobfile]}"
         IFS=':' read -r test config peak <<< "$metadata"
         
-        cat >> "${array_script}" << CASE_EOF
+        cat >> "$array_script" << EOF_CASE
   ${idx})
     echo "Task ${idx}: ${test}/${config} (${peak})"
-    original_dir="${jobdir}"
+    original_dir="${abs_dir}"
     ;;
-CASE_EOF
+EOF_CASE
     done
 
     # Close case statement and add execution logic
-    cat >> "${array_script}" << FOOTER_EOF
+    cat >> "$array_script" << 'EOF_FOOTER'
   *)
-    echo "ERROR: Unknown array task ID \${SLURM_ARRAY_TASK_ID}"
+    echo "ERROR: Unknown array task ID: ${SLURM_ARRAY_TASK_ID}"
     exit 1
     ;;
 esac
 
-# Change to original job directory
-cd "\${original_dir}" || exit 1
-echo "Working directory: \${original_dir}"
-echo ""
+echo "-----------------------------------------------------------------------"
+echo "Changing to: ${original_dir}"
+cd "${original_dir}" || exit 1
 
-# Extract and execute the commands from the original job script
-# (Skip SBATCH directives, execute everything else)
-echo "Executing original job commands..."
-echo "================================================================="
-
-# Source the original job.slurm, skipping SBATCH lines
-grep -v "^#SBATCH" "\${original_dir}/job.slurm" | bash
-
-exit_code=\$?
-
-echo "================================================================="
-echo "Task completed with exit code: \${exit_code}"
-echo "End Time: \$(date)"
-echo "================================================================="
-
-exit \${exit_code}
-FOOTER_EOF
-
-    chmod +x "${array_script}"
-    echo "${array_name}.slurm" >> "${ARRAY_LIST}"
-done
-
-#===============================================================================
-# STEP 4: Generate master submission script
-#===============================================================================
-
-echo ""
-echo "Step 4: Generating master submission script..."
+echo "Executing original job script..."
 echo "-----------------------------------------------------------------------"
 
-if [ "$SEQUENTIAL" = true ]; then
-    # Generate sequential submission script with dependencies
-    cat > "${SUBMIT_SCRIPT}" << 'SUBMIT_EOF'
-#!/bin/bash
-#===============================================================================
-# Master Array Submission Script (Sequential Mode)
-#
-# This script submits all job arrays ONE AT A TIME using SLURM dependencies.
-# Each array will start only after the previous one completes.
-#
-# Usage:
-#   ./submit_all_arrays.sh
-#===============================================================================
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ARRAY_LIST="${SCRIPT_DIR}/array_jobs.txt"
-
-if [ ! -f "${ARRAY_LIST}" ]; then
-    echo "ERROR: Array list not found: ${ARRAY_LIST}"
-    exit 1
-fi
-
-echo "======================================================================="
-echo "Submitting Job Arrays (Sequential Mode)"
-echo "======================================================================="
-echo "Submit time: $(date)"
-echo ""
-
-# Read array scripts into an array
-mapfile -t array_scripts < "${ARRAY_LIST}"
-num_arrays=${#array_scripts[@]}
-
-if [ "$num_arrays" -eq 0 ]; then
-    echo "ERROR: No array scripts found in ${ARRAY_LIST}"
-    exit 1
-fi
-
-echo "Found ${num_arrays} job arrays to submit"
-echo ""
-
-previous_jobid=""
-submitted_count=0
-
-for script in "${array_scripts[@]}"; do
-    script_path="${SCRIPT_DIR}/${script}"
-    
-    if [ ! -f "${script_path}" ]; then
-        echo "WARNING: Script not found: ${script_path}"
+# Source the original job.slurm (skipping SBATCH directives)
+# This executes all the module loads, environment setup, and application run
+while IFS= read -r line; do
+    # Skip shebang and SBATCH lines
+    if [[ "$line" =~ ^#SBATCH ]] || [[ "$line" =~ ^#!/bin/bash ]]; then
         continue
     fi
-    
-    ((submitted_count++))
-    
-    # Submit with dependency on previous job (if any)
-    if [ -z "$previous_jobid" ]; then
-        echo "[$submitted_count/${num_arrays}] Submitting ${script} (first in chain)..."
-        output=$(sbatch "${script_path}" 2>&1)
-    else
-        echo "[$submitted_count/${num_arrays}] Submitting ${script} (depends on job ${previous_jobid})..."
-        output=$(sbatch --dependency=afterany:${previous_jobid} "${script_path}" 2>&1)
-    fi
-    
-    if [ $? -eq 0 ]; then
-        # Extract job ID from sbatch output
-        jobid=$(echo "$output" | grep -oP 'Submitted batch job \K\d+' || echo "$output" | grep -oP '\d+')
-        echo "    ✓ Submitted as job ${jobid}"
-        previous_jobid=$jobid
-    else
-        echo "    ✗ Submission failed:"
-        echo "$output" | sed 's/^/      /'
-        echo ""
-        echo "ERROR: Submission failed. Stopping chain."
-        exit 1
-    fi
-    
-    echo ""
+    # Execute everything else
+    eval "$line"
+done < "${original_dir}/job.slurm"
+
+exit_code=$?
+
+echo "======================================================================="
+echo "Array task ${SLURM_ARRAY_TASK_ID} completed with exit code: ${exit_code}"
+echo "End time: $(date)"
+echo "======================================================================="
+
+exit ${exit_code}
+EOF_FOOTER
+
+    chmod +x "$array_script"
+    echo "${array_name}.slurm" >> "$ARRAY_LIST"
 done
 
-echo "======================================================================="
-echo "Submission Complete"
-echo "======================================================================="
-echo "Total arrays submitted: ${submitted_count}"
 echo ""
-echo "Jobs will run sequentially. Monitor with:"
-echo "  squeue -u \$USER"
-echo "  watch -n 30 'squeue -u \$USER'"
+echo "Created ${array_num} array scripts in ${ARRAY_DIR}/"
 echo ""
-echo "View logs in: ${SCRIPT_DIR}/logs/"
-echo "======================================================================="
-SUBMIT_EOF
 
-else
-    # Generate parallel submission script (original behavior)
-    cat > "${SUBMIT_SCRIPT}" << 'SUBMIT_EOF'
+#===============================================================================
+# STEP 4: Create three different submission scripts
+#===============================================================================
+
+echo "Step 4: Creating submission scripts..."
+echo "-----------------------------------------------------------------------"
+
+#-------------------------------------------------------------------------------
+# 1. PARALLEL: Submit all arrays at once
+#-------------------------------------------------------------------------------
+
+cat > "$SUBMIT_PARALLEL" << 'EOF_PARALLEL'
 #!/bin/bash
 #===============================================================================
-# Master Array Submission Script (Parallel Mode)
+# Submit All Arrays - PARALLEL MODE
 #
-# This script submits all job arrays with automatic throttling to respect
-# TACC job limits (20 active, 80 total).
+# Submits all job arrays at once. Each array respects its own concurrency
+# limit (--array=...%N), but all arrays are active simultaneously.
 #
-# Usage:
-#   ./submit_all_arrays.sh
+# WARNING: This may result in many jobs in the queue at once.
+# Use with caution if you have strict job count limits.
 #===============================================================================
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ARRAY_LIST="${SCRIPT_DIR}/array_jobs.txt"
-
-MAX_TOTAL_JOBS=80
-MAX_ACTIVE_JOBS=20
-
-if [ ! -f "${ARRAY_LIST}" ]; then
-    echo "ERROR: Array list not found: ${ARRAY_LIST}"
-    exit 1
-fi
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "======================================================================="
-echo "Submitting Job Arrays (Parallel Mode)"
+echo "Submitting all job arrays (PARALLEL MODE)"
 echo "======================================================================="
-echo "Submit time: $(date)"
-echo "TACC Limits: ${MAX_ACTIVE_JOBS} active / ${MAX_TOTAL_JOBS} total"
+echo "All arrays will be submitted at once."
+echo "Each array respects its own concurrency limit."
 echo ""
 
-# Function to count current jobs
-count_jobs() {
-    squeue -u $USER -h | wc -l
-}
+submitted=0
+failed=0
 
-submitted_count=0
-skipped_count=0
-
-while IFS= read -r script; do
-    script_path="${SCRIPT_DIR}/${script}"
+while IFS= read -r array_script; do
+    script_path="${SCRIPT_DIR}/${array_script}"
     
-    if [ ! -f "${script_path}" ]; then
+    if [ ! -f "$script_path" ]; then
         echo "WARNING: Script not found: ${script_path}"
-        ((skipped_count++))
+        ((failed++))
         continue
     fi
     
-    # Check current job count
-    current_jobs=$(count_jobs)
+    echo "Submitting ${array_script}..."
+    jobid=$(sbatch "$script_path" 2>&1 | tee /dev/tty | awk '/Submitted batch job/{print $NF}')
     
-    # Wait if we're at the limit
-    while [ "$current_jobs" -ge "$MAX_TOTAL_JOBS" ]; do
-        echo "At job limit (${current_jobs}/${MAX_TOTAL_JOBS}). Waiting 60s..."
-        sleep 60
-        current_jobs=$(count_jobs)
-    done
-    
-    echo "Submitting ${script} (current jobs: ${current_jobs}/${MAX_TOTAL_JOBS})..."
-    sbatch "${script_path}"
-    
-    if [ $? -eq 0 ]; then
-        ((submitted_count++))
+    if [ -n "$jobid" ] && [ "$jobid" -eq "$jobid" ] 2>/dev/null; then
+        echo "  → Job ID: ${jobid}"
+        ((submitted++))
     else
-        echo "  WARNING: Submission failed for ${script}"
-        ((skipped_count++))
+        echo "  → FAILED"
+        ((failed++))
+    fi
+    echo ""
+done < "${SCRIPT_DIR}/array_jobs.txt"
+
+echo "======================================================================="
+echo "Submission complete"
+echo "======================================================================="
+echo "Arrays submitted: ${submitted}"
+echo "Failed: ${failed}"
+echo ""
+echo "Monitor with: squeue -u \$USER"
+echo "======================================================================="
+EOF_PARALLEL
+
+chmod +x "$SUBMIT_PARALLEL"
+
+#-------------------------------------------------------------------------------
+# 2. DEPENDENCY: Chain arrays with SLURM dependencies
+#-------------------------------------------------------------------------------
+
+cat > "$SUBMIT_DEPENDENCY" << 'EOF_DEPENDENCY'
+#!/bin/bash
+#===============================================================================
+# Submit All Arrays - DEPENDENCY MODE
+#
+# Submits all job arrays with SLURM dependencies, so each array starts only
+# after the previous one completes (using --dependency=afterany:JOBID).
+#
+# All jobs enter the queue immediately, but only one array runs at a time.
+#
+# NOTE: Dependency-held jobs may still count toward your total job limit
+# depending on SLURM configuration.
+#===============================================================================
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "======================================================================="
+echo "Submitting all job arrays (DEPENDENCY CHAIN MODE)"
+echo "======================================================================="
+echo "Each array will wait for the previous one to complete."
+echo "All jobs will be submitted to the queue immediately."
+echo ""
+
+submitted=0
+failed=0
+prev_jobid=""
+
+while IFS= read -r array_script; do
+    script_path="${SCRIPT_DIR}/${array_script}"
+    
+    if [ ! -f "$script_path" ]; then
+        echo "WARNING: Script not found: ${script_path}"
+        ((failed++))
+        continue
     fi
     
-    # Brief pause between submissions
-    sleep 2
+    echo "Submitting ${array_script}..."
     
-done < "${ARRAY_LIST}"
+    if [ -z "$prev_jobid" ]; then
+        # First job: no dependency
+        jobid=$(sbatch "$script_path" 2>&1 | tee /dev/tty | awk '/Submitted batch job/{print $NF}')
+    else
+        # Subsequent jobs: depend on previous
+        jobid=$(sbatch --dependency=afterany:${prev_jobid} "$script_path" 2>&1 | tee /dev/tty | awk '/Submitted batch job/{print $NF}')
+    fi
+    
+    if [ -n "$jobid" ] && [ "$jobid" -eq "$jobid" ] 2>/dev/null; then
+        if [ -z "$prev_jobid" ]; then
+            echo "  → Job ID: ${jobid} (will start immediately)"
+        else
+            echo "  → Job ID: ${jobid} (depends on ${prev_jobid})"
+        fi
+        prev_jobid="$jobid"
+        ((submitted++))
+    else
+        echo "  → FAILED"
+        ((failed++))
+    fi
+    echo ""
+done < "${SCRIPT_DIR}/array_jobs.txt"
+
+echo "======================================================================="
+echo "Submission complete"
+echo "======================================================================="
+echo "Arrays submitted: ${submitted}"
+echo "Failed: ${failed}"
+echo ""
+echo "All jobs are in the queue with dependency chain."
+echo "Monitor with: squeue -u \$USER"
+echo "======================================================================="
+EOF_DEPENDENCY
+
+chmod +x "$SUBMIT_DEPENDENCY"
+
+#-------------------------------------------------------------------------------
+# 3. SAFE: Wait for each array to complete before submitting next
+#-------------------------------------------------------------------------------
+
+cat > "$SUBMIT_SAFE" << 'EOF_SAFE'
+#!/bin/bash
+#===============================================================================
+# Submit All Arrays - SAFE MODE
+#
+# Submits job arrays one at a time, waiting for each to fully complete before
+# submitting the next. Only one array is in the queue at any given time.
+#
+# This is the safest option for strict job count limits, but will take the
+# longest wall-clock time (sum of all array runtimes).
+#===============================================================================
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "======================================================================="
+echo "Submitting all job arrays (SAFE MODE - ONE AT A TIME)"
+echo "======================================================================="
+echo "Each array will be submitted only after the previous completes."
+echo "Only one array will be in the queue at a time."
+echo ""
+
+submitted=0
+failed=0
+
+while IFS= read -r array_script; do
+    script_path="${SCRIPT_DIR}/${array_script}"
+    
+    if [ ! -f "$script_path" ]; then
+        echo "WARNING: Script not found: ${script_path}"
+        ((failed++))
+        continue
+    fi
+    
+    echo "Submitting ${array_script}..."
+    output=$(sbatch "$script_path" 2>&1)
+    jobid=$(echo "$output" | awk '/Submitted batch job/{print $NF}')
+    
+    echo "$output"
+    
+    if [ -n "$jobid" ] && [ "$jobid" -eq "$jobid" ] 2>/dev/null; then
+        echo "  → Job ID: ${jobid}"
+        ((submitted++))
+        
+        echo "  → Waiting for array to complete..."
+        
+        # Wait for job to appear in queue (sometimes takes a moment)
+        sleep 5
+        
+        # Poll until job is no longer in queue
+        while squeue -j "$jobid" 2>/dev/null | grep -q "$jobid"; do
+            # Show status every minute
+            status=$(squeue -j "$jobid" -h -o "%T" 2>/dev/null | head -n1)
+            if [ -n "$status" ]; then
+                echo "     Status: ${status} (checking again in 60s...)"
+            fi
+            sleep 60
+        done
+        
+        echo "  → Array complete!"
+        echo ""
+    else
+        echo "  → FAILED"
+        ((failed++))
+        echo ""
+    fi
+    
+done < "${SCRIPT_DIR}/array_jobs.txt"
+
+echo "======================================================================="
+echo "All arrays complete"
+echo "======================================================================="
+echo "Arrays submitted: ${submitted}"
+echo "Failed: ${failed}"
+echo "======================================================================="
+EOF_SAFE
+
+chmod +x "$SUBMIT_SAFE"
 
 echo ""
-echo "======================================================================="
-echo "Submission Complete"
-echo "======================================================================="
-echo "Arrays submitted: ${submitted_count}"
-if [ "$skipped_count" -gt 0 ]; then
-    echo "Skipped/failed:   ${skipped_count}"
-fi
+echo "Created three submission scripts:"
+echo "  1. ${SUBMIT_PARALLEL}  (parallel - all at once)"
+echo "  2. ${SUBMIT_DEPENDENCY} (sequential via dependencies)"
+echo "  3. ${SUBMIT_SAFE}       (safe - wait for each)"
 echo ""
-echo "Monitor jobs with:"
-echo "  squeue -u \$USER"
-echo "  watch -n 30 'squeue -u \$USER'"
-echo ""
-echo "View logs in: ${SCRIPT_DIR}/logs/"
-echo "======================================================================="
-SUBMIT_EOF
-
-fi
-
-chmod +x "${SUBMIT_SCRIPT}"
 
 #===============================================================================
 # STEP 5: Handle singleton jobs
 #===============================================================================
 
 if [ "$singleton_count" -gt 0 ]; then
-    echo ""
-    echo "Step 5: Documenting singleton jobs..."
+    echo "Step 5: Recording singleton jobs..."
     echo "-----------------------------------------------------------------------"
     
-    singleton_list="${ARRAY_DIR}/singleton_jobs.txt"
-    > "${singleton_list}"
+    singleton_file="${ARRAY_DIR}/singleton_jobs.txt"
+    > "$singleton_file"
     
     for sig in "${!job_groups[@]}"; do
         IFS='|' read -ra jobs <<< "${job_groups[$sig]}"
-        if [ "${#jobs[@]}" -eq 1 ]; then
-            echo "${jobs[0]}" >> "${singleton_list}"
+        if [ "${#jobs[@]}" -lt 2 ]; then
+            for jobfile in "${jobs[@]}"; do
+                echo "$jobfile" >> "$singleton_file"
+            done
         fi
     done
     
-    echo "Singleton jobs listed in: ${singleton_list}"
-    echo "These must be submitted individually."
+    echo "Found ${singleton_count} singleton jobs (cannot be grouped into arrays)"
+    echo "List saved to: ${singleton_file}"
+    echo "These must be submitted individually or modified to match other jobs."
+    echo ""
 fi
 
 #===============================================================================
 # Done
 #===============================================================================
 
-echo ""
 echo "======================================================================="
-echo "✅ Conversion Complete!"
+echo "Conversion complete!"
 echo "======================================================================="
-echo "Output directory: ${ARRAY_DIR}"
-echo "Array scripts:    ${array_count}"
-echo "Logs directory:   ${LOGS_DIR}"
+echo "Output directory: ${ARRAY_DIR}/"
+echo "Array scripts: ${array_num}"
+echo "Logs directory: ${LOGS_DIR}/"
 echo ""
-echo "Next steps:"
-echo "  1. Review generated scripts in ${ARRAY_DIR}/"
-echo "  2. Submit all arrays:"
-if [ "$SEQUENTIAL" = true ]; then
-    echo "       cd ${ARRAY_DIR} && ./submit_all_arrays.sh"
-    echo "     (Jobs will run one after another)"
-else
-    echo "       cd ${ARRAY_DIR} && ./submit_all_arrays.sh"
-    echo "     (Jobs will run with max ${MAX_CONCURRENT} concurrent per array)"
-fi
-echo "  3. Monitor:"
-echo "       squeue -u \$USER"
-echo "       watch -n 30 'squeue -u \$USER'"
+echo "CHOOSE YOUR SUBMISSION STRATEGY:"
+echo ""
+echo "1. PARALLEL (fastest, but many jobs in queue):"
+echo "   cd ${ARRAY_DIR}"
+echo "   ./submit_all_parallel.sh"
+echo ""
+echo "2. DEPENDENCY CHAIN (all submitted at once, run sequentially):"
+echo "   cd ${ARRAY_DIR}"
+echo "   ./submit_all_dependency.sh"
+echo ""
+echo "3. SAFE MODE (submit one, wait for completion, submit next):"
+echo "   cd ${ARRAY_DIR}"
+echo "   ./submit_all_safe.sh"
+echo ""
+echo "For TACC's 20 active / 80 total job limits, SAFE MODE is recommended."
 echo "======================================================================="
