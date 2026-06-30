@@ -1,0 +1,64 @@
+=======================================================================
+Array Job Start: array_N1_n8
+=======================================================================
+Array Job ID: 3257730
+Array Task ID: 3
+Job ID: 3257737
+Hostname: c505-091.stampede3.tacc.utexas.edu
+Start time: Mon Jun 29 10:37:23 PM CDT 2026
+=======================================================================
+Task 3: test1/n8_peak (peak)
+-----------------------------------------------------------------------
+Changing to: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-full-06292026-185720/test1/single_node/n8_peak
+Executing original job script...
+-----------------------------------------------------------------------
+[n8_peak]: ======================================================================
+[n8_peak]: SLURM Job Start
+[n8_peak]: ======================================================================
+[n8_peak]: Job ID: 3257737
+[n8_peak]: Configuration: n8_peak
+[n8_peak]: Nodes: 1
+[n8_peak]: MPI Tasks: 8
+[n8_peak]: Tasks per node: 8
+[n8_peak]: Test case: test1
+[n8_peak]: PEAK profiling: peak
+[n8_peak]: Start time: 2026-06-29 22:37:23
+[n8_peak]: ======================================================================
+[n8_peak]: Working directory: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak
+[n8_peak]: Loading modules...
+[n8_peak]: Setting up library paths...
+[n8_peak]: Configuring PEAK profiling...
+[n8_peak]:   Target groups: BLAS,LAPACK,FFTW,PBLAS,ScaLAPACK
+[n8_peak]:   Memory profiling: TRUE
+[n8_peak]:   Stats output: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_stats-pXXXXX.csv
+[n8_peak]:   Memory output: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-pXXXXX.csv
+[n8_peak]: ======================================================================
+[n8_peak]: Starting application run...
+[n8_peak]: ======================================================================
+[n8_peak]: Binary: /scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/install/bin/abinit
+[n8_peak]: Input: /scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/abinit-10.4.7/tests/v1/Input/t05.abi
+[n8_peak]: ======================================================================
+[n8_peak]: Run completed
+[n8_peak]: ======================================================================
+[n8_peak]: Exit code: 0
+[n8_peak]: End time: 2026-06-29 22:41:55
+[n8_peak]: Elapsed time: 272 seconds (0h 4m 32s)
+[n8_peak]: ======================================================================
+[n8_peak]: Output files:
+[n8_peak]:   Standard output: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/abinit.stdout
+[n8_peak]:   Standard error: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/abinit.stderr
+[n8_peak]:   PEAK outputs:
+-rw------- 1 crw405 G-819066 5.8M Jun 29 22:41 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r0-p1899360.csv
+-rw------- 1 crw405 G-819066 1.8M Jun 29 22:39 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r1-p1899361.csv
+-rw------- 1 crw405 G-819066 1.8M Jun 29 22:39 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r2-p1899362.csv
+-rw------- 1 crw405 G-819066 1.8M Jun 29 22:39 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r3-p1899363.csv
+-rw------- 1 crw405 G-819066 1.8M Jun 29 22:39 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r4-p1899364.csv
+-rw------- 1 crw405 G-819066 1.8M Jun 29 22:39 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r5-p1899365.csv
+-rw------- 1 crw405 G-819066 1.8M Jun 29 22:39 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r6-p1899366.csv
+-rw------- 1 crw405 G-819066 1.8M Jun 29 22:39 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_mem-r7-p1899367.csv
+-rw------- 1 crw405 G-819066 1.4K Jun 29 22:41 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n8_peak/peak_stats-p1899360.csv
+[n8_peak]: ======================================================================
+=======================================================================
+Array task 3 completed with exit code: 0
+End time: Mon Jun 29 10:41:55 PM CDT 2026
+=======================================================================

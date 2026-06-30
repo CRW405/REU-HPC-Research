@@ -1,0 +1,152 @@
+=======================================================================
+Array Job Start: array_N2_n96
+=======================================================================
+Array Job ID: 3257699
+Array Task ID: 7
+Job ID: 3257720
+Hostname: c496-101.stampede3.tacc.utexas.edu
+Start time: Mon Jun 29 10:27:14 PM CDT 2026
+=======================================================================
+Task 7: test3/N2_peak (peak)
+-----------------------------------------------------------------------
+Changing to: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-full-06292026-185720/test3/multi_node/N2_peak
+Executing original job script...
+-----------------------------------------------------------------------
+[N2_peak]: ======================================================================
+[N2_peak]: SLURM Job Start
+[N2_peak]: ======================================================================
+[N2_peak]: Job ID: 3257720
+[N2_peak]: Configuration: N2_peak
+[N2_peak]: Nodes: 2
+[N2_peak]: MPI Tasks: 96
+[N2_peak]: Tasks per node: 48
+[N2_peak]: Test case: test3
+[N2_peak]: PEAK profiling: peak
+[N2_peak]: Start time: 2026-06-29 22:27:14
+[N2_peak]: ======================================================================
+[N2_peak]: Working directory: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak
+[N2_peak]: Loading modules...
+[N2_peak]: Setting up library paths...
+[N2_peak]: Configuring PEAK profiling...
+[N2_peak]:   Target groups: BLAS,LAPACK,FFTW,PBLAS,ScaLAPACK
+[N2_peak]:   Memory profiling: TRUE
+[N2_peak]:   Stats output: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_stats-pXXXXX.csv
+[N2_peak]:   Memory output: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-pXXXXX.csv
+[N2_peak]: ======================================================================
+[N2_peak]: Starting application run...
+[N2_peak]: ======================================================================
+[N2_peak]: Binary: /scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/install/bin/abinit
+[N2_peak]: Input: /scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/abinit-10.4.7/tests/v1/Input/t03.abi
+[N2_peak]: ======================================================================
+[N2_peak]: Run completed
+[N2_peak]: ======================================================================
+[N2_peak]: Exit code: 0
+[N2_peak]: End time: 2026-06-29 22:32:52
+[N2_peak]: Elapsed time: 338 seconds (0h 5m 38s)
+[N2_peak]: ======================================================================
+[N2_peak]: Output files:
+[N2_peak]:   Standard output: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/abinit.stdout
+[N2_peak]:   Standard error: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/abinit.stderr
+[N2_peak]:   PEAK outputs:
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r0-p1416925.csv
+-rw------- 1 crw405 G-819066 6.6M Jun 29 22:32 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r0-p2775602.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r10-p1416935.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r10-p2775612.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r11-p1416936.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r11-p2775613.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r12-p1416937.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r12-p2775614.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r13-p1416938.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r13-p2775615.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r14-p1416939.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r14-p2775616.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r15-p1416940.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r15-p2775617.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r16-p1416941.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r16-p2775618.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r17-p1416942.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r17-p2775619.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r18-p1416943.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r18-p2775620.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r19-p1416944.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r19-p2775621.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r1-p1416926.csv
+-rw------- 1 crw405 G-819066 2.7M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r1-p2775603.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r20-p1416945.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r20-p2775622.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r21-p1416946.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r21-p2775623.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r22-p1416947.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r22-p2775624.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r23-p1416948.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r23-p2775625.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r24-p1416949.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r24-p2775626.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r25-p1416950.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r25-p2775627.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r26-p1416951.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r26-p2775628.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r27-p1416952.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r27-p2775629.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r28-p1416953.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r28-p2775630.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r29-p1416954.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r29-p2775631.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r2-p1416927.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r2-p2775604.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r30-p1416955.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r30-p2775632.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r31-p1416956.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r31-p2775633.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r32-p1416957.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r32-p2775634.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r33-p1416958.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r33-p2775635.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r34-p1416959.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r34-p2775636.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r35-p1416960.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r35-p2775637.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r36-p1416961.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:31 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r36-p2775638.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r37-p1416962.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r37-p2775639.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r38-p1416963.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r38-p2775640.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r39-p1416964.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r39-p2775641.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r3-p1416928.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r3-p2775605.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r40-p1416965.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r40-p2775642.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r41-p1416966.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r41-p2775643.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r42-p1416967.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r42-p2775644.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r43-p1416968.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r43-p2775645.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r44-p1416969.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r44-p2775646.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r45-p1416970.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r45-p2775647.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r46-p1416971.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r46-p2775648.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r47-p1416972.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r47-p2775649.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r4-p1416929.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r4-p2775606.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r5-p1416930.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r5-p2775607.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r6-p1416931.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r6-p2775608.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r7-p1416932.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r7-p2775609.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r8-p1416933.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:29 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r8-p2775610.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r9-p1416934.csv
+-rw------- 1 crw405 G-819066 2.0M Jun 29 22:30 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_mem-r9-p2775611.csv
+-rw------- 1 crw405 G-819066 1.4K Jun 29 22:32 /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test3/multi_node/N2_peak/peak_stats-p2775602.csv
+[N2_peak]: ======================================================================
+=======================================================================
+Array task 7 completed with exit code: 0
+End time: Mon Jun 29 10:32:52 PM CDT 2026
+=======================================================================

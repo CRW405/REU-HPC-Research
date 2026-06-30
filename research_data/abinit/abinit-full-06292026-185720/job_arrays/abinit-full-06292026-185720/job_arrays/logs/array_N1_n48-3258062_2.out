@@ -1,0 +1,49 @@
+=======================================================================
+Array Job Start: array_N1_n48
+=======================================================================
+Array Job ID: 3258062
+Array Task ID: 2
+Job ID: 3259062
+Hostname: c504-092.stampede3.tacc.utexas.edu
+Start time: Tue Jun 30 10:04:35 AM CDT 2026
+=======================================================================
+Task 2: test1/n48_nopeak (nopeak)
+-----------------------------------------------------------------------
+Changing to: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/abinit-full-06292026-185720/test1/single_node/n48_nopeak
+Executing original job script...
+-----------------------------------------------------------------------
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: SLURM Job Start
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: Job ID: 3259062
+[n48_nopeak]: Configuration: n48_nopeak
+[n48_nopeak]: Nodes: 1
+[n48_nopeak]: MPI Tasks: 48
+[n48_nopeak]: Tasks per node: 48
+[n48_nopeak]: Test case: test1
+[n48_nopeak]: PEAK profiling: nopeak
+[n48_nopeak]: Start time: 2026-06-30 10:04:35
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: Working directory: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n48_nopeak
+[n48_nopeak]: Loading modules...
+[n48_nopeak]: Setting up library paths...
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: Starting application run...
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: Binary: /scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/install/bin/abinit
+[n48_nopeak]: Input: /scratch/11603/crw405/2.project/1.build_scripts/2.apps/abinit/abinit-10.4.7/tests/v1/Input/t05.abi
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: Run completed
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: Exit code: 0
+[n48_nopeak]: End time: 2026-06-30 10:04:39
+[n48_nopeak]: Elapsed time: 4 seconds (0h 0m 4s)
+[n48_nopeak]: ======================================================================
+[n48_nopeak]: Output files:
+[n48_nopeak]:   Standard output: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n48_nopeak/abinit.stdout
+[n48_nopeak]:   Standard error: /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-06292026-185720/test1/single_node/n48_nopeak/abinit.stderr
+[n48_nopeak]: ======================================================================
+=======================================================================
+Array task 2 completed with exit code: 0
+End time: Tue Jun 30 10:04:39 AM CDT 2026
+=======================================================================
