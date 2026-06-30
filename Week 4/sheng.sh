@@ -1,60 +1,58 @@
 #!/bin/bash
-# --- Environment Setup ---
-echo "==> Setting up environment modules..."
-module reset
-module load intel impi cmake
+# ================================================
+#
+# build_shengbte.sh
+#
+# Version: ShengBTE-Multiplatform (master), Spglib v1.16.2
+# System: Stampede3, TACC
+# Created by: Caleb W with help from CLAUDE
+# Last modified: 2026-06-30
+#
+# ================================================
+# MODULES
+ml reset
+ml intel
+ml impi
+ml cmake
 
-# --- Paths ---
-WORKSPACE="/scratch/11603/crw405/build_scripts/shengbte"
-SPG_SRC="${WORKSPACE}/spglib-src"
-SPG_INSTALL="${WORKSPACE}/install_spglib"
-SHENG_SRC="${WORKSPACE}/ShengBTE-src"
+ROOT_DIR=`pwd`
+INSTALL_DIR=${ROOT_DIR}/install
+mkdir -p ${INSTALL_DIR}
 
-# Clean up failed previous build directories to ensure a clean run
-rm -rf "${SPG_SRC}/build" "${SPG_INSTALL}"
+# SPGLIB
+if [[ 1 == 1 ]]; then
+  VERSION_SPGLIB=v1.16.2
+  cd ${ROOT_DIR}
+  git clone -b ${VERSION_SPGLIB} --single-branch https://github.com/spglib/spglib.git spglib-src
+  cd spglib-src
+  rm -rf build
+  mkdir -p build
+  cd build
 
-# ==========================================
-# 1. Build Spglib Dependency
-# ==========================================
-if [ ! -d "${SPG_INSTALL}" ]; then
-    echo "==> Compiling Spglib dependency with compatibility flag..."
-    if [ ! -d "${SPG_SRC}" ]; then
-        git clone -b v1.16.2 https://github.com/spglib/spglib.git "${SPG_SRC}"
-    fi
-    mkdir -p "${SPG_SRC}/build" && cd "${SPG_SRC}/build"
-
-    # Injected -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to clear the modern CMake strict policy error
-    cmake .. \
-        -DCMAKE_C_COMPILER=icx \
-        -DCMAKE_INSTALL_PREFIX="${SPG_INSTALL}" \
-        -DBUILD_SHARED_LIBS=OFF \
-        -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-    make -j 4
-    make install
+  cmake .. -DCMAKE_C_COMPILER=icx \
+	   -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+	   -DBUILD_SHARED_LIBS=OFF \
+	   -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+  make -j16
+  make install
 fi
 
-# ==========================================
-# 2. Configure and Build ShengBTE
-# ==========================================
-if [ ! -d "${SHENG_SRC}" ]; then
-    git clone https://github.com/buaa-hipo/ShengBTE-Multiplatform.git "${SHENG_SRC}"
-fi
+# SHENGBTE
+if [[ 1 == 1 ]]; then
+  cd ${ROOT_DIR}
+  git clone https://github.com/buaa-hipo/ShengBTE-Multiplatform.git ShengBTE-src
+  cd ShengBTE-src/Src
 
-cd "${SHENG_SRC}/Src"
-
-echo "==> Provisioning arch.make with Spglib pointers..."
-cat << EOF > arch.make
+  cat << ARCHMAKE_EOF > arch.make
 MPIFC = mpif90
 FFLAGS = -FR -O3 -qopenmp
 MPEFLAGS = -DFFTW -D_OPENMP
 
-# Explicitly point to the library we just built
-LDFLAGS = -qmkl=cluster -I${SPG_INSTALL}/include
-LIBS = ${SPG_INSTALL}/lib64/libsymspg.a
-EOF
+# Points to the Spglib build installed above
+LDFLAGS = -qmkl=cluster -I${INSTALL_DIR}/include
+LIBS = ${INSTALL_DIR}/lib64/libsymspg.a
+ARCHMAKE_EOF
 
-echo "==> Launching compilation engine..."
-make clean
-make
-
-echo "==> ShengBTE compilation finalized."
+  make clean
+  make -j16
+fi

@@ -3,8 +3,9 @@
 
 ## What I worked on
 
-- Created a build script for Quantum Espresso
-- Tested QE with and without PEAK on a pw_scf test case
+- Created a build script for Quantum Espresso, I didnt realize at the time it already had a module
+- Created a build script for ShengBTE
+- Began creating a build script for warpX
 - Looked though and studied the provided examples, and will use them to create test suites for those programs
 
 ### Created a suite of scripts in order to generate slurm jobs for a target program

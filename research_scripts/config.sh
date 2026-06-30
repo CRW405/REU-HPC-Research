@@ -73,8 +73,8 @@ SLURM_ACCOUNT="EAR23006"
 SLURM_PARTITION="skx"
 
 # Time limits
-SINGLE_NODE_TIME="00:10:00"
-MULTI_NODE_TIME="00:20:00"
+SINGLE_NODE_TIME="00:30:00"
+MULTI_NODE_TIME="00:40:00"
 
 # Tasks per node (Frontera default)
 TASKS_PER_NODE=48
@@ -84,7 +84,7 @@ TASKS_PER_NODE=48
 #===============================================================================
 
 # Path to PEAK library
-LIBPEAK_PATH="/scratch/11603/crw405/2.project/1.build_scripts/1.peak/peak/lib/libpeak.so"
+LIBPEAK_PATH="/scratch/11603/crw405/peak/peak/lib/libpeak.so"
 
 # Target groups for profiling (comma-separated)
 PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW,PBLAS,ScaLAPACK"
@@ -93,6 +93,9 @@ PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW,PBLAS,ScaLAPACK"
 PEAK_MEMORY_PROFILE="TRUE"
 PEAK_MEMORY_TRACK_ALL="TRUE"
 PEAK_MEMLOG_CHUNK_EVENTS=10000000
+
+# Max Overhead Ratio
+# PEAK_COST=10
 
 #===============================================================================
 # OUTPUT SETTINGS
