@@ -375,16 +375,8 @@ cd "${original_dir}" || exit 1
 echo "Executing original job script..."
 echo "-----------------------------------------------------------------------"
 
-# Source the original job.slurm (skipping SBATCH directives)
-# This executes all the module loads, environment setup, and application run
-while IFS= read -r line; do
-    # Skip shebang and SBATCH lines
-    if [[ "$line" =~ ^#SBATCH ]] || [[ "$line" =~ ^#!/bin/bash ]]; then
-        continue
-    fi
-    # Execute everything else
-    eval "$line"
-done < "${original_dir}/job.slurm"
+# Run the original job.slurm, stripping shebang and SBATCH directives
+bash <(grep -v '^#SBATCH\|^#!/' "${original_dir}/job.slurm")
 
 exit_code=$?
 

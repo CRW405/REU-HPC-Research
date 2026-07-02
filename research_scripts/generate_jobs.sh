@@ -292,7 +292,7 @@ echo "\${pre}Binary: \${APP_BIN}"
 echo "\${pre}Input: \${INPUT_FILE}"
 
 # Run application
-\${APP_BIN} \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
+mpirun -np ${ntasks} \${APP_BIN} \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
 
 exit_code=\$?
 
@@ -427,7 +427,7 @@ case "$RUN_MODE" in
         echo "-----------------------------------------------------------------------"
         
         for enable_peak in "false" "true"; do
-            local peak_label="nopeak"
+            peak_label="nopeak"
             if [ "$enable_peak" = "true" ]; then
                 peak_label="peak"
             fi

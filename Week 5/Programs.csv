@@ -1,0 +1,67 @@
+Program Name, Module, Script, Examples, Type, Test Case, Tested, Description
+ASPECT, Y, , Y, Geodynamics / Earth Science, , , High-order finite-element simulation tool for mantle convection and tectonic processes.
+VASP, Y, , Y, Computational Materials Science (DFT), , , Vienna Ab-initio Simulation Package for electronic structure and quantum molecular dynamics.
+QE, Y, Y - Created, Y, Computational Materials Science (DFT), , , Quantum ESPRESSO suite for electronic-structure calculations and materials modeling.
+siesta, Y, , Y, Computational Materials Science (DFT), , , Linear-scaling density-functional theory method for electronic structure calculations.
+Matlab, Y, , , General Scientific Computing, , , High-level programming and matrix numeric computation platform.
+GAMESS, Y, , , Quantum Chemistry, , , General Atomic and Molecular Electronic Structure System software for molecular calculations.
+p4est, Y, , , Scientific Computing Infrastructure / AMR, , , Parallel library managing adaptive mesh refinement on forests of octrees.
+CP2K, Y, , Y, Computational Chemistry & Materials Science, , , Atomistic simulation software covering solid-state, liquid, molecular, and biological systems.
+MEEP, Y, , Y, Computational Electromagnetics / Photonics, , , Finite-difference time-domain simulation software package for modeling electromagnetic devices.
+SUNDIALS, Y, , , Numerical Methods / ODE-PDE Solvers, , , Suite of nonlinear and differential/algebraic equation numerical solvers.
+LAMMPS, Y, Y, , Molecular Dynamics / Materials Science, , , Large-scale Atomic/Molecular Massively Parallel Simulator for classical molecular dynamics.
+GROMACS, Y, Y, , Biomolecular Molecular Dynamics, , , Versatile molecular dynamics package optimized for lipid biomolecules and proteins.
+NWChem, Y, , , Quantum Chemistry, , , Extensible scalable software covering electronic structure and biomolecular mechanics calculations.
+QChem, Y, , , Quantum Chemistry, , , Comprehensive ab initio quantum chemistry software package.
+YAMBO, , Y, , Computational Materials Science, , , Many-Body Perturbation Theory code for excited-state electronic properties.
+BerkeleyGW, , Y, , Computational Materials Science, , , Many-body perturbation theory package calculating electron excited states.
+WarpX, , Y - Created, , Particle / Nuclear / Plasma Physics,, , Advanced electromagnetic Particle-In-Cell framework for plasma accelerator simulations.
+SW4, , , , Geophysics / Seismology, , , Seismic Wave 4th-order elastodynamic modeler for large-scale earthquake simulations.
+SVL, , , , , , , Large scale numerical tracking utility dataset library.
+Gpaw, , , , Computational Materials Science (DFT), , , Grid-based Projector Augmented Wave density-functional theory software.
+DFTB+, , , , Computational Materials Science (DFT), , , Fast quantum chemical simulation tool using Density Functional Tight Binding approximation.
+ORCA, , , , Quantum Chemistry, , , Ab initio, DFT, and semiempirical electronic structure package with modern math modules.
+GEOS, , , , Climate / Weather / Earth System, , , Goddard Earth Observing System atmospheric general circulation and data assimilation framework.
+Kwant, , , , Condensed Matter / Quantum Transport, , , Powerful Python package for numerical quantum transport calculations in tight-binding structures.
+ABINIT, , Y, , Computational Materials Science (DFT), t01, , Spherically converged density-functional theory code for electronic and atomic systems.
+MILC, , , , Particle / Nuclear / Plasma Physics, , , Mimd Lattice Computation suite used to simulate Quantum Chromodynamics (QCD).
+NAMD, , , , Molecular Dynamics / Biomolecular Simulation, , , High-performance scalable biomolecular molecular dynamics simulator.
+WRF, , , , Climate / Weather / Earth System, , , Weather Research and Forecasting mesoscale numerical weather prediction modeler.
+AthenaK, , , , Astrophysics / Magnetohydrodynamics, , , Kokkos-accelerated performance-portable astrophysical magnetohydrodynamics engine.
+athena++, , , , Astrophysics / Magnetohydrodynamics, , , C++ rewrite of Athena for advanced magnetohydrodynamics astrophysical simulations.
+Plascom, , , , Combustion & Reactive Flow, , , High-fidelity simulation tool for complex multiphase fluid dynamics and reactive combustion.
+Parsec, , , , Computational Materials Science, , , Real-space density-functional theory code for pseudopotential electronic structure.
+AWP-ODC, , , , Earthquake Simulation / Seismology, , , Anelastic Wave Propagation finite-difference solver for regional seismological motion.
+Seissol, , , , Seismology, , , Discontinuous Galerkin seismic software for simulating complex spontaneous earthquake rupture.
+CESM, , , , Climate Science, , , Community Earth System Model tracking global climate changes over long periods.
+EPW, , , , Computational Materials Science, , , Electron-Phonon Wannier interpolator mapping electron-phonon interactions.
+rhea, , , , Astrophysics / Radiation Hydrodynamics, , , High-order finite-element code for radiation and relativistic hydrodynamics.
+Enzo-E, , , , Computational Astrophysics, , , Charm++-based highly scalable grid astrophysical cosmology solver.
+CM1, , , , Atmospheric Science / Storm Simulation, , , Cloud Model 1 idealized atmospheric model optimized for severe storm simulations.
+Changa, , , , Computational Cosmology, , , Charm++-based N-body gravity simulator tracking galactic structural evolutions.
+ISSM, , , , Glaciology / Climate Science, , , Ice Sheet System Model tracking continental polar ice deformations.
+ICECUBE, , , , High-Energy Particle Physics, , , Physics software suite analyzing high-energy cosmic neutrino trajectories.
+MuST, , , , Materials Science / Electronic Structure, , , Multiple Scattering Theory code for calculating properties of disordered alloys.
+PSDNS, , , , Fluid Dynamics / Combustion, , , Highly parallelized pseudo-spectral solver for turbulent fluid flows.
+Amber, , , , Molecular Dynamics / Biomolecular Simulation, , , Suite of biomolecular simulation programs and force field routines.
+SWMF, , , , Space Weather / Space Physics, , , Space Weather Modeling Framework connecting solar, magnetosphere, and ionosphere models.
+Chroma, , , , Lattice QCD Particle Physics, , , Tool box package for data structures in high-performance lattice Quantum Chromodynamics.
+hmc_tm, , , , Lattice QCD Simulation Kernel, , , Hybrid Monte Carlo execution kernel optimized for twisted mass fermions.
+overlap_curseq, , , , Lattice QCD Operations, , , Sequence execution utility engine used for overlap fermion processing matrices.
+ctqmc, , , , Quantum Monte Carlo / Materials Science, , , Continuous-time Quantum Monte Carlo solver resolving strongly correlated electron systems.
+lapw1c, , , , Electronic Structure Calculation Kernel, , , Core numerical matrix subroutine evaluating linearized augmented plane wave eigenvalues.
+dmft2, , , , Dynamical Mean-Field Theory Material Physics, , , Solver module exploring electronic correlations in lattice multi-orbital structures.
+ShengBTE, , Y - Created, , Computational Materials Science, Test-RTA, , Linearized Boltzmann Transport Equation solver resolving phonon thermal conductivities.
+FHI-aims, , , , Computational Materials Science (DFT), , , Full-electron, numeric atom-centered orbital code for materials quantum simulations.
+SpEC, , , , Astrophysics / General Relativity Simulations, , , Spectral Einstein Code simulating compact binary mergers and black hole mechanics.
+Cactus, , , , Relativistic Astrophysics Framework, , , Extensible modular framework managing numerical relativity grid layouts.
+rockstar-galaxies, , , , Astrophysics / Galaxy Halo Finder, , , Robust algorithm identifying dark matter halos and subhalos within massive datasets.
+GIZMO, , , , Computational Astrophysics & Fluid Dynamics, , , Multi-method fluid dynamics and magnetohydrodynamics cosmological simulator.
+ENZO, , , , Computational Astrophysics / Cosmology, , , Block-structured adaptive mesh refinement code simulating cosmological structure formation.
+Gadget, , , , Cosmological N-body / SPH Simulations, , , Massively parallel cosmological simulation tool tracking dark matter and baryonic matter gas.
+Flash4, , , , Radiation Hydrodynamics / Astrophysics, , , Finite-volume adaptive mesh refinement code modeling high-energy astrophysical physics.
+astrobear, , , , Magnetohydrodynamics / Astrophysics, , , Adaptive mesh refinement code specialized in dense radiative cooling astrophysical flows.
+gene_frontera, , , , Plasma Physics / Gyrokinetic Simulation, , , Frontera-optimized gyrokinetic solver exploring magnetic confinement fusion turbulence.
+CGS, , , , , , , Core grid solution utilities handling large-scale vector geometries.
+Tristan-MP, , , , Plasma Physics / Particle-In-Cell (PIC) , , , Massively parallel electromagnetic Particle-In-Cell code targeting relativistic astrophysics.
+EPPIC, ,
