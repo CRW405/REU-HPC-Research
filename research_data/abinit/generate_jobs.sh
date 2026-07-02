@@ -116,10 +116,12 @@ fi
 BASE_DIR="${OUTPUT_BASE}/${RUN_NAME}-${RUN_MODE}-${TIMESTAMP}"
 
 # Single-node MPI scaling configurations
-SINGLE_NODE_CONFIGS=("n1" "n2" "n4" "n8" "n16" "n32" "n48")
+#SINGLE_NODE_CONFIGS=("n1" "n2" "n4" "n8" "n16" "n32" "n48")
+SINGLE_NODE_CONFIGS=("n1" "n24" "n48")
 
-# Multi-node scaling configurations (56 tasks per node)
-MULTI_NODE_CONFIGS=("N2" "N4" "N8" "N16")
+# Multi-node scaling configurations (56 tasks per node for frontera, 48 for stampede3)
+#MULTI_NODE_CONFIGS=("N2" "N4" "N8" "N16")
+MULTI_NODE_CONFIGS=("N2" "N8" "N16")
 
 echo "==============================================================================="
 echo "SLURM Job Generator for Scaling Studies"
@@ -267,6 +269,10 @@ export PEAK_TARGET_GROUP=${PEAK_TARGET_GROUPS}
 export PEAK_MEMORY_PROFILE=${PEAK_MEMORY_PROFILE}
 export PEAK_MEMORY_TRACK_ALL=${PEAK_MEMORY_TRACK_ALL}
 export PEAK_MEMLOG_CHUNK_EVENTS=${PEAK_MEMLOG_CHUNK_EVENTS}
+export PEAK_OVERHEAD_RATIO=${PEAK_OVERHEAD_RATIO}
+export PEAK_COST=${PEAK_COST}
+export PEAK_TEXT_OUTPUT=${PEAK_TEXT_OUTPUT}
+export PEAK_VERBOSITY=${PEAK_VERBOSITY}
 
 export I_MPI_LD_PRELOAD=\${PEAK_LIB_PATH}
 export LD_PRELOAD=\${PEAK_LIB_PATH}
