@@ -22,10 +22,11 @@ APP_BINARY="${APP_BUILD_PATH}/install/bin/abinit"
 # Each test case will get its own directory structure
 TEST_CASES=(
     #"test0:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t00.abi"
-    "test1:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t05.abi"
+    #"test1:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t05.abi"
     #"test2:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t02.abi"
     #"test3:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t03.abi"
     #"test4:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t04.abi"
+    "test_paral_1:${APP_BUILD_PATH}/abinit-10.4.7/tests/paral/Input/t01.abi"
 )
 
 # Application-specific environment variables
@@ -98,10 +99,12 @@ PEAK_MEMLOG_CHUNK_EVENTS=1000000
 # Overhead
 PEAK_COST=60
 PEAK_OVERHEAD_RATIO=0.1
+PEAK_MPI_REAL_FINALIZE=0
 
 # Etc
 PEAK_TEXT_OUTPUT=0
 PEAK_VERBOSITY=report
+PEAK_OUTPUT_AGGREGATION=local
 
 #===============================================================================
 # OUTPUT SETTINGS
