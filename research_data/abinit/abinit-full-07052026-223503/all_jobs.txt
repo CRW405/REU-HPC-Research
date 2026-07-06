@@ -1,0 +1,12 @@
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/single_node/n1_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/single_node/n24_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/single_node/n48_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/multi_node/N2_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/multi_node/N8_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/multi_node/N16_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/single_node/n1_peak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/single_node/n24_peak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/single_node/n48_peak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/multi_node/N2_peak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/multi_node/N8_peak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/./abinit-full-07052026-223503/test_paral_1/multi_node/N16_peak/job.slurm
