@@ -452,7 +452,7 @@ case "$RUN_MODE" in
             echo ""
             echo "Test case: ${test_name}"
             for config in "${SINGLE_NODE_CONFIGS[@]}"; do
-                local ntasks=${config#n}
+                ntasks=${config#n}
                 echo "  ${config}: 1 node, ${ntasks} tasks (peak)"
                 generate_job_script "${test_name}" "${test_input}" "${config}_peak" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "true" "single_node"
             done
@@ -465,8 +465,8 @@ case "$RUN_MODE" in
             echo ""
             echo "Test case: ${test_name}"
             for config in "${MULTI_NODE_CONFIGS[@]}"; do
-                local nodes=${config#N}
-                local ntasks=$((nodes * TASKS_PER_NODE))
+                nodes=${config#N}
+                ntasks=$((nodes * TASKS_PER_NODE))
                 echo "  ${config}: ${nodes} nodes, ${ntasks} tasks (peak)"
                 generate_job_script "${test_name}" "${test_input}" "${config}_peak" "${nodes}" "${ntasks}" "${MULTI_NODE_TIME}" "true" "multi_node"
             done
@@ -478,7 +478,7 @@ case "$RUN_MODE" in
         echo "-----------------------------------------------------------------------"
 
         for enable_peak in "false" "true"; do
-            local peak_label="nopeak"
+            peak_label="nopeak"
             if [ "$enable_peak" = "true" ]; then
                 peak_label="peak"
             fi
@@ -495,7 +495,7 @@ case "$RUN_MODE" in
                 echo ""
                 echo "Test case: ${test_name}"
                 for config in "${SINGLE_NODE_CONFIGS[@]}"; do
-                    local ntasks=${config#n}
+                    ntasks=${config#n}
                     echo "  ${config}: 1 node, ${ntasks} tasks (${peak_label})"
                     generate_job_script "${test_name}" "${test_input}" "${config}_${peak_label}" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "${enable_peak}" "single_node"
                 done
@@ -508,8 +508,8 @@ case "$RUN_MODE" in
                 echo ""
                 echo "Test case: ${test_name}"
                 for config in "${MULTI_NODE_CONFIGS[@]}"; do
-                    local nodes=${config#N}
-                    local ntasks=$((nodes * TASKS_PER_NODE))
+                    nodes=${config#N}
+                    ntasks=$((nodes * TASKS_PER_NODE))
                     echo "  ${config}: ${nodes} nodes, ${ntasks} tasks (${peak_label})"
                     generate_job_script "${test_name}" "${test_input}" "${config}_${peak_label}" "${nodes}" "${ntasks}" "${MULTI_NODE_TIME}" "${enable_peak}" "multi_node"
                 done
@@ -531,15 +531,15 @@ case "$RUN_MODE" in
 
             echo "  Single-node (nopeak)..."
             for config in "${SINGLE_NODE_CONFIGS[@]}"; do
-                local ntasks=${config#n}
+                ntasks=${config#n}
                 echo "    ${config}: 1 node, ${ntasks} tasks"
                 generate_job_script "${test_name}" "${test_input}" "${config}_nopeak" 1 "${ntasks}" "${SINGLE_NODE_TIME}" "false" "single_node"
             done
 
             echo "  Multi-node (nopeak)..."
             for config in "${MULTI_NODE_CONFIGS[@]}"; do
-                local nodes=${config#N}
-                local ntasks=$((nodes * TASKS_PER_NODE))
+                nodes=${config#N}
+                ntasks=$((nodes * TASKS_PER_NODE))
                 echo "    ${config}: ${nodes} nodes, ${ntasks} tasks"
                 generate_job_script "${test_name}" "${test_input}" "${config}_nopeak" "${nodes}" "${ntasks}" "${MULTI_NODE_TIME}" "false" "multi_node"
             done
