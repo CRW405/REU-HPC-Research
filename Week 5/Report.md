@@ -32,7 +32,7 @@ integrates data from the top 100, my top 100 report, the shared dir, and the spr
 
 - Start small and build up
 - Profiling overhead with MPI scaling
-- I looked into some of the programs on the list like CESM, SpEC
+- I looked into some of the programs on the list like CESM, SpEC although they seemed much more complicated to make a build script than others
 - I learned some more about the programs in my CSV through adding notes and such
 
 ## Question / Concerns
