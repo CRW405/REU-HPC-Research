@@ -15,7 +15,7 @@
  For more information, see https://www.abinit.org .
 
 .Starting date : Fri 10 Jul 2026.
-- ( at 15h06 )
+- ( at 13h56 )
   
 - input  file    -> /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/v2/test_case/test_case.abi
 - output file    -> /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/v2/test_case/test_case.abo
@@ -30,10 +30,10 @@
      natom =       2  nloc_mem =       1    nspden =       1   nspinor =       1
     nsppol =       1      nsym =      48    n1xccc =    2501    ntypat =       1
     occopt =       1   xclevel =       1
--    mband =           8        mffmem =           1         mkmem =           2
+-    mband =           8        mffmem =           1         mkmem =         182
        mpw =        4597          nfft =      110592          nkpt =         182
 ================================================================================
-P This job should need less than                      36.771 Mbytes of memory.
+P This job should need less than                     147.248 Mbytes of memory.
   Rough estimation (10% accuracy) of disk space for files :
 _ WF disk file :    102.133 Mbytes ; DEN or POT disk file :      0.846 Mbytes.
 ================================================================================
@@ -107,7 +107,7 @@ _ WF disk file :    102.133 Mbytes ; DEN or POT disk file :      0.846 Mbytes.
                        outvar_i_n : Printing only first  50 k-points.
          kptrlatt       12  -12   12    -12   12   12    -12  -12   12
           kptrlen      1.23157320E+02
-P           mkmem           2
+P           mkmem         182
             natom           2
             nband           8
             ngfft          48      48      48
@@ -195,8 +195,7 @@ P           mkmem           2
  
 ================================================================================
 == DATASET  1 ==================================================================
--   mpi_nproc: 96, omp_nthreads: 1 (-1 if OMP is not activated)
--    --> not optimal distribution: autoparal keyword recommended in input file <--
+-   mpi_nproc: 1, omp_nthreads: 1 (-1 if OMP is not activated)
  
 
 --- !DatasetInfo
@@ -260,8 +259,8 @@ tolerances: {tolvrs: 1.00E-10, }
  ETOT  3  -8.7063450317972    -1.309E-04 1.819E-03 6.109E-02
  ETOT  4  -8.7063464457902    -1.414E-06 1.364E-03 1.625E-04
  ETOT  5  -8.7063464518731    -6.083E-09 3.616E-04 2.815E-07
- ETOT  6  -8.7063464518826    -9.514E-12 5.383E-04 2.097E-09
- ETOT  7  -8.7063464518824     1.386E-13 1.578E-04 1.198E-11
+ ETOT  6  -8.7063464518826    -9.507E-12 5.383E-04 2.097E-09
+ ETOT  7  -8.7063464518824     1.368E-13 1.578E-04 1.198E-11
  
  At SCF step    7       vres2   =  1.20E-11 < tolvrs=  1.00E-10 =>converged.
  
@@ -281,7 +280,7 @@ lattice_vectors:
 lattice_lengths: [   7.25711,    7.25711,    7.25711, ]
 lattice_angles: [ 60.000,  60.000,  60.000, ] # degrees, (23, 13, 12)
 lattice_volume:   2.7025701E+02
-convergence: {deltae:  1.386E-13, res2:  1.198E-11, residm:  1.578E-04, diffor: null, }
+convergence: {deltae:  1.368E-13, res2:  1.198E-11, residm:  1.578E-04, diffor: null, }
 etotal    :  -8.70634645E+00
 entropy   :   0.00000000E+00
 fermie    :   2.50141560E-01
@@ -430,7 +429,7 @@ band_energy         :  5.18170822807145E-01
                        outvar_i_n : Printing only first  50 k-points.
          kptrlatt       12  -12   12    -12   12   12    -12  -12   12
           kptrlen      1.23157320E+02
-P           mkmem           2
+P           mkmem         182
             natom           2
             nband           8
             ngfft          48      48      48
@@ -603,10 +602,10 @@ P           mkmem           2
 - The licence allows the authors to put it on the Web.
 - DOI and bibtex: see https://docs.abinit.org/theory/bibliography/#gonze2009
 -
-- Proc.   0 individual time (sec): cpu=          3.2  wall=          3.8
+- Proc.   0 individual time (sec): cpu=        116.1  wall=        117.3
  
 ================================================================================
  
  Calculation completed.
-.Delivered   0 WARNINGs and   0 COMMENTs to log file.
-+Overall time at end (sec) : cpu=        348.2  wall=        366.8
+.Delivered   0 WARNINGs and   4 COMMENTs to log file.
++Overall time at end (sec) : cpu=        116.1  wall=        117.3
