@@ -311,6 +311,15 @@ EOF
     fi
 
     # Application execution
+    # Resolve the run command before entering the heredoc to avoid stray brace issue.
+    # If RUN_COMMAND is set in config, use it; otherwise use default mpirun line.
+    local _resolved_cmd
+    if [ -n "${RUN_COMMAND}" ]; then
+        _resolved_cmd="${RUN_COMMAND}"
+    else
+        _resolved_cmd="mpirun -np ${ntasks} \${APP_BIN} \${INPUT_FILE}"
+    fi
+
     cat >> "${slurm_file}" << EOF
 
 # Application binary and input
@@ -324,10 +333,7 @@ echo "\${pre}Binary: \${APP_BIN}"
 echo "\${pre}Input: \${INPUT_FILE}"
 
 # Run application
-# If RUN_COMMAND is set in config.sh, use it verbatim (with NTASKS substituted).
-# Otherwise fall back to default mpirun invocation.
-RUN_CMD="${RUN_COMMAND:-mpirun -np ${ntasks} \${APP_BIN} \${INPUT_FILE}}"
-eval "\${RUN_CMD}" > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
+${_resolved_cmd} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
 
 exit_code=\$?
 
