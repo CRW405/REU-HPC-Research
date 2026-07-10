@@ -37,4 +37,4 @@ integrates data from the top 100, my top 100 report, the shared dir, and the spr
 
 ## Question / Concerns
 
-- I feel i've fallen behind where I want to be
+- I feel i've fallen behind where I want to be, whats the best way to catch up
