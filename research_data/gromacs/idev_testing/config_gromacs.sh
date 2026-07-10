@@ -3,6 +3,14 @@
 # GROMACS Configuration
 #
 # This file is sourced by generate_jobs.sh
+# Based on ABINIT config template, adapted for GROMACS
+#
+# Key differences from ABINIT:
+#   - Uses system GROMACS module (gmx_mpi binary from PATH)
+#   - Run command uses ibrun + gmx_mpi mdrun -s <tpr> instead of mpirun
+#   - No input file positional arg — GROMACS uses -s flag
+#   - No ABI_PSPDIR or netcdf dependencies
+#   - OUTPUT_SUFFIX controls the -deffnm output prefix
 #===============================================================================
 
 #===============================================================================
@@ -10,28 +18,19 @@
 #===============================================================================
 
 APP_NAME="gromacs"
-APP_BINARY="/opt/apps/intel24/impi21/gromacs/2024/bin/gmx_mpi"
+
+# GROMACS binary — loaded from module, set path here
+# Check location with: which gmx_mpi (after ml gromacs)
+APP_BINARY="/scratch/11603/crw405/scripts/gmx_wrapper.sh"
 
 # Test cases - format: "name:input_path"
+# GROMACS uses pre-compiled .tpr files as input
 TEST_CASES=(
     "benchMEM:/work2/05392/cylu/share/reu_2026/2.project/2.examples/gromacs/benchMEM.tpr"
 )
 
-# No app-specific environment variables needed
+# No application-specific environment variables needed for GROMACS
 APP_ENV=()
-
-# Override the default mpirun command for GROMACS.
-# NTASKS is substituted at job generation time.
-# INPUT_FILE is passed via -s flag instead of positional argument.
-# -nsteps 50000 : ~100ps, ~30-60s on n48, ~2min on n24 (tune if needed)
-# -ntomp 1      : pure MPI, 1 OpenMP thread per rank
-# -resethway    : reset perf counters halfway through for cleaner timing
-# -noconfout    : skip final coordinate output to save I/O
-RUN_COMMAND_TEMPLATE='ibrun \${APP_BIN} mdrun -s \${INPUT_FILE} -deffnm md -nsteps 50000 -ntomp 1 -resethway -noconfout'
-
-# Dump command to generate human-readable summary of the .tpr input
-# This runs gmx_mpi dump -s <tpr> and saves to input_dump.txt in the run dir
-INPUT_DUMP_CMD="gmx_mpi dump -s"
 
 #===============================================================================
 # MODULE SETTINGS
@@ -43,13 +42,16 @@ MODULES=(
     "gromacs/2024"
 )
 
+# No custom library paths needed — GROMACS module handles this
 LIBRARY_PATHS=()
 
 #===============================================================================
 # MPI SETTINGS
 #===============================================================================
 
-# ibrun handles MPI on TACC — no extra MPI env vars needed
+# GROMACS on TACC uses ibrun instead of mpirun
+# ibrun handles node/task mapping automatically from SLURM env vars
+# These MPI env vars are not needed for GROMACS
 MPI_ENV=()
 
 #===============================================================================
@@ -70,17 +72,19 @@ TASKS_PER_NODE=48
 
 LIBPEAK_PATH="/scratch/11603/crw405/peak/peak/lib/libpeak.so"
 
-# GROMACS is FFTW-heavy (PME) — try with FFTW first, drop to BLAS,LAPACK if segfault
+# GROMACS uses FFTW heavily (PME electrostatics) and BLAS/LAPACK for
+# linear algebra. Drop FFTW if MKL-AVX512 segfault occurs (same issue as ABINIT)
 PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW"
 #PEAK_TARGET_GROUPS="BLAS,LAPACK"
 
 PEAK_MEMORY_PROFILE="FALSE"
+
 PEAK_TEXT_OUTPUT=0
 PEAK_VERBOSITY=report
 PEAK_OUTPUT_AGGREGATION=local
 PEAK_MPI_REAL_FINALIZE=0
 
-# Run PEAK on n48 — largest single-node config, most interesting for GROMACS
+# Config to run PEAK on in --scaling mode
 PEAK_SINGLE_CONFIG="n48"
 
 #===============================================================================
