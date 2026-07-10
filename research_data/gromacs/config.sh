@@ -27,7 +27,7 @@ APP_ENV=()
 # -ntomp 1      : pure MPI, 1 OpenMP thread per rank
 # -resethway    : reset perf counters halfway through for cleaner timing
 # -noconfout    : skip final coordinate output to save I/O
-RUN_COMMAND_TEMPLATE='ibrun \${APP_BIN} mdrun -s \${INPUT_FILE} -deffnm md -nsteps 50000 -ntomp 1 -resethway -noconfout'
+RUN_COMMAND="ibrun ${APP_BIN} mdrun -s ${INPUT_FILE} -deffnm md -nsteps 50000 -ntomp 1 -resethway -noconfout"
 
 # Dump command to generate human-readable summary of the .tpr input
 # This runs gmx_mpi dump -s <tpr> and saves to input_dump.txt in the run dir

@@ -324,15 +324,10 @@ echo "\${pre}Binary: \${APP_BIN}"
 echo "\${pre}Input: \${INPUT_FILE}"
 
 # Run application
-# Use RUN_COMMAND_TEMPLATE from config.sh to override the default command.
-# Available tokens (substituted at job generation time):
-#   NTASKS     -> actual task count for this job
-#   APP_BIN    -> value of APP_BINARY from config
-#   INPUT_FILE -> test case input path
-# Default: mpirun -np NTASKS APP_BIN INPUT_FILE > stdout 2> stderr
-_RUN_CMD="${RUN_COMMAND_TEMPLATE:-mpirun -np NTASKS \${APP_BIN} \${INPUT_FILE}}"
-_RUN_CMD="${_RUN_CMD//NTASKS/${ntasks}}"
-eval "$_RUN_CMD" > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
+# If RUN_COMMAND is set in config.sh, use it verbatim (with NTASKS substituted).
+# Otherwise fall back to default mpirun invocation.
+RUN_CMD="${RUN_COMMAND:-mpirun -np ${ntasks} \${APP_BIN} \${INPUT_FILE}}"
+eval "\${RUN_CMD}" > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
 
 exit_code=\$?
 
