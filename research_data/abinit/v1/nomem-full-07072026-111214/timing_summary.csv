@@ -1,1 +1,13 @@
 job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id
+abinit_test_paral_1_n1_nopeak,test_paral_1,n1_nopeak,1,1,false,2026-07-07 13:48:31,2026-07-07 13:48:37,6,0,3282889
+abinit_test_paral_1_N8_nopeak,test_paral_1,N8_nopeak,8,384,false,2026-07-07 13:53:37,2026-07-07 13:53:44,7,0,3282893
+abinit_test_paral_1_N16_nopeak,test_paral_1,N16_nopeak,16,768,false,2026-07-07 13:58:45,2026-07-07 13:58:52,7,0,3282894
+abinit_test_paral_1_N8_peak,test_paral_1,N8_peak,8,384,true,2026-07-07 13:58:45,2026-07-07 13:58:52,7,255,3282899
+abinit_test_paral_1_n24_nopeak,test_paral_1,n24_nopeak,1,24,false,2026-07-07 14:03:47,2026-07-07 14:03:51,4,0,3282890
+abinit_test_paral_1_n48_nopeak,test_paral_1,n48_nopeak,1,48,false,2026-07-07 14:03:47,2026-07-07 14:03:51,4,0,3282891
+abinit_test_paral_1_N2_nopeak,test_paral_1,N2_nopeak,2,96,false,2026-07-07 14:03:47,2026-07-07 14:03:52,5,0,3282892
+abinit_test_paral_1_n1_peak,test_paral_1,n1_peak,1,1,true,2026-07-07 14:03:47,2026-07-07 14:03:53,6,0,3282895
+abinit_test_paral_1_N16_peak,test_paral_1,N16_peak,16,768,true,2026-07-07 14:03:47,2026-07-07 14:03:56,9,255,3282900
+abinit_test_paral_1_n24_peak,test_paral_1,n24_peak,1,24,true,2026-07-07 14:08:50,2026-07-07 14:08:57,7,255,3282896
+abinit_test_paral_1_N2_peak,test_paral_1,N2_peak,2,96,true,2026-07-07 14:08:50,2026-07-07 14:08:57,7,255,3282898
+abinit_test_paral_1_n48_peak,test_paral_1,n48_peak,1,48,true,2026-07-07 14:08:50,2026-07-07 14:08:57,7,255,3282897

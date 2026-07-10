@@ -1,0 +1,45 @@
+# Silicon diamond structure - scaling benchmark input
+# Designed to run 30-120 seconds on moderate core counts
+# Uses 14si.psp (plain NC pseudopotential)
+#
+# Key parameters tuned for meaningful runtime:
+#   ecut 30      - higher plane-wave cutoff than test cases (was 5.8-10)
+#   ngkpt 8 8 8  - dense k-point grid (512 k-points before symmetry reduction)
+#   nstep 30     - allow full SCF convergence
+#   nband 8      - more bands than minimum
+#   paral_kgb 1  - enable k-point/band/FFT parallelism for MPI scaling
+
+ acell 3*10.26311
+ ecut 50.0
+ ecutsm 0.5
+
+ natom 8
+ nband 8
+ ngkpt 12 12 12
+ nshiftk 4
+ shiftk 0.5 0.5 0.5
+         0.5 0.0 0.0
+         0.0 0.5 0.0
+         0.0 0.0 0.5
+
+ nstep 30
+ ntypat 1
+ occopt 1
+ rprim 0 .5 .5
+       .5 0 .5
+       .5 .5 0
+ tolvrs 1.0d-10
+ typat 1 1
+ xred 0.0 0.0 0.0
+      0.25 0.25 0.25
+ znucl 14
+
+ # if no work, remove:
+ # paral_kgb 1
+ # np_spkpt 24    # distribute k-points across all ranks
+ # npfft 1
+ # npband 1
+
+ pp_dirpath "$ABI_PSPDIR"
+ pseudos "14si.psp"
+

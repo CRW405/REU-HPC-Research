@@ -21,13 +21,12 @@ APP_BINARY="${APP_BUILD_PATH}/install/bin/abinit"
 # Test cases - format: "name:input_path"
 # Each test case will get its own directory structure
 TEST_CASES=(
-    #"test0:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t00.abi"
+    "test0:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t00.abi"
     #"test1:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t05.abi"
     #"test2:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t02.abi"
     #"test3:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t03.abi"
     #"test4:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t04.abi"
     #"test_paral_1:${APP_BUILD_PATH}/abinit-10.4.7/tests/paral/Input/t01.abi"
-    "test:/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/v2/test_case.abi"
 )
 
 # Application-specific environment variables
@@ -90,8 +89,8 @@ LIBPEAK_PATH="/scratch/11603/crw405/peak/peak/lib/libpeak.so"
 
 # Target groups for profiling (comma-separated)
 #PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW,PBLAS,ScaLAPACK"
-PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW"
-#PEAK_TARGET_GROUPS="BLAS,LAPACK"
+#PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW"
+PEAK_TARGET_GROUPS="BLAS,LAPACK"
 
 # Memory profiling settings
 PEAK_MEMORY_PROFILE="FALSE"
