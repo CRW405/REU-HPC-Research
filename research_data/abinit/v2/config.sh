@@ -27,7 +27,7 @@ TEST_CASES=(
     #"test3:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t03.abi"
     #"test4:${APP_BUILD_PATH}/abinit-10.4.7/tests/v1/Input/t04.abi"
     #"test_paral_1:${APP_BUILD_PATH}/abinit-10.4.7/tests/paral/Input/t01.abi"
-    "test:/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/v2/test_case.abi"
+    "test:/scratch/11603/crw405/REU-HPC-Research/research_data/abinit/v2/test_case/test_case.abi"
 )
 
 # Application-specific environment variables

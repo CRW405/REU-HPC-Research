@@ -13,7 +13,7 @@
  ecut 50.0
  ecutsm 0.5
 
- natom 8
+ natom 2
  nband 8
  ngkpt 12 12 12
  nshiftk 4
