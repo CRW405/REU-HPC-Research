@@ -1,6 +1,6 @@
 Program Name,Core Hours,Module,Script,Examples,Test Case,Tested,Link,Type,Description,Notes
 CESM,102783573,,,,,,https://www.cesm.ucar.edu/,Climate Science,Community Earth System Model tracking global climate changes over long periods.,Non standard build system
-GROMACS,41253243,Y,Y,Y,,,https://www.gromacs.org/,Biomolecular Molecular Dynamics,Versatile molecular dynamics package optimized for lipid biomolecules and proteins.
+GROMACS,41253243,Y,Y,Y,benchMem,Y - Module does not produce PEAK hits,https://www.gromacs.org/,Biomolecular Molecular Dynamics,Versatile molecular dynamics package optimized for lipid biomolecules and proteins.
 SpEC,30294875,,,,,,https://www.black-holes.org/code/SpEC.html,Astrophysics / General Relativity Simulations,Spectral Einstein Code simulating compact binary mergers and black hole mechanics.
 Chroma,25112325,,Y - Created,,,,https://github.com/JeffersonLab/chroma,Lattice QCD Particle Physics,Tool box package for data structures in high-performance lattice Quantum Chromodynamics.
 VASP,25079310,Y,,Y,,,https://www.vasp.at/,Computational Materials Science (DFT),Vienna Ab-initio Simulation Package for electronic structure and quantum molecular dynamics.
@@ -35,7 +35,7 @@ ShengBTE,1360851,,Y - Created,,Test-RTA,,https://shengbte.org/,Computational Mat
 lapw1c,1318411,,,,,,,Electronic Structure Calculation Kernel,Core numerical matrix subroutine evaluating linearized augmented plane wave eigenvalues.
 EPPIC,1102390,,,,,,https://github.com/KJ-Ahn/EPPIC,Plasma Physics / Particle-In-Cell,
 Changa,914975,,,,,,https://github.com/N-BodyShop/changa,Computational Cosmology,Charm++-based N-body gravity simulator tracking galactic structural evolutions.
-ABINIT,782609,,Y,,t01,In Progress,https://www.abinit.org/,Computational Materials Science (DFT),Spherically converged density-functional theory code for electronic and atomic systems.
+ABINIT,782609,,Y,,t01,Y,https://www.abinit.org/,Computational Materials Science (DFT),Spherically converged density-functional theory code for electronic and atomic systems.
 Amber,700495,,,,,,https://ambermd.org/,Molecular Dynamics / Biomolecular Simulation,Suite of biomolecular simulation programs and force field routines.
 Seissol,471987,,,,,,https://seissol.org/,Seismology,Discontinuous Galerkin seismic software for simulating complex spontaneous earthquake rupture.
 ORCA,271440,,,,,,https://orcaforum.kofo.mpg.de/,Quantum Chemistry,Ab initio DFT and semiempirical electronic structure package with modern math modules.

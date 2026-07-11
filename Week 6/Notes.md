@@ -17,3 +17,6 @@ The target is n1 taking 2-5 minutes, which would make the scaling study actually
 
 mpirun -np 24 gmx_mpi mdrun -s benchMEM.tpr -nsteps 10000 -resethway -noconfout -ntomp 1
 /work2/05392/cylu/share/reu_2026/2.project/2.examples/gromacs/benchMEM.tpr
+
+Scalind data gathered but PEAK target groups do not get any hits on GROMACS.
+Options are to move on or build myself
