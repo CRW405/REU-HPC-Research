@@ -27,7 +27,7 @@ APP_ENV=()
 # -ntomp 1      : pure MPI, 1 OpenMP thread per rank
 # -resethway    : reset perf counters halfway through for cleaner timing
 # -noconfout    : skip final coordinate output to save I/O
-RUN_COMMAND="LD_PRELOAD=/scratch/11603/crw405/peak/peak/lib/libpeak.so ibrun /opt/apps/intel24/impi21/gromacs/2024/bin/gmx_mpi mdrun -s /work2/05392/cylu/share/reu_2026/2.project/2.examples/gromacs/benchMEM.tpr -deffnm md -nsteps 50000 -ntomp 1 -resethway -noconfout"
+RUN_COMMAND="ibrun /opt/apps/intel24/impi21/gromacs/2024/bin/gmx_mpi mdrun -s /work2/05392/cylu/share/reu_2026/2.project/2.examples/gromacs/benchMEM.tpr -deffnm md -nsteps 50000 -ntomp 1 -resethway -noconfout"
 
 # Dump command to generate human-readable summary of the .tpr input
 # This runs gmx_mpi dump -s <tpr> and saves to input_dump.txt in the run dir
@@ -71,8 +71,7 @@ TASKS_PER_NODE=48
 LIBPEAK_PATH="/scratch/11603/crw405/peak/peak/lib/libpeak.so"
 
 # GROMACS is FFTW-heavy (PME) — try with FFTW first, drop to BLAS,LAPACK if segfault
-PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW,PBLAS,ScaLAPACK"
-#PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW"
+PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW"
 #PEAK_TARGET_GROUPS="BLAS,LAPACK"
 
 PEAK_MEMORY_PROFILE="FALSE"

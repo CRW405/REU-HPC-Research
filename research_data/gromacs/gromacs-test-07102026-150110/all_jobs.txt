@@ -1,1 +1,0 @@
-/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./gromacs-test-07102026-150110/benchMEM/single_node/n1/job.slurm
