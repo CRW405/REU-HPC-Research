@@ -1,0 +1,13 @@
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] auto safe detach using signal backend because ptrace_scope=2 blocks helper attachment
+[peak] Aggregate output is disabled for strict teardown; writing rank-local output before MPI finalization or process exit
+[peak] Aggregate output is disabled for strict teardown; writing rank-local output before MPI finalization or process exit
+[peak] Aggregate output is disabled for strict teardown; writing rank-local output before MPI finalization or process exit
+[peak] PEAK output is complete; skipping real PMPI_Finalize for this MPI runtime unless PEAK_MPI_REAL_FINALIZE=1 is set
+[peak] Leaving PEAK target hooks pinned and restoring support wrappers before application PMPI_Finalize

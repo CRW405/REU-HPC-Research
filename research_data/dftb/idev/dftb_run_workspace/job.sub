@@ -1,0 +1,18 @@
+#!/bin/bash
+#SBATCH -J dftb+
+#SBATCH -A A-ccsc 
+#SBATCH -o test.o%j
+#SBATCH -e test.e%j
+#SBATCH -N 1
+#SBATCH -n 2 
+#SBATCH -p skx-dev
+#SBATCH -t 00:20:00 
+
+ml purge
+ml intel/25.1
+ml impi/21.15
+
+export OMP_NUM_THREADS=1
+export PATH=/scratch/05392/cylu/projects/5.peak/2.app_benchmark/0.install/1.apps/12.dftb+/dftbplus-25.1/bin:$PATH
+
+time ibrun dftb+

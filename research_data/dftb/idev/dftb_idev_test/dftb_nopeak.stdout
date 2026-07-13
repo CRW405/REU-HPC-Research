@@ -1,0 +1,103 @@
+TACC:  Starting up job 3302752 
+TACC:  Starting parallel tasks... 
+|===============================================================================
+|
+|  DFTB+ release 25.1
+|
+|  Copyright (C) 2006 - 2025  DFTB+ developers group
+|
+|===============================================================================
+|
+|  When publishing results obtained with DFTB+, please cite the following
+|  reference:
+|
+|    Recent Developments in DFTB+, a Software Package for Efficient Atomistic
+|    Quantum Mechanical Simulations, J. Phys. Chem. A 129, 5373−5390 (2025).
+|    [https://doi.org/10.1021/acs.jpca.5c01146]
+|
+|  You should also cite additional publications crediting the parametrization
+|  data you use. Please consult the documentation of the SK-files for the
+|  references.
+|
+|===============================================================================
+
+Reading input file 'dftb_in.hsd'
+Parser version: 14
+
+--------------------------------------------------------------------------------
+***  Converting input from parser version 10 to parser version 14 ...
+***  Done.
+
+Reading SK-files:
+./C-C.skf
+Done.
+
+
+Processed input in HSD format written to 'dftb_pin.hsd'
+
+Starting initialization...
+--------------------------------------------------------------------------------
+MPI processes:               4
+OpenMP threads:              1
+BLACS orbital grid size:     2 x 2
+BLACS atom grid size:        2 x 2
+Chosen random seed:          511486140
+Current stacksize:           unlimited
+Mode:                        Static calculation
+Self consistent charges:     Yes
+SCC-tolerance:                 0.100000E-09
+Max. scc iterations:                    100
+Shell resolved Hubbard:      No
+Spin polarisation:           No
+Nr. of up electrons:           120.000000
+Nr. of down electrons:         120.000000
+Periodic boundaries:         No
+Electronic solver:           Relatively robust
+Casida solver:               Stratmann, SubSpace:   60
+Mixer:                       Broyden mixer
+Mixing parameter:                  0.200000
+Nr. of chrg. vec. in memory:            100
+Max. SCC-cycles:                        100
+Electronic temperature:              0.316682E-03 H      0.861734E-02 eV
+Initial charges:             Set automatically (system chrg:   0.000E+00)
+Included shells:             C:  s, p
+Extra options:
+                             Mulliken analysis
+
+--------------------------------------------------------------------------------
+
+***  Geometry step: 0
+
+ iSCC Total electronic   Diff electronic      SCC error    
+    1   -0.10745146E+03    0.00000000E+00    0.21070821E-08
+    2   -0.10745146E+03   -0.10745146E+03    0.15486430E-08
+    3   -0.10745146E+03   -0.28421709E-13    0.26899993E-09
+>> Charges saved for restart in charges.bin
+    4   -0.10745146E+03    0.14210855E-13    0.10480505E-12
+
+>> Stratmann diagonalisation of response matrix
+   Total dimension of A+B:   5258 inital subspace:   5258
+>> Stratmann converged
+ 
+Total Energy:                     -103.1110744668 H        -2805.7951 eV
+Extrapolated to 0K:               -103.2321666171 H        -2809.0902 eV
+Total Mermin free energy:         -103.1110744668 H        -2805.7951 eV
+Force related energy:             -103.2321666171 H        -2809.0902 eV
+ 
+ 
+--------------------------------------------------------------------------------
+DFTB+ running times                          cpu [s]             wall clock [s]
+--------------------------------------------------------------------------------
+Global initialisation                  +       0.01 (  0.0%)       0.06 (  0.0%)
+SCC                                    +       0.14 (  0.1%)       0.22 (  0.2%)
+  Diagonalisation                              0.12 (  0.1%)       0.14 (  0.1%)
+Post-SCC processing                    +     122.60 ( 99.9%)     122.91 ( 99.8%)
+  Linear response excitation                 122.60 ( 99.9%)     122.91 ( 99.8%)
+    Linear response setup                      0.11 (  0.1%)       0.12 (  0.1%)
+    Linear response solver                   122.45 ( 99.8%)     122.74 ( 99.6%)
+    Linear response Z vector                 122.92 (100.1%)*********** (*****%)
+--------------------------------------------------------------------------------
+Missing                                +       0.00 (  0.0%)       0.01 (  0.0%)
+Total                                  =     122.75 (100.0%)     123.20 (100.0%)
+--------------------------------------------------------------------------------
+TACC:  Shutdown complete. Exiting. 
