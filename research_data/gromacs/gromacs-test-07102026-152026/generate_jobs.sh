@@ -300,6 +300,7 @@ EOF
 
         cat >> "${slurm_file}" << EOF
 
+export I_MPI_LD_PRELOAD=\${PEAK_LIB_PATH}
 export LD_PRELOAD=\${PEAK_LIB_PATH}
 
 echo "\${pre}  Target groups: ${PEAK_TARGET_GROUPS}"

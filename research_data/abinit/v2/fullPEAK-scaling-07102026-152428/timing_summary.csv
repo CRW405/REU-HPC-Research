@@ -1,0 +1,8 @@
+job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id
+abinit_test_n1_nopeak,test,n1_nopeak,1,1,false,2026-07-10 15:26:08,2026-07-10 15:28:07,119,0,3294914
+abinit_test_n24_nopeak,test,n24_nopeak,1,24,false,2026-07-10 15:31:10,2026-07-10 15:31:20,10,0,3294915
+abinit_test_n48_nopeak,test,n48_nopeak,1,48,false,2026-07-10 15:36:11,2026-07-10 15:36:19,8,0,3294916
+abinit_test_N2_nopeak,test,N2_nopeak,2,96,false,2026-07-10 15:46:18,2026-07-10 15:46:24,6,0,3294917
+abinit_test_n1_peak,test,n1_peak,1,1,true,2026-07-10 15:51:20,2026-07-10 15:53:26,126,0,3294920
+abinit_test_N16_nopeak,test,N16_nopeak,16,768,false,2026-07-10 17:12:04,2026-07-10 17:12:13,9,0,3294919
+abinit_test_N8_nopeak,test,N8_nopeak,8,384,false,2026-07-11 00:16:41,2026-07-11 00:16:47,6,0,3294918

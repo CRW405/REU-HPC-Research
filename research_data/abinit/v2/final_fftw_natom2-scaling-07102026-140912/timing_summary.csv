@@ -1,2 +1,3 @@
 job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id
 abinit_test_N2_nopeak,test,N2_nopeak,2,96,false,2026-07-10 15:06:01,2026-07-10 15:06:08,7,0,3294689
+abinit_test_n1_nopeak,test,n1_nopeak,1,1,false,2026-07-10 15:16:04,2026-07-10 15:18:03,119,0,3294686

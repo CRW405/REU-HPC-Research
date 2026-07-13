@@ -300,6 +300,7 @@ EOF
 
         cat >> "${slurm_file}" << EOF
 
+export I_MPI_LD_PRELOAD=\${PEAK_LIB_PATH}
 export LD_PRELOAD=\${PEAK_LIB_PATH}
 
 echo "\${pre}  Target groups: ${PEAK_TARGET_GROUPS}"
@@ -310,15 +311,6 @@ EOF
     fi
 
     # Application execution
-    # Resolve the run command before entering the heredoc to avoid stray brace issue.
-    # If RUN_COMMAND is set in config, use it; otherwise use default mpirun line.
-    local _resolved_cmd
-    if [ -n "${RUN_COMMAND}" ]; then
-        _resolved_cmd="${RUN_COMMAND}"
-    else
-        _resolved_cmd="mpirun -np ${ntasks} \${APP_BIN} \${INPUT_FILE}"
-    fi
-
     cat >> "${slurm_file}" << EOF
 
 # Application binary and input
@@ -332,7 +324,7 @@ echo "\${pre}Binary: \${APP_BIN}"
 echo "\${pre}Input: \${INPUT_FILE}"
 
 # Run application
-${_resolved_cmd} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
+mpirun -np ${ntasks} \${APP_BIN} \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
 
 exit_code=\$?
 
@@ -354,16 +346,6 @@ echo "\${pre}===================================================================
 echo "\${pre}Output files:"
 echo "\${pre}  Standard output: ${output_dir}/${APP_NAME}.stdout"
 echo "\${pre}  Standard error: ${output_dir}/${APP_NAME}.stderr"
-
-# Copy input file into run directory for reference
-if [ -n "\${INPUT_FILE}" ] && [ -f "\${INPUT_FILE}" ]; then
-    cp "\${INPUT_FILE}" ${output_dir}/
-fi
-
-# If app provides a dump/inspect command, run it to capture human-readable input summary
-if [ -n "${INPUT_DUMP_CMD}" ]; then
-    eval "${INPUT_DUMP_CMD} \${INPUT_FILE}" > ${output_dir}/input_dump.txt 2>/dev/null
-fi
 EOF
 
     if [ "$enable_peak" = "true" ]; then

@@ -14,8 +14,8 @@
  acknowledgments of the ABINIT effort.
  For more information, see https://www.abinit.org .
 
-.Starting date : Sat 11 Jul 2026.
-- ( at 00h16 )
+.Starting date : Fri 10 Jul 2026.
+- ( at 17h12 )
   
 - input  file    -> /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/v2/test_case/test_case.abi
 - output file    -> /scratch/11603/crw405/REU-HPC-Research/research_data/abinit/v2/test_case/test_case.abo
@@ -195,7 +195,7 @@ P           mkmem           1
  
 ================================================================================
 == DATASET  1 ==================================================================
--   mpi_nproc: 384, omp_nthreads: 1 (-1 if OMP is not activated)
+-   mpi_nproc: 768, omp_nthreads: 1 (-1 if OMP is not activated)
 -    --> not optimal distribution: autoparal keyword recommended in input file <--
  
 
@@ -603,10 +603,10 @@ P           mkmem           1
 - The licence allows the authors to put it on the Web.
 - DOI and bibtex: see https://docs.abinit.org/theory/bibliography/#gonze2009
 -
-- Proc.   0 individual time (sec): cpu=          2.7  wall=          3.2
+- Proc.   0 individual time (sec): cpu=          3.9  wall=          4.5
  
 ================================================================================
  
  Calculation completed.
 .Delivered   0 WARNINGs and   0 COMMENTs to log file.
-+Overall time at end (sec) : cpu=       1174.9  wall=       1242.1
++Overall time at end (sec) : cpu=       3201.1  wall=       3421.8
