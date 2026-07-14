@@ -1,10 +1,10 @@
 Program Name,Core Hours,Module,Script,Examples,Test Case,Tested,Link,Type,Description,Notes
 CESM,102783573,,,,,,https://www.cesm.ucar.edu/,Climate Science,Community Earth System Model tracking global climate changes over long periods.,Non standard build system
-GROMACS,41253243,Y,Y,Y,benchMem,Y - Module does not produce PEAK hits,https://www.gromacs.org/,Biomolecular Molecular Dynamics,Versatile molecular dynamics package optimized for lipid biomolecules and proteins.
+GROMACS,41253243,Y,Y,Y,benchMem,Y - Does not produce PEAK hits,https://www.gromacs.org/,Biomolecular Molecular Dynamics,Versatile molecular dynamics package optimized for lipid biomolecules and proteins.
 SpEC,30294875,,,,,,https://www.black-holes.org/code/SpEC.html,Astrophysics / General Relativity Simulations,Spectral Einstein Code simulating compact binary mergers and black hole mechanics.
 Chroma,25112325,,Y - Created,,,,https://github.com/JeffersonLab/chroma,Lattice QCD Particle Physics,Tool box package for data structures in high-performance lattice Quantum Chromodynamics.
 VASP,25079310,Y,,Y,,,https://www.vasp.at/,Computational Materials Science (DFT),Vienna Ab-initio Simulation Package for electronic structure and quantum molecular dynamics.
-QE,23670676,Y,Y - Created,Y,,,https://www.quantum-espresso.org/,Computational Materials Science (DFT),Quantum ESPRESSO suite for electronic-structure calculations and materials modeling.
+QE,23670676,Y,Y - Created,Y,Custom,Y,https://www.quantum-espresso.org/,Computational Materials Science (DFT),Quantum ESPRESSO suite for electronic-structure calculations and materials modeling.
 NAMD,18406414,Y,,,,,https://www.ks.uiuc.edu/Research/namd/,Molecular Dynamics / Biomolecular Simulation,High-performance scalable biomolecular molecular dynamics simulator.
 EPW,17996761,,Y,,,,https://epw-code.org/,Computational Materials Science,Electron-Phonon Wannier interpolator mapping electron-phonon interactions.
 Cactus,16724727,,,,,,https://cactuscode.org/,Relativistic Astrophysics Framework,Extensible modular framework managing numerical relativity grid layouts.,Non standard build system
@@ -19,7 +19,7 @@ overlap_curseq,5295417,,,,,,,Lattice QCD Operations,Sequence execution utility e
 Enzo-E,3766218,,,,,,https://enzo-e.readthedocs.io/,Computational Astrophysics,Charm++-based highly scalable grid astrophysical cosmology solver.
 ENZO,3766218,,,,,,https://enzo-project.org/,Computational Astrophysics / Cosmology,Block-structured adaptive mesh refinement code simulating cosmological structure formation.
 athena++,3701768,,,,,,https://github.com/PrincetonUniversity/athena,Astrophysics / Magnetohydrodynamics,C++ rewrite of Athena for advanced magnetohydrodynamics astrophysical simulations.
-LAMMPS,3018228,Y,Y,Y,,,https://www.lammps.org/,Molecular Dynamics / Materials Science,Large-scale Atomic/Molecular Massively Parallel Simulator for classical molecular dynamics.
+LAMMPS,3018228,Y,Y,Y,rhodo.scaled,Y - Does not produce PEAK hits,https://www.lammps.org/,Molecular Dynamics / Materials Science,Large-scale Atomic/Molecular Massively Parallel Simulator for classical molecular dynamics.
 Tristan-MP,2802787,,,,,,https://github.com/PrincetonUniversity/tristan-mp-v2,Plasma Physics / Particle-In-Cell (PIC),Massively parallel electromagnetic Particle-In-Cell code targeting relativistic astrophysics.
 WRF,2793696,,,,,,https://www.mmm.ucar.edu/models/wrf/,Climate / Weather / Earth System,Weather Research and Forecasting mesoscale numerical weather prediction modeler.
 Gadget,2612573,,,,,,https://wwwmpa.mpa-garching.mpg.de/gadget4/,Cosmological N-body / SPH Simulations,Massively parallel cosmological simulation tool tracking dark matter and baryonic matter gas.
@@ -60,7 +60,7 @@ ICECUBE,,,,,,,https://icecube.wisc.edu/,High-Energy Particle Physics,Physics sof
 Gpaw,,,Y,,,,https://wiki.fysik.dtu.dk/gpaw/,Computational Materials Science (DFT),Grid-based Projector Augmented Wave density-functional theory software.
 GEOS,,,,,,,https://geos.jpl.nasa.gov/,Climate / Weather / Earth System,Goddard Earth Observing System atmospheric general circulation and data assimilation framework.
 GAMESS,,Y,,,,,https://www.msg.chem.iastate.edu/gamess/,Quantum Chemistry,General Atomic and Molecular Electronic Structure System software for molecular calculations.
-DFTB+,,,Y,Y,,,https://dftbplus.org/,Computational Materials Science (DFT),Fast quantum chemical simulation tool using Density Functional Tight Binding approximation.
+DFTB+,,,Y,Y,spinlock,Y - Does not produce PEAK hits,https://dftbplus.org/,Computational Materials Science (DFT),Fast quantum chemical simulation tool using Density Functional Tight Binding approximation.
 CP2K,,Y,,Y,,,https://www.cp2k.org/,Computational Chemistry & Materials Science,Atomistic simulation software covering solid-state liquid molecular and biological systems.
 CM1,,,,,,,https://www2.mmm.ucar.edu/people/bryan/cm1/,Atmospheric Science / Storm Simulation,Cloud Model 1 idealized atmospheric model optimized for severe storm simulations.
 AWP-ODC,,,,,,,https://github.com/HPGeoC/awp-odc-os,Earthquake Simulation / Seismology,Anelastic Wave Propagation finite-difference solver for regional seismological motion.
