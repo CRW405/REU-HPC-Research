@@ -1,5 +1,5 @@
 
-# REU HPC Research — PEAK Profiling of Frontera Applications
+# REU HPC Research — PEAK Profiling of HPC Applications
 
 > Mobile repo for easier research workflow on both my local machine and TACC HPC systems.
 
