@@ -1,0 +1,8 @@
+job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id
+lammps_rhodo_N16_nopeak,rhodo,N16_nopeak,16,768,false,2026-07-13 15:40:30,2026-07-13 15:40:33,3,1,3304110
+lammps_rhodo_n1_nopeak,rhodo,n1_nopeak,1,1,false,2026-07-13 15:40:51,2026-07-13 15:40:52,1,1,3304105
+lammps_rhodo_n24_nopeak,rhodo,n24_nopeak,1,24,false,2026-07-13 15:40:51,2026-07-13 15:40:53,2,1,3304106
+lammps_rhodo_n48_nopeak,rhodo,n48_nopeak,1,48,false,2026-07-13 15:40:51,2026-07-13 15:40:53,2,1,3304107
+lammps_rhodo_N2_nopeak,rhodo,N2_nopeak,2,96,false,2026-07-13 15:40:51,2026-07-13 15:40:53,2,1,3304108
+lammps_rhodo_n1_peak,rhodo,n1_peak,1,1,true,2026-07-13 15:40:51,2026-07-13 15:40:54,3,1,3304111
+lammps_rhodo_N8_nopeak,rhodo,N8_nopeak,8,384,false,2026-07-13 15:40:51,2026-07-13 15:40:54,3,1,3304109

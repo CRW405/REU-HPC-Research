@@ -43,7 +43,7 @@ echo "======================================================================"
 echo "Step 4: Test run WITH PEAK (4 tasks, 100 steps)"
 echo "======================================================================"
 cd ${RHODO_DIR}
-PEAK_TARGET_GROUP=BLAS,LAPACK \
+PEAK_TARGET_GROUP=BLAS,LAPACK,FFTW\
 PEAK_VERBOSITY=debug \
 PEAK_STATSLOG_PATH=${OUTDIR}/peak_stats \
 PEAK_OUTPUT_AGGREGATION=local \

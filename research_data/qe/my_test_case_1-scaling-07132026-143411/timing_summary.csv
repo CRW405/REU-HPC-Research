@@ -1,0 +1,8 @@
+job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id
+qe_tc_N8_nopeak,tc,N8_nopeak,8,384,false,2026-07-13 14:34:27,2026-07-13 14:34:47,20,0,3303746
+qe_tc_N16_nopeak,tc,N16_nopeak,16,768,false,2026-07-13 14:34:27,2026-07-13 14:34:53,26,0,3303747
+qe_tc_N2_nopeak,tc,N2_nopeak,2,96,false,2026-07-13 14:34:27,2026-07-13 14:34:55,28,0,3303745
+qe_tc_n48_nopeak,tc,n48_nopeak,1,48,false,2026-07-13 14:34:27,2026-07-13 14:34:59,32,0,3303744
+qe_tc_n24_nopeak,tc,n24_nopeak,1,24,false,2026-07-13 14:34:27,2026-07-13 14:35:29,62,0,3303743
+qe_tc_n1_nopeak,tc,n1_nopeak,1,1,false,2026-07-13 14:34:27,2026-07-13 14:45:02,635,0,3303742
+qe_tc_n1_peak,tc,n1_peak,1,1,true,2026-07-13 14:34:27,2026-07-13 14:45:06,639,0,3303748
