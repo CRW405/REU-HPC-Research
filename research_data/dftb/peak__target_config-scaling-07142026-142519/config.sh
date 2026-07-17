@@ -56,9 +56,8 @@ TASKS_PER_NODE=48
 #===============================================================================
 
 LIBPEAK_PATH="/scratch/11603/crw405/peak/peak/lib/libpeak.so"
-PEAK_TARGET_GROUPS="BLAS,LAPACK,FFTW"
+PEAK_TARGET_GROUPS="BLAS,LAPACK.FFTW"
 PEAK_TARGET_CONFIG="FFTW"
-PEAK_TARGET=fftw_malloc, fftw_free
 
 PEAK_MEMORY_PROFILE="FALSE"
 PEAK_SINGLE_CONFIG="n1"

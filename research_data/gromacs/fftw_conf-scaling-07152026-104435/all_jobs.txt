@@ -1,0 +1,7 @@
+/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./fftw_conf-scaling-07152026-104435/benchMEM/single_node/n1_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./fftw_conf-scaling-07152026-104435/benchMEM/single_node/n24_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./fftw_conf-scaling-07152026-104435/benchMEM/single_node/n48_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./fftw_conf-scaling-07152026-104435/benchMEM/multi_node/N2_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./fftw_conf-scaling-07152026-104435/benchMEM/multi_node/N8_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./fftw_conf-scaling-07152026-104435/benchMEM/multi_node/N16_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/gromacs/./fftw_conf-scaling-07152026-104435/benchMEM/single_node/n48_peak/job.slurm

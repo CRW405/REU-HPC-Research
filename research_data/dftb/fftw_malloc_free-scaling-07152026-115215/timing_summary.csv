@@ -1,0 +1,8 @@
+job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id
+dftb_spinlock_N16_nopeak,spinlock,N16_nopeak,16,768,false,2026-07-15 11:58:46,2026-07-15 11:58:49,3,1,3311748
+dftb_spinlock_N2_nopeak,spinlock,N2_nopeak,2,96,false,2026-07-15 11:59:06,2026-07-15 11:59:08,2,1,3311746
+dftb_spinlock_N8_nopeak,spinlock,N8_nopeak,8,384,false,2026-07-15 11:59:06,2026-07-15 11:59:10,4,1,3311747
+dftb_spinlock_n1_nopeak,spinlock,n1_nopeak,1,1,false,2026-07-15 11:59:06,2026-07-15 12:01:06,120,0,3311743
+dftb_spinlock_n1_peak,spinlock,n1_peak,1,1,true,2026-07-15 11:59:06,2026-07-15 12:01:08,122,0,3311749
+dftb_spinlock_n24_nopeak,spinlock,n24_nopeak,1,24,false,2026-07-15 11:59:06,2026-07-15 12:01:25,139,0,3311744
+dftb_spinlock_n48_nopeak,spinlock,n48_nopeak,1,48,false,2026-07-15 11:59:06,2026-07-15 12:02:59,233,0,3311745

@@ -1,0 +1,7 @@
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./fftw_malloc_free-scaling-07152026-115215/spinlock/single_node/n1_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./fftw_malloc_free-scaling-07152026-115215/spinlock/single_node/n24_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./fftw_malloc_free-scaling-07152026-115215/spinlock/single_node/n48_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./fftw_malloc_free-scaling-07152026-115215/spinlock/multi_node/N2_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./fftw_malloc_free-scaling-07152026-115215/spinlock/multi_node/N8_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./fftw_malloc_free-scaling-07152026-115215/spinlock/multi_node/N16_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./fftw_malloc_free-scaling-07152026-115215/spinlock/single_node/n1_peak/job.slurm

@@ -1,0 +1,7 @@
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./2_peak_target_config-scaling-07142026-144018/spinlock/single_node/n1_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./2_peak_target_config-scaling-07142026-144018/spinlock/single_node/n24_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./2_peak_target_config-scaling-07142026-144018/spinlock/single_node/n48_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./2_peak_target_config-scaling-07142026-144018/spinlock/multi_node/N2_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./2_peak_target_config-scaling-07142026-144018/spinlock/multi_node/N8_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./2_peak_target_config-scaling-07142026-144018/spinlock/multi_node/N16_nopeak/job.slurm
+/scratch/11603/crw405/REU-HPC-Research/research_data/dftb/./2_peak_target_config-scaling-07142026-144018/spinlock/single_node/n1_peak/job.slurm

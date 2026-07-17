@@ -132,9 +132,11 @@ fi
 BASE_DIR="${OUTPUT_BASE}/${RUN_NAME}-${RUN_MODE}-${TIMESTAMP}"
 
 # Single-node MPI scaling configurations
+#SINGLE_NODE_CONFIGS=("n1" "n2" "n4" "n8" "n16" "n32" "n48")
 SINGLE_NODE_CONFIGS=("n1" "n24" "n48")
 
 # Multi-node scaling configurations (48 tasks per node on Stampede3 SKX)
+#MULTI_NODE_CONFIGS=("N2" "N4" "N8" "N16")
 MULTI_NODE_CONFIGS=("N2" "N8" "N16")
 
 echo "==============================================================================="
@@ -282,11 +284,14 @@ export PEAK_MEMLOG_PATH=${output_dir}/peak_mem
 export PEAK_TARGET_GROUP=${PEAK_TARGET_GROUPS}
 EOF
 
+        # Optional PEAK vars — only export if set (non-empty) in config.sh.
+        # Comment/uncomment any of these in config.sh freely; the generator
+        # will include or omit the export line automatically.
         local _peak_var _peak_val
         for _peak_var in PEAK_MEMORY_PROFILE PEAK_MEMORY_TRACK_ALL PEAK_MEMLOG_CHUNK_EVENTS \
                          PEAK_COST PEAK_OVERHEAD_RATIO PEAK_MPI_REAL_FINALIZE \
                          PEAK_TEXT_OUTPUT PEAK_VERBOSITY PEAK_OUTPUT_AGGREGATION \
-                         PEAK_UNSAFE_GUM_PROLOGUE_POLICY PEAK_TARGET_CONFIG; do
+                         PEAK_UNSAFE_GUM_PROLOGUE_POLICY; do
             _peak_val="${!_peak_var}"
             if [ -n "$_peak_val" ]; then
                 echo "export ${_peak_var}=${_peak_val}" >> "${slurm_file}"
@@ -313,21 +318,18 @@ APP_BIN="${APP_BINARY}"
 INPUT_FILE="${test_input}"
 
 echo "\${pre}======================================================================"
-echo "\substitute{pre}Starting application run..."
+echo "\${pre}Starting application run..."
 echo "\${pre}======================================================================"
 echo "\${pre}Binary: \${APP_BIN}"
-echo "\${pre}Input: \substitute{INPUT_FILE}"
+echo "\${pre}Input: \${INPUT_FILE}"
 
-# Run application intelligently based on package behavior
-if [ "${APP_NAME}" = "qe" ]; then
-    mpirun -np ${ntasks} \${APP_BIN} < \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
-elif [ "${APP_NAME}" = "dftb" ]; then
-    INPUT_DIR=\$(dirname "\${INPUT_FILE}")
-    ln -sf \${INPUT_DIR}/* .
-    mpirun -np ${ntasks} \${APP_BIN} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
-else
-    mpirun -np ${ntasks} \${APP_BIN} \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
-fi
+# --- ADD THIS LINE TO LINK DEPENDENT DATA FILES ---
+ln -sf \$(dirname "\${INPUT_FILE}")/*.scaled . 2>/dev/null
+ln -sf \$(dirname "\${INPUT_FILE}")/data.* . 2>/dev/null
+ln -sf \$(dirname "\${INPUT_FILE}")/*.pot . 2>/dev/null
+
+# Run application
+mpirun -np ${ntasks} \${APP_BIN} -in \${INPUT_FILE} > ${output_dir}/${APP_NAME}.stdout 2> ${output_dir}/${APP_NAME}.stderr
 
 exit_code=\$?
 
@@ -372,10 +374,10 @@ Configuration: ${config}
 Nodes: ${nodes}
 Tasks: ${ntasks}
 PEAK Enabled: ${enable_peak}
-SLURM Job ID: \substitute{SLURM_JOB_ID}
-Start Time: \substitute{start_time}
-End Time: \substitute{end_time}
-Elapsed Seconds: \substitute{elapsed_seconds}
+SLURM Job ID: \${SLURM_JOB_ID}
+Start Time: \${start_time}
+End Time: \${end_time}
+Elapsed Seconds: \${elapsed_seconds}
 Elapsed (formatted): \${hours}h \${minutes}m \${seconds}s
 Exit Code: \${exit_code}
 TIMING_EOF
@@ -423,6 +425,7 @@ case "$RUN_MODE" in
     test)
         echo "Generating TEST mode jobs (single n1 configuration, no PEAK)..."
         echo "-----------------------------------------------------------------------"
+
         for test_case in "${TEST_CASES[@]}"; do
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
@@ -434,6 +437,7 @@ case "$RUN_MODE" in
     test-peak)
         echo "Generating TEST-PEAK mode jobs (single n1 configuration with PEAK)..."
         echo "-----------------------------------------------------------------------"
+
         for test_case in "${TEST_CASES[@]}"; do
             IFS=':' read -r test_name test_input <<< "$test_case"
             echo ""
@@ -445,6 +449,7 @@ case "$RUN_MODE" in
     peak)
         echo "Generating PEAK mode jobs (full scaling with PEAK enabled)..."
         echo "-----------------------------------------------------------------------"
+
         echo ""
         echo "Single-Node Scaling..."
         for test_case in "${TEST_CASES[@]}"; do
@@ -476,6 +481,7 @@ case "$RUN_MODE" in
     full)
         echo "Generating FULL mode jobs (scaling with and without PEAK)..."
         echo "-----------------------------------------------------------------------"
+
         for enable_peak in "false" "true"; do
             peak_label="nopeak"
             if [ "$enable_peak" = "true" ]; then
@@ -519,6 +525,8 @@ case "$RUN_MODE" in
     scaling)
         echo "Generating SCALING mode jobs (full nopeak matrix + PEAK on ${PEAK_SINGLE_CONFIG})..."
         echo "-----------------------------------------------------------------------"
+
+        # Full nopeak scaling matrix
         echo ""
         echo "Nopeak scaling matrix..."
         for test_case in "${TEST_CASES[@]}"; do
@@ -542,6 +550,7 @@ case "$RUN_MODE" in
             done
         done
 
+        # Single PEAK job on the specified config
         echo ""
         echo "PEAK profiling job: ${PEAK_SINGLE_CONFIG}..."
         for test_case in "${TEST_CASES[@]}"; do
@@ -556,12 +565,14 @@ esac
 #===============================================================================
 # COPY CONFIG AND SCRIPT INTO RUN DIRECTORY (all modes)
 #===============================================================================
+
 cp "${CONFIG_FILE}" "${BASE_DIR}/config.sh"
 cp "$0" "${BASE_DIR}/generate_jobs.sh"
 
 #===============================================================================
 # SUMMARY
 #===============================================================================
+
 total_jobs=$(wc -l < "${JOB_LIST}")
 
 echo ""

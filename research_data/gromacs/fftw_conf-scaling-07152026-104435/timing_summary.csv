@@ -1,0 +1,7 @@
+job_name,test_case,config,nodes,ntasks,peak_enabled,start_time,end_time,elapsed_seconds,exit_code,slurm_job_id
+gromacs_benchMEM_N16_nopeak,benchMEM,N16_nopeak,16,768,false,2026-07-15 10:49:25,2026-07-15 10:49:58,33,0,3311193
+gromacs_benchMEM_N8_nopeak,benchMEM,N8_nopeak,8,384,false,2026-07-15 10:50:23,2026-07-15 10:50:58,35,0,3311192
+gromacs_benchMEM_N2_nopeak,benchMEM,N2_nopeak,2,96,false,2026-07-15 10:50:43,2026-07-15 10:51:53,70,0,3311191
+gromacs_benchMEM_n48_nopeak,benchMEM,n48_nopeak,1,48,false,2026-07-15 10:50:43,2026-07-15 10:52:47,124,0,3311190
+gromacs_benchMEM_n48_peak,benchMEM,n48_peak,1,48,true,2026-07-15 10:50:48,2026-07-15 10:52:53,125,0,3311195
+gromacs_benchMEM_n24_nopeak,benchMEM,n24_nopeak,1,24,false,2026-07-15 10:50:42,2026-07-15 10:54:15,213,0,3311189
