@@ -148,3 +148,20 @@
 - For cases where PEAK does not get any hits for BLAS, LAPACK, and FFTW. Is there anything else you would want me to do or try?
     - From what I've looked into, it may be due to the way these programs were compiled as for why I'm getting no hits.
 - For DFTB+, I am using the spinlock case for testing. Is there a different test case I could use?
+
+## Notes
+
+PEAK_TARGET_CONFIG
+N1,2,4 for DFTB+
+
+### Poster Workshop
+
+Can put OCU, TACC, NSF on poster
+Bold own name / presenting name on poster
+Bullet points > text, limited to what needs to be knowm, focused
+Workflows, pictures, and graphs on poster
+Results, focus on key results, not all results. Or most interesting
+Future plans section
+Referencs and acknowledgements section. Can use qr code to save space
+
+Make things interactive or fun, eg: suggestion box for programs or some sort of game
