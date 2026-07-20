@@ -87,8 +87,6 @@
 
 ### Takeaways / Notes / Observations
 
-- `zgemm_` is a BLAS function that performs complex matrix multiplications.
-- `dsyev_` is a LAPACK function for computing eigenvalues.
 - ABINIT scaled effectively from 1 → 384 tasks (119s → 6s), but got slightly worse at 768 tasks (9s). This is most likely due to inter-node communication overhead.
 - QE is a similar story: scales well up to 384 tasks (636s → 20s), then degrades at 768 tasks (27s).
 - LAMMPS plateaus fast (32s → 4s by 24 tasks) and stays flat through 384 tasks. The program or test case seems to impose a hard limit on what resources the program allows itself to attempt to use.
