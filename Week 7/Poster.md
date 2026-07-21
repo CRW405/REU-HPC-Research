@@ -1,5 +1,9 @@
 
-``` LM's_Feedback(Addressed)
+# Feedback
+
+## LM
+
+```
 notes
 as someone who kinda understand your research please explain the following in your poster or research because this is very TACC heavy things that I don't think some people will understand if they dont know how HPC works
 
@@ -12,9 +16,13 @@ like the first title better Measuring HPC Efficiency with PEAK: How Well Do Your
 - what is a node?
 ```
 
-``` Sonnie's_Feedback
+## Sonnie
 
 ```
+...
+```
+
+## William
 
 ``` William's_Feedback(Somewhat_Adressed)
 first bullet point not needed unless you can expand on it that differs from the second

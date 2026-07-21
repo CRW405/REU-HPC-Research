@@ -31,8 +31,7 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### Proposed Solution
 
-- This study aims to get a birds eye view of a number of popular scientific software in order to better understand general trends.
-- This study tests the impact of different amounts and methods of scaling on a program, as well as invocation data on popular mathematical libraries such as BLAS, LAPACK, and FFTW via PEAK.
+- This study surveys a number of popular scientific software packages to get a birds eye view of general trends, testing the impact of different amounts and methods of scaling on each program as well as its reliance on popular mathematical libraries such as BLAS, LAPACK, and FFTW via PEAK.
 
 ### Roadmap
 
@@ -59,16 +58,17 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### Testing Suite Scripts
 
+- For each run, two things are measured: total wall-clock time to completion, and, when PEAK is enabled, which specific library functions consume that time and how frequently they are invoked.
 - In order to accelerate research, a script was made in order to take a program, test case, and unique constraints and automatically generate jobs for each level of scaling.
 - The generated jobs also handled PEAK profiling, timing data, and general logging.
 
 ### Test Case
 
-- Due to time constraints, the current phase of the study sticks to one test case per program meant to give a general overview of a typical run.
+- Due to time constraints, the current phase of the study sticks to one test case (input file) per program, chosen or designed to represent a common or typical use case.
 
 ### Jobs
 
-- Each test case was purpose generated in order to test different conditions and handle data gathering and logging.
+- Each job specifies the program, test case, and the resources (nodes, tasks) allocated to it, with resource allocation varied across jobs to test different scaling conditions.
 
 ### PEAK
 
@@ -100,6 +100,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### ABINIT
 
+*Simulates how electrons and atoms behave in materials, using quantum mechanics to predict a material's structure, energy, and properties.*
+
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `abinit_test_n1_nopeak` | `n1_nopeak` | 1 | 1 | No | **119** | 0 | 3294914 |
@@ -121,6 +123,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 ![plot](./plots/abinit_fullPEAK-scaling-07102026-152428_dashboard.png)
 
 ### Quantum Expresso
+
+*Another quantum-mechanical materials simulation package, solving the same kind of problem as ABINIT with a different underlying computational method.*
 
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -144,6 +148,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### LAMMPS
 
+*Simulates how large numbers of atoms and molecules move and interact over time (molecular dynamics), commonly used to study materials at the atomic scale.*
+
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `lammps_rhodo_n1_nopeak` | `n1_nopeak` | 1 | 1 | No | **32** | 0 | 3305579 |
@@ -160,6 +166,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### GROMACS
 
+*Simulates the motion and interactions of biomolecules like proteins and lipids, widely used to study biological and chemical processes.*
+
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `gromacs_benchMEM_n24_nopeak` | `n24_nopeak` | 1 | 24 | No | **213** | 0 | 3295859 |
@@ -174,6 +182,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 > GROMACS did not yield PEAK hits.
 
 ### DFTB+
+
+*A faster, approximate alternative to full quantum-mechanical simulation, trading some accuracy for greatly reduced compute time.*
 
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
