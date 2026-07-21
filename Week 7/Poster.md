@@ -72,7 +72,7 @@ like you can write something like  "In various cases we implement X to see Y, an
 - For each run, we measure two things: how long the program takes to finish in real time seconds, when PEAK is enabled, which specific math library functions consume that time and how often they are called.
 - Using a list of the most used programs on the Frontera supercomputer, we chose programs of interest to analyze.
 - For each program chosen, a corresponding test case / input file was also chosen. These were chosen or designed to be represent a common or typical use case.
-- An automated profiling suite would generate a series of jobs (A file that specifies what program to run and what resources and conditons to run it with) that would run the program under different scaling conditions.
+- An automated profiling suite would generate a series of jobs (A file that specifies what program to run and what resources and conditons to run it with). These jobs would vary the amount of resources were dedicated to the program.
 - An extra job would be generated to run the program under PEAK.
 - All jobs were run on the Stampede3 HPC system.
 - After all jobs were completed, timing data and the PEAK results would be collected and analyzed.
