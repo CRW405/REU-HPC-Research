@@ -1,4 +1,30 @@
 
+``` LM's_Feedback(Addressed)
+notes
+as someone who kinda understand your research please explain the following in your poster or research because this is very TACC heavy things that I don't think some people will understand if they dont know how HPC works
+
+like the first title better Measuring HPC Efficiency with PEAK: How Well Do Your Tools Use HPC Resources?
+
+- I got lost with the abbreviations for BLAS, LAPACK, and FFTW. Consider telling us what it stands for.
+- I know what scaling means but explain to your audience what you mean by scaling.
+- for methodology what are we testing for exactly? how long it takes to compute? or what slows down computation?
+- what do you mean by a job
+- what is a node?
+```
+
+``` Sonnie's_Feedback
+
+```
+
+``` William's_Feedback(Somewhat_Adressed)
+first bullet point not needed unless you can expand on it that differs from the second
+> "Research Objectives"
+
+What test cases? (Bullet point 3)
+
+like you can write something like  "In various cases we implement X to see Y, and how Y works", Sometime Y is not achieveable so you can write "Instead it gave us Z"
+```
+
 # Poster:
 
 ## Header
@@ -25,9 +51,9 @@
 ### Background Information
 
 - High Performance Computing (HPC) systems are critical research infrastructure that allows for the large levels of data processing required by modern science.
-- Due to the unique architecture of HPC systems, it is imperative for scientific applications to be specifically built such that they take full advantage of the computational resources available on an HPC system.
-- The Performance Evaluation Analysis Kit (PEAK) is a tool that allows the user to analyze function calls, where compute time is spent, and how the targetted program utilizes popular mathematical libraries such as BLAS, LAPACK, and FFTW.
-- The goal of this study is to analyze popular scientific software and benchmark their performance under different scaling conditions, as well as see how the program relies on popular mathematical libraries via PEAK.
+- Due to the unique architecture of HPC systems, it is imperative for scientific applications to be specifically built such that they take full advantage of the computational resources available on an HPC system. HPC systems are built from many networked computers called nodes, each with dozens of CPU cores, so a program's performance depends heavily on how well it uses cores within and across nodes.
+- The Performance Evaluation Analysis Kit (PEAK) is a tool that allows the user to analyze function calls, where compute time is spent, and how the targeted program utilizes popular mathematical libraries such as BLAS (Basic Linear Algebra Subprograms), LAPACK (Linear Algebra PACKage), and FFTW (Fastest Fourier Transform in the West).
+- The goal of this study is to analyze popular scientific software and benchmark their performance under different scaling conditions (running the same program with progressively more CPU cores and nodes to see how its speed changes), as well as see how the program relies on popular mathematical libraries via PEAK.
 
 ### Problem Statement
 
@@ -39,14 +65,14 @@
 
 ### Research Objectives
 
-- This study aims to get a birds eye view of a number of popular scientific software in order to better understand general trends.
-- This study tests the impact of different amounts and methods of scaling on a program, as well as reliance on popular mathematical libraries such as BLAS, LAPACK, and FFTW via PEAK.
+- This study surveys a number of popular scientific software packages to get a birds eye view of general trends, testing the impact of different amounts and methods of scaling on each program as well as its reliance on popular mathematical libraries such as BLAS, LAPACK, and FFTW via PEAK.
 
 ### Methodology
 
+- For each run, we measure two things: how long the program takes to finish in real time seconds, when PEAK is enabled, which specific math library functions consume that time and how often they are called.
 - Using a list of the most used programs on the Frontera supercomputer, we chose programs of interest to analyze.
 - For each program chosen, a corresponding test case was also chosen.
-- An automated testing suite would generate a series of jobs that would run the program under different scaling conditions.
+- An automated profiling suite would generate a series of jobs (A script that specifies what program to run and what resources and conditons to run it with) that would run the program under different scaling conditions.
 - An extra job would be generated to run the program under PEAK.
 - All jobs were run on the Stampede3 HPC system.
 - After all jobs were completed, timing data and the PEAK results would be collected and analyzed.
@@ -67,21 +93,31 @@
 
 ### ABINIT
 
+*Simulates how electrons and atoms behave in materials, using quantum mechanics to predict a material's structure, energy, and properties.*
+
 ![plot](./plots/abinit_fullPEAK-scaling-07102026-152428_dashboard.png)
 
 ### QE // candidate for cutting if not enough space
+
+*Another quantum-mechanical materials simulation package, solving the same kind of problem as ABINIT with a different underlying computational method.*
 
 ![plot](./plots/qe_fftw_test-scaling-07142026-092819_dashboard.png)
 
 ### LAMMPS // candidate for cutting if not enough space
 
+*Simulates how large numbers of atoms and molecules move and interact over time (molecular dynamics), commonly used to study materials at the atomic scale.*
+
 ![plot](./plots/lammps_5-scaling-07132026-225745_dashboard.png)
 
 ### GROMACS
 
+*Simulates the motion and interactions of biomolecules like proteins and lipids, widely used to study biological and chemical processes.*
+
 ![plot](./plots/gromacs_2-scaling-07102026-221528_dashboard.png)
 
 ### DFTB+
+
+*A faster, approximate alternative to full quantum-mechanical simulation, trading some accuracy for greatly reduced compute time.*
 
 ![plot](./plots/dftb_new_gen-scaling-07132026-145728_dashboard.png)
 

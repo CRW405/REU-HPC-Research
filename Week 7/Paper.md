@@ -1,6 +1,13 @@
 
+# Paper: An Analysis of Popular Scientific Programs for Impacts of HPC Scaling and Mathematical Library Usage Using PEAK
 
-# Paper: An Analysis of Popular Scientific Programs for Impacts of HPC Scaling and Mathematical Library Usage Using PEAK | Measuring HPC Efficiency with PEAK: How Well Do Your Tools Use HPC Resources? | ...
+## Title
+
+### Possible Titles
+
+- An Analysis of Popular Scientific Programs for Impacts of HPC Scaling and Mathematical Library Usage Using PEAK
+- Measuring HPC Efficiency with PEAK: How Well Do Your Tools Use HPC Resources?
+- Profiling Scaling and Library Usage in Popular HPC Applications with PEAK
 
 ## Abstract
 
@@ -10,21 +17,22 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### Broad Context
 
-- High Performance Computing (HPC) systems are criticl research infrastructure that allows for the large levels of data processing required by modern science.
-- Due to the unique architecture of HPC systems, it is imperative for scientific applications to be specifically built such that they take full advantage of the computational resources avavailable on an HPC system.
+- High Performance Computing (HPC) systems are critical research infrastructure that allows for the large levels of data processing required by modern science.
+- Due to the unique architecture of HPC systems, it is imperative for scientific applications to be specifically built such that they take full advantage of the computational resources available on an HPC system.
+- The Performance Evaluation Analysis Kit (PEAK) is a tool that allows the user to analyze function calls, where compute time is spent, and how the targeted program utilizes popular mathematical libraries such as BLAS, LAPACK, and FFTW.
 
 ### Problem Statement
 
-- In order to opimize better for HPC enviroments, many things must be know about a program:
-    - What other software and libraries does the program depend on.
-    - Where is a majority of compute time spent.
-- How different levels and methods of scaling impact the program.
-    - What variables impact the programs performance in what way.
+- In order to optimize better for HPC environments, many things must be known about a program:
+    - What other software and libraries the program depends on.
+    - Where a majority of compute time is spent.
+    - How different levels and methods of scaling impact the program.
+    - What variables impact the program's performance in what way.
 
 ### Proposed Solution
 
 - This study aims to get a birds eye view of a number of popular scientific software in order to better understand general trends.
-- This study tests the impact of different amounts and methods of scaling on a program, as well as invocation data on popular mathematical libraries such as BLAS, LAPACK, and FFTW via the Performance Evaluation Analysis Kit (PEAK).
+- This study tests the impact of different amounts and methods of scaling on a program, as well as invocation data on popular mathematical libraries such as BLAS, LAPACK, and FFTW via PEAK.
 
 ### Roadmap
 
@@ -47,7 +55,7 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### Build Scripts and Modules
 
-- Many of the most used programs had modules available, but many required manual building in which we created custom build scripts which allowed for reproducable program binaries.
+- Many of the most used programs had modules available, but many required manual building in which we created custom build scripts which allowed for reproducible program binaries.
 
 ### Testing Suite Scripts
 
@@ -56,7 +64,7 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### Test Case
 
-- Due to time contraints, the current phase of the study sticks to one test case per program meant to give a general overview of a typical run.
+- Due to time constraints, the current phase of the study sticks to one test case per program meant to give a general overview of a typical run.
 
 ### Jobs
 
@@ -72,13 +80,23 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### PEAK Results
 
-- PEAK output allows us to get a better idea of the underlying dependencies are utilized and to what extent.
+- PEAK output allows us to get a better idea of what underlying dependencies are utilized and to what extent.
 
 ### Visualization
 
 - A python script was used to take in gathered data and present it in intuitive and easy to understand form, allowing for quick interpretation and issue handling.
 
 ## Results
+
+### Results Overview
+
+| Program | Best Scaling | Dominant Function (by time) |
+| --- | --- | --- |
+| ABINIT | 384 Tasks (8 Nodes) | `zgemm_` |
+| Quantum Expresso | 384 Tasks (8 Nodes) | `zgemm_` |
+| LAMMPS | 24 Tasks (1 Node) | N/A |
+| GROMACS | 768 Tasks (16 Nodes) | N/A |
+| DFTB+ | 1 Task (1 Node) | `dsyev_` |
 
 ### ABINIT
 
@@ -102,7 +120,6 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ![plot](./plots/abinit_fullPEAK-scaling-07102026-152428_dashboard.png)
 
-
 ### Quantum Expresso
 
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
@@ -124,6 +141,37 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 | `dcopy_` | 1,926 | **0.3207** | 0.1665 | 0.0030 |
 
 ![plot](./plots/qe_fftw_test-scaling-07142026-092819_dashboard.png)
+
+### LAMMPS
+
+| Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `lammps_rhodo_n1_nopeak` | `n1_nopeak` | 1 | 1 | No | **32** | 0 | 3305579 |
+| `lammps_rhodo_n24_nopeak` | `n24_nopeak` | 1 | 24 | No | **4** | 0 | 3305580 |
+| `lammps_rhodo_n48_nopeak` | `n48_nopeak` | 1 | 48 | No | **4** | 0 | 3305581 |
+| `lammps_rhodo_N2_nopeak` | `N2_nopeak` | 2 | 96 | No | **4** | 0 | 3305582 |
+| `lammps_rhodo_N8_nopeak` | `N8_nopeak` | 8 | 384 | No | **4** | 0 | 3305583 |
+| `lammps_rhodo_N16_nopeak` | `N16_nopeak` | 16 | 768 | No | **8** | 255 | 3305584 |
+| `lammps_rhodo_n1_peak` | `n1_peak` | 1 | 1 | Yes | **32** | 0 | 3305585 |
+
+![plot](./plots/lammps_5-scaling-07132026-225745_dashboard.png)
+
+> LAMMPS did not yield PEAK hits.
+
+### GROMACS
+
+| Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `gromacs_benchMEM_n24_nopeak` | `n24_nopeak` | 1 | 24 | No | **213** | 0 | 3295859 |
+| `gromacs_benchMEM_n48_nopeak` | `n48_nopeak` | 1 | 48 | No | **125** | 0 | 3295860 |
+| `gromacs_benchMEM_n48_peak` | `n48_peak` | 1 | 48 | Yes | **126** | 0 | 3295864 |
+| `gromacs_benchMEM_N2_nopeak` | `N2_nopeak` | 2 | 96 | No | **75** | 0 | 3295861 |
+| `gromacs_benchMEM_N8_nopeak` | `N8_nopeak` | 8 | 384 | No | **37** | 0 | 3295862 |
+| `gromacs_benchMEM_N16_nopeak` | `N16_nopeak` | 16 | 768 | No | **36** | 0 | 3295863 |
+
+![plot](./plots/gromacs_2-scaling-07102026-221528_dashboard.png)
+
+> GROMACS did not yield PEAK hits.
 
 ### DFTB+
 
@@ -147,75 +195,57 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ![plot](./plots/dftb_new_gen-scaling-07132026-145728_dashboard.png)
 
-### LAMMPS
-
-| Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `lammps_rhodo_n1_nopeak` | `n1_nopeak` | 1 | 1 | No | **32** | 0 | 3305579 |
-| `lammps_rhodo_n24_nopeak` | `n24_nopeak` | 1 | 24 | No | **4** | 0 | 3305580 |
-| `lammps_rhodo_n48_nopeak` | `n48_nopeak` | 1 | 48 | No | **4** | 0 | 3305581 |
-| `lammps_rhodo_N2_nopeak` | `N2_nopeak` | 2 | 96 | No | **4** | 0 | 3305582 |
-| `lammps_rhodo_N8_nopeak` | `N8_nopeak` | 8 | 384 | No | **4** | 0 | 3305583 |
-| `lammps_rhodo_N16_nopeak` | `N16_nopeak` | 16 | 768 | No | **8** | 255 | 3305584 |
-| `lammps_rhodo_n1_peak` | `n1_peak` | 1 | 1 | Yes | **32** | 0 | 3305585 |
-
-![plot](./plots/lammps_5-scaling-07132026-225745_dashboard.png)
-
-> LAMMPS did not yield PEAK hits
-
-### GROMACS
-
-| Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `gromacs_benchMEM_n24_nopeak` | `n24_nopeak` | 1 | 24 | No | **213** | 0 | 3295859 |
-| `gromacs_benchMEM_n48_nopeak` | `n48_nopeak` | 1 | 48 | No | **125** | 0 | 3295860 |
-| `gromacs_benchMEM_n48_peak` | `n48_peak` | 1 | 48 | Yes | **126** | 0 | 3295864 |
-| `gromacs_benchMEM_N2_nopeak` | `N2_nopeak` | 2 | 96 | No | **75** | 0 | 3295861 |
-| `gromacs_benchMEM_N8_nopeak` | `N8_nopeak` | 8 | 384 | No | **37** | 0 | 3295862 |
-| `gromacs_benchMEM_N16_nopeak` | `N16_nopeak` | 16 | 768 | No | **36** | 0 | 3295863 |
-
-![plot](./plots/gromacs_2-scaling-07102026-221528_dashboard.png)
-
-> GROMACS did not yiekd PEAK hits
-
-// SW4 if time
-
-// CESM if time
-
 ## Discussion / Analysis
 
 ### ABINIT
 
-- ABINIT effectively scaled from 1 to 96 tasks but performs worse when scaled further on this test case.
-- As you can see, as more reources are allocated, speedup drops off, at the high end of scaling, it even becomes less efficient.
+- ABINIT scaled effectively from 1 to 384 tasks (119s → 6s), but performance degrades slightly at 768 tasks (9s), most likely due to inter-node communication overhead.
+- As more resources are allocated, speedup drops off, and at the high end of scaling it even becomes less efficient.
 
 ### Quantum Expresso
 
-- Similiar story to ABINIT
-
-### DFTB+
-
-// figure out why DFTB+ is doing this
+- Similar story to ABINIT: QE scales well up to 384 tasks (636s → 20s), then degrades at 768 tasks (27s).
 
 ### LAMMPS
 
-- LAMMPS seems to limit itself to using only the resources it is optimized for, resulting in a speedup plateau
-- Did not produce PEAK hits
+- LAMMPS plateaus fast (32s → 4s by 24 tasks) and stays flat through 384 tasks, before failing (exit code 255) at 768 tasks.
+- The program or test case seems to impose a hard limit on what resources LAMMPS allows itself to attempt to use.
+- Did not produce PEAK hits.
 
 ### GROMACS
 
-- GROMACS takes great advantage of HPC scaling.
+- GROMACS scaled the best out of the group, successfully taking advantage of all the resources it was given.
 - Did not produce PEAK hits.
 
-// SW4
+### DFTB+
 
-// CESM
+- DFTB+ performed worse with more resources on a single node (120s → 144s → 220s) and outright crashed (exit code 1) when multiple nodes were introduced.
+- Root cause is not yet understood and needs further diagnosis (see Future Work).
+
+## Limitations
+
+- This study was very limited on time, so a breadth-first approach was taken. With more time, profiling issues can be solved and more permutations can be tested, giving us deeper insights.
+- For the programs that yielded no PEAK results (LAMMPS, GROMACS), it is likely due to how they were compiled. Rebuilding the programs under different configurations may yield PEAK results.
 
 ## Conclusion / Future Work
+
+- Diagnose why LAMMPS/GROMACS show no BLAS/LAPACK/FFTW PEAK hits.
+- Diagnose the causes of DFTB+'s scaling and crash behavior.
+- Add more test cases per program.
+- Continue to build out a list of actionable programs.
+
+## Acknowledgments
+
+- TACC
+- NSF // include award number
+- Frontera
+- Stampede3
+- UT
+- OCU
 
 ---
 
 ## Notes
 
-- Amdahls Law
+- Amdahl's Law
 - 4 - 8 pages for paper
