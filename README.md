@@ -6,7 +6,7 @@
 
 ## Overview
 
-This is a Research Experience for Undergraduates (REU) project at the Texas Advanced Computing Center (TACC) focused on profiling popular scientific software under different conditions seen on under High Performance Computing (HPC) systems. The goal is to understand how well these programs utilize HPC resources as well as their reliance on popular mathematical libraries such as BLAS (Basic Linear Algebra Subprograms), LAPACK (Linear Algebra PACKage), and FFTW (Fastest Fourier Transform in the West) via the Performance Evaluation Analysis Kit (PEAK).
+This is a Research Experience for Undergraduates (REU) project at the Texas Advanced Computing Center (TACC) focused on profiling popular scientific software under different conditions seen on High Performance Computing (HPC) systems. The goal is to understand how well these programs utilize HPC resources as well as their reliance on popular mathematical libraries such as BLAS (Basic Linear Algebra Subprograms), LAPACK (Linear Algebra PACKage), and FFTW (Fastest Fourier Transform in the West) via the Performance Evaluation Analysis Kit (PEAK).
 
 ## Resources
 
