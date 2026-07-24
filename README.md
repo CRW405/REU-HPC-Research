@@ -18,7 +18,7 @@ This is a Research Experience for Undergraduates (REU) project at the Texas Adva
 
 ## Suggestions
 
-- ![If you have any programs you would like to see profiled, submit them here.](https://forms.gle/nHnvjFueJ9gZzYjp7)
+- [If you have any programs you would like to see profiled, submit them here.](https://forms.gle/nHnvjFueJ9gZzYjp7)
 
 ## Acknowledgmenets
 
