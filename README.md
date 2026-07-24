@@ -10,11 +10,11 @@ This is a Research Experience for Undergraduates (REU) project at the Texas Adva
 
 ## Resources
 
-- ![Poster PDF](./Poster_Landing/Wiyninger_TACC_56x42.pdf)
-- ![Poster PNG](./Poster_Landing/Wiyninger_TACC_56x42.png)
-- ![Paper PDF (In Progress)](./Poster_Landing/Paper.pdf)
-- ![Data and Plots](./Poster_Landing/data_plots.md)
-- ![PEAK Repository](https://github.com/peak-team/peak)
+- [Poster PDF](./Poster_Landing/Wiyninger_TACC_56x42.pdf)
+- [Poster PNG](./Poster_Landing/Wiyninger_TACC_56x42.png)
+- [Paper PDF (In Progress)](./Poster_Landing/Paper.pdf)
+- [Data and Plots](./Poster_Landing/data_plots.md)
+- [PEAK Repository](https://github.com/peak-team/peak)
 
 ## Suggestions
 
@@ -22,7 +22,7 @@ This is a Research Experience for Undergraduates (REU) project at the Texas Adva
 
 ## Acknowledgments
 
-This research and experience would not have been possible without the support and / or funding from the following organizations, people, and resources:
+This research and experience would not have been possible without the funding, resources, and support provided by:
 
 - Texas Advanced Computing Center (TACC)
 - National Science Foundation (NSF)
@@ -31,8 +31,10 @@ This research and experience would not have been possible without the support an
 - Stampede3 Supercomputer
 - University of Texas at Austin (UT)
 - Oklahoma City University (OCU)
-
-// Rosie, Albert, Ian, Bobby ???
+- Rosalia Gomez - Education and Outreach Directorate at TACC and REU Program Coordinator
+- Dr. Chun-Yaung Lu (Albert) - Research Associate at TACC and Mentor
+- Dr. Yinzhi Wang (Ian) - Research Associate at TACC and Mentor
+- Bobby Reed - Professor at OCU
 
 ## References
 
@@ -42,5 +44,7 @@ This research and experience would not have been possible without the support an
 ## Contact
 
 - Caleb Wiyninger
-    - cwiyninger@my.okcu.edu
-// mentors ???
+    - [cwiyninger@my.okcu.edu](mailto:cwiyninger@my.okcu.edu)
+- Dr. Chun-Yaung Lu (Albert)
+    - [alu@tacc.utexas.edu](mailto:alu@tacc.utexas.edu)
+- Dr. Yinzhi Wang (Ian)
