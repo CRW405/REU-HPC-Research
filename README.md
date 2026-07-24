@@ -20,7 +20,7 @@ This is a Research Experience for Undergraduates (REU) project at the Texas Adva
 
 - [If you have any programs you would like to see profiled, submit them here.](https://forms.gle/nHnvjFueJ9gZzYjp7)
 
-## Acknowledgmenets
+## Acknowledgments
 
 This research and experience would not have been possible without the support and / or funding from the following organizations, people, and resources:
 
