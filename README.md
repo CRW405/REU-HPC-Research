@@ -47,4 +47,3 @@ This research and experience would not have been possible without the funding, r
     - [cwiyninger@my.okcu.edu](mailto:cwiyninger@my.okcu.edu)
 - Dr. Chun-Yaung Lu (Albert)
     - [alu@tacc.utexas.edu](mailto:alu@tacc.utexas.edu)
-- Dr. Yinzhi Wang (Ian)
