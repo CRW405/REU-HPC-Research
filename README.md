@@ -38,8 +38,16 @@ This research and experience would not have been possible without the funding, r
 
 ## References
 
-- // PEAK papers go here
-- // Program citations go here
+- PEAK Repository: peak team. 2024. PEAK: Lightweight, versatile performance evaluation tool. https://github.com/peak-team/peak.
+- PEAK 2025 Paper: Yuheng Chen, Junjie Li, Chun-Yaung Lu, and Yinzhi Wang. 2025. PEAK: Cost-Adaptive Profiling in a Heartbeat. In Workshops of the International Conference for High Performance Computing, Networking, Storage and Analysis (SC Workshops 25). https://doi.org/10.1145/3731599.3767521.
+- PEAK 2023 Paper: Yinzhi Wang and Junjie Li. 2023. PEAK: a Light-Weight Profiler for HPC Systems. In Workshops of The International Conference on High Performance Computing, Network, Storage, and Analysis (SC-W 2023). https://doi.org/10.1145/3624062.3624143.
+- Frontera System: Dan Stanzione, John West, R. Todd Evans, Tommy Minyard, Omar Ghattas, and Dhabaleswar K. Panda. 2020. Frontera: The Evolution of Leadership Computing at the National Science Foundation. In Practice and Experience in Advanced Research Computing 2020: Catch the Wave. https://doi.org/10.1145/3311790.3396656.
+- Stampede3 System: Texas Advanced Computing Center (TACC). 2024. Stampede3 User Guide. Retrieved from https://docs.tacc.utexas.edu/hpc/stampede3/. Funded by the National Science Foundation under Award No. 2320757.
+- ABINIT: Romero, A. H., et al. (2020). ABINIT: Overview and focus on selected capabilities. The Journal of Chemical Physics, 152(12), 124102. https://doi.org/10.1063/1.5144261
+- Quantum ESPRESSO: Giannozzi, P., et al. (2009). QUANTUM ESPRESSO: a modular and open-source software project for quantum simulations of materials. Journal of Physics: Condensed Matter, 21(39), 395502. https://doi.org/10.1088/0953-8984/21/39/395502
+- GROMACS: Abraham, M. J., et al. (2015). GROMACS: High performance molecular simulations through multi-level parallelism from laptops to supercomputers. SoftwareX, 1-2, 19-25. https://doi.org/10.1016/j.softx.2015.06.001
+- LAMMPS: Thompson, A. P., et al. (2022). LAMMPS - a flexible simulation tool for particle-based materials modeling at the atomic, meso, and continuum scales. Computer Physics Communications, 271, 108171. https://doi.org/10.1016/j.cpc.2021.108171
+- DFTB+: Hourahine, B., et al. (2020). DFTB+, a software package for efficient approximate density functional theory based atomistic simulations. The Journal of Chemical Physics, 152(12), 124101. https://doi.org/10.1063/1.5143190
 
 ## Contact
 
