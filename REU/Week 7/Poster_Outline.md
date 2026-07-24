@@ -19,7 +19,15 @@ like the first title better Measuring HPC Efficiency with PEAK: How Well Do Your
 ## Sonnie
 
 ```
-...
+Notes: Great condensed HPC explanation.
+“Built such that they take full advantage of”- wordy: would revisit
+“HPC systems are built from many networked computers called….” - would move up a line: first explain what HPCs are, then explain program performance “issue” : maybe follow the guideline of HPC explanation, What issues arise from their usage, What is in place to combat that (PEAK), then goals
+“Analyze popular scientific software…..”, be more specific: WHO is using this software and for what?
+“Different scaling conditions (running…..” , remove parenthetical explanation: possibly move to methodology?
+Instead of “problem statement”, maybe consider a different title like “Acceptable thresholds” or something more creative like “What Makes a “good” HPC program?”. Also, this should be after the research objectives
+“Research Objectives”: this first sentence is redundant, we SHOULD already know that “this study surveys a number of popular ………” and tbh I think the rest is redundant also and is already mentioned in background information. Either consider removing it from background info and or remove research objectives
+“Methodology:”, starts to become repetitive also, you shouldn’t be mentioning any sort of explanation at this point. Consider also breaking this up into condensed bulletpoints that aren’t sentences. Also remove “jobs” explanation: I think that is self-explanatory enough of a word imo
+Limitations: I would remove note on limited time OR explain differently like “To expedite process…..”
 ```
 
 ## William
@@ -32,6 +40,15 @@ What test cases? (Bullet point 3)
 
 like you can write something like  "In various cases we implement X to see Y, and how Y works", Sometime Y is not achieveable so you can write "Instead it gave us Z"
 ```
+
+// mentor
+- more about build / install
+- test cases
+- mention ai use
+
+// me
+- mention PEAK beta testing
+- try ml example pyhton
 
 # Poster:
 
@@ -58,10 +75,10 @@ like you can write something like  "In various cases we implement X to see Y, an
 
 ### Background Information
 
-- High Performance Computing (HPC) systems are critical research infrastructure that allows for the large levels of data processing required by modern science.
-- Due to the unique architecture of HPC systems, it is imperative for scientific applications to be specifically built such that they take full advantage of the computational resources available on an HPC system. HPC systems are built from many networked computers called nodes, each with dozens of CPU cores, so a program's performance depends heavily on how well it uses cores within and across nodes.
+- High Performance Computing (HPC) systems are critical research infrastructure that allow for the large levels of data processing required by modern science. They are built from many networked computers called nodes, each with dozens of CPU cores.
+- Because of this architecture, scientific applications must be specifically designed to take advantage of the resources available across nodes and cores, or performance suffers.
 - The Performance Evaluation Analysis Kit (PEAK) is a tool that allows the user to analyze function calls, where compute time is spent, and how the targeted program utilizes popular mathematical libraries such as BLAS (Basic Linear Algebra Subprograms), LAPACK (Linear Algebra PACKage), and FFTW (Fastest Fourier Transform in the West).
-- The goal of this study is to analyze popular scientific software and benchmark their performance under different scaling conditions (running the same program with progressively more CPU cores and nodes to see how its speed changes), as well as see how the program relies on popular mathematical libraries via PEAK.
+- The goal of this study is to analyze popular scientific software used by researchers on the Frontera supercomputer for materials science, chemistry, and molecular simulation, benchmarking its performance under different scaling conditions and its reliance on popular mathematical libraries via PEAK.
 
 ### Problem Statement
 
@@ -69,21 +86,15 @@ like you can write something like  "In various cases we implement X to see Y, an
     - What other software and libraries the program depends on.
     - Where a majority of compute time is spent.
     - How different levels and methods of scaling impact the program.
-    - What variables impact the programs performance in what way.
-
-### Research Objectives
-
-- This study surveys a number of popular scientific software packages to get a birds eye view of general trends, testing the impact of different amounts and methods of scaling on each program as well as its reliance on popular mathematical libraries such as BLAS, LAPACK, and FFTW via PEAK.
+    - What variables impact the program's performance in what way.
 
 ### Methodology
 
-- For each run, we measure two things: how long the program takes to finish in real time seconds, when PEAK is enabled, which specific math library functions consume that time and how often they are called.
-- Using a list of the most used programs on the Frontera supercomputer, we chose programs of interest to analyze.
-- For each program chosen, a corresponding test case / input file was also chosen. These were chosen or designed to be represent a common or typical use case.
-- An automated profiling suite would generate a series of jobs (A file that specifies what program to run and what resources and conditons to run it with). These jobs would vary the amount of resources were dedicated to the program.
-- An extra job would be generated to run the program under PEAK.
-- All jobs were run on the Stampede3 HPC system.
-- After all jobs were completed, timing data and the PEAK results would be collected and analyzed.
+- Programs selected from Frontera's most-used software list.
+- One representative test case chosen per program.
+- Automated scripts generate scaling jobs, plus one PEAK-enabled job per program.
+- Jobs run on the Stampede3 HPC system.
+- Timing and PEAK data collected for analysis.
 
 ## Section 2
 // Main content, graphs, etc.
@@ -143,7 +154,7 @@ like you can write something like  "In various cases we implement X to see Y, an
 
 ### Limitations
 
-- This study was very limited on time, so a breadth-first approach was taken. With more time, profiling issues can be solved and more permutations can be tested, giving us deeper insights.
+- To cover a broad survey of Frontera's most-used programs, a breadth-first approach was taken over deep per-program investigation, leaving room to resolve profiling issues and test more permutations for deeper insight.
 - For the programs that yielded no PEAK results, it is likely due to how they were compiled. Rebuilding the programs under different configurations may yield PEAK results.
 
 ### Future Work
@@ -152,6 +163,7 @@ like you can write something like  "In various cases we implement X to see Y, an
 - Diagnose the causes of DFTB+ results.
 - Add more test cases per program.
 - Continue to build out a list of actionable programs.
+- Continue to // ... more programs
 
 ### QR Code of references, suggestions, and contact info
 
