@@ -10,7 +10,7 @@ This is a Research Experience for Undergraduates (REU) project at the Texas Adva
 
 ## Resources
 
-- [Poster PDF](./Poster_Landing/Wiyninger_TACC_56x42.pdf)
+- [Poster PDF](./Poster_Landing/Wiyninger_TACC_56x42-2.pdf)
 - [Poster PNG](./Poster_Landing/Wiyninger_TACC_56x42.png)
 - [Paper PDF (Not Done)](./Poster_Landing/Paper.pdf)
 - [Data and Plots](./Poster_Landing/data_plots.md)
