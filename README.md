@@ -12,7 +12,7 @@ This is a Research Experience for Undergraduates (REU) project at the Texas Adva
 
 - [Poster PDF](./Poster_Landing/Wiyninger_TACC_56x42.pdf)
 - [Poster PNG](./Poster_Landing/Wiyninger_TACC_56x42.png)
-- [Paper PDF (In Progress)](./Poster_Landing/Paper.pdf)
+- [Paper PDF (Not Done)](./Poster_Landing/Paper.pdf)
 - [Data and Plots](./Poster_Landing/data_plots.md)
 - [PEAK Repository](https://github.com/peak-team/peak)
 
@@ -26,7 +26,7 @@ This research and experience would not have been possible without the funding, r
 
 - Texas Advanced Computing Center (TACC)
 - National Science Foundation (NSF)
-    - // award number and other thing goes here
+    - REU Award ID: 2447887
 - Frontera Supercomputer
 - Stampede3 Supercomputer
 - University of Texas at Austin (UT)
