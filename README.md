@@ -35,6 +35,7 @@ This research and experience would not have been possible without the funding, r
 - Dr. Chun-Yaung Lu (Albert) - Research Associate at TACC and Mentor
 - Dr. Yinzhi Wang (Ian) - Research Associate at TACC and Mentor
 - Bobby Reed - Professor at OCU
+- Dr. Xu Shine - Professor at OCU
 
 ## References
 
