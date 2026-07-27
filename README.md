@@ -27,6 +27,7 @@ This research and experience would not have been possible without the funding, r
 - Texas Advanced Computing Center (TACC)
 - National Science Foundation (NSF)
     - REU Award ID: 2447887
+    - Project Award ID OAC-2402542
 - Frontera Supercomputer
 - Stampede3 Supercomputer
 - University of Texas at Austin (UT)
