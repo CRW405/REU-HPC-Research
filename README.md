@@ -32,7 +32,7 @@ This research and experience would not have been possible without the funding, r
 - Stampede3 Supercomputer
 - University of Texas at Austin (UT)
 - Oklahoma City University (OCU)
-- Rosalia Gomez - Education and Outreach Directorate at TACC and REU Program Coordinator
+- Dr. Rosalia Gomez - Education and Outreach Directorate at TACC and REU Program Coordinator
 - Dr. Chun-Yaung Lu (Albert) - Research Associate at TACC and Mentor
 - Dr. Yinzhi Wang (Ian) - Research Associate at TACC and Mentor
 - Bobby Reed - Professor at OCU
@@ -59,6 +59,8 @@ This research and experience would not have been possible without the funding, r
 - LAMMPS: Thompson, A. P., et al. (2022). LAMMPS - a flexible simulation tool for particle-based materials modeling at the atomic, meso, and continuum scales. Computer Physics Communications, 271, 108171. https://doi.org/10.1016/j.cpc.2021.108171
 
 - DFTB+: Hourahine, B., et al. (2020). DFTB+, a software package for efficient approximate density functional theory based atomistic simulations. The Journal of Chemical Physics, 152(12), 124101. https://doi.org/10.1063/1.5143190
+
+- M. Cawood and S. L. Harrell, "BenchPRO: Benchmark Performance & Reproducibility Orchestrator," Texas Advanced Computing Center (TACC), GitHub repository, 2021–2026. [Online]. Available: [https://github.com/TACC/benchpro](https://github.com/TACC/benchpro)
 
 ## Contact
 
