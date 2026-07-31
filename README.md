@@ -12,7 +12,7 @@ This is a Research Experience for Undergraduates (REU) project at the Texas Adva
 
 - [Poster PDF](./Poster_Landing/Wiyninger_TACC_56x42-2.pdf)
 - [Poster PNG](./Poster_Landing/Wiyninger_TACC_56x42.png)
-- [Paper PDF (Not Done)](./Poster_Landing/Paper.pdf)
+- [Paper PDF](./REU/Week Final/paper_2nd.pdf)
 - [Data and Plots](./Poster_Landing/data_plots.md)
 - [PEAK Repository](https://github.com/peak-team/peak)
 

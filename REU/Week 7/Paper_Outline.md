@@ -1,13 +1,11 @@
 
 # Paper: An Analysis of Popular Scientific Programs for Impacts of HPC Scaling and Mathematical Library Usage Using PEAK
 
-## Title
+## Authors
 
-### Possible Titles
-
-- An Analysis of Popular Scientific Programs for Impacts of HPC Scaling and Mathematical Library Usage Using PEAK
-- Measuring HPC Efficiency with PEAK: How Well Do Your Tools Use HPC Resources?
-- Profiling Scaling and Library Usage in Popular HPC Applications with PEAK
+- Caleb Wiyninger — Texas Advanced Computing Center
+- Dr. Chun-Yaung Lu (Albert) — The University of Texas at Austin
+- Dr. Yinzhi Wang (Ian) — Oklahoma City University
 
 ## Abstract
 
@@ -17,17 +15,18 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ### Broad Context
 
-- High Performance Computing (HPC) systems are critical research infrastructure that allows for the large levels of data processing required by modern science.
-- Due to the unique architecture of HPC systems, it is imperative for scientific applications to be specifically built such that they take full advantage of the computational resources available on an HPC system.
-- The Performance Evaluation Analysis Kit (PEAK) is a tool that allows the user to analyze function calls, where compute time is spent, and how the targeted program utilizes popular mathematical libraries such as BLAS, LAPACK, and FFTW.
+- High Performance Computing (HPC) systems are critical research infrastructure that allow for the large levels of data processing required by modern science. They are built from many networked computers called nodes, each with dozens of CPU cores.
+- Because of this architecture, scientific applications must be specifically designed to take advantage of the resources available across nodes and cores, or performance suffers.
+- The Performance Evaluation and Analysis Kit (PEAK) is a tool that allows the user to analyze function calls, where compute time is spent, and how the targeted program utilizes popular mathematical libraries such as BLAS (Basic Linear Algebra Subprograms), LAPACK (Linear Algebra PACKage), and FFTW (Fastest Fourier Transform in the West).
+- The goal of this study is to analyze popular scientific software used by researchers on the Frontera supercomputer for materials science, chemistry, and molecular simulation, and more, benchmarking its performance under different scaling conditions and its reliance on popular mathematical libraries via PEAK.
 
 ### Problem Statement
 
-- In order to optimize better for HPC environments, many things must be known about a program:
-    - What other software and libraries the program depends on.
-    - Where a majority of compute time is spent.
-    - How different levels and methods of scaling impact the program.
-    - What variables impact the program's performance in what way.
+In order to optimize for HPC environments, many things must be known about a program:
+- Dependencies: What other software and libraries the program depends on.
+- Bottlenecks: Where a majority of compute time is spent.
+- Scaling: How different levels and methods of scaling impact the program.
+- Performance Impacts: What variables impact the program's performance in what way.
 
 ### Proposed Solution
 
@@ -47,10 +46,24 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 ## Methodology
 
+### Overview
+
+- Select: Programs selected from Frontera's most-used software list.
+- Build: TACC modules and build scripts were used to keep binaries reproducible.
+- Test: One representative test case / input chosen or created per program.
+- Automate: Automated scripts generate scaling jobs, plus one PEAK-enabled job per program.
+- Run: Jobs run on the Stampede3 HPC system on nodes equipped with Intel Xeon Platinum 8160 (“Skylake”) CPUs.
+- Analyze: Timing and PEAK data collected for analysis.
+
 ### Frontera Top 100
 
 - My mentors provided me a list of the top 100 program names by core hour for the Frontera HPC system as well as a list of programs of importance.
 - Using these lists, a master list was made with unactionable program names such as "main" or "out", language interpreters such as python, or differing versions of the same program were filtered, resulting in 67 and counting actionable program names.
+
+### Compute Environment
+
+- Jobs were run on the Stampede3 HPC system, on nodes equipped with Intel Xeon Platinum 8160 ("Skylake") CPUs.
+- Programs were selected from Frontera's most-used software list, but the actual scaling/PEAK runs for this phase of the study were executed on Stampede3.
 
 ### Build Scripts and Modules
 
@@ -102,6 +115,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 *Simulates how electrons and atoms behave in materials, using quantum mechanics to predict a material's structure, energy, and properties.*
 
+**Test Case:** Simulating a silicon crystal.
+
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `abinit_test_n1_nopeak` | `n1_nopeak` | 1 | 1 | No | **119** | 0 | 3294914 |
@@ -125,6 +140,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 ### Quantum Expresso
 
 *Another quantum-mechanical materials simulation package, solving the same kind of problem as ABINIT with a different underlying computational method.*
+
+**Test Case:** Simulating a silicon crystal.
 
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -150,6 +167,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 *Simulates how large numbers of atoms and molecules move and interact over time (molecular dynamics), commonly used to study materials at the atomic scale.*
 
+**Test Case:** Simulating protein in a membrane.
+
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `lammps_rhodo_n1_nopeak` | `n1_nopeak` | 1 | 1 | No | **32** | 0 | 3305579 |
@@ -168,6 +187,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 
 *Simulates the motion and interactions of biomolecules like proteins and lipids, widely used to study biological and chemical processes.*
 
+**Test Case:** Simulating protein in a cell membrane.
+
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `gromacs_benchMEM_n24_nopeak` | `n24_nopeak` | 1 | 24 | No | **213** | 0 | 3295859 |
@@ -184,6 +205,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 ### DFTB+
 
 *A faster, approximate alternative to full quantum-mechanical simulation, trading some accuracy for greatly reduced compute time.*
+
+**Test Case:** Simulating a carbon molecule.
 
 | Job Name | Config | Nodes | Tasks | PEAK? | Elapsed (s) | Exit Code | Job ID |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -206,6 +229,8 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 ![plot](./plots/dftb_new_gen-scaling-07132026-145728_dashboard.png)
 
 ## Discussion / Analysis
+
+- Overall, these results demonstrate that increasing core counts does not guarantee linear speedup and can lead to resource waste if software limits are unaddressed.
 
 ### ABINIT
 
@@ -232,26 +257,43 @@ High Performance Computing (HPC) systems and the science, math, and machine lear
 - DFTB+ performed worse with more resources on a single node (120s → 144s → 220s) and outright crashed (exit code 1) when multiple nodes were introduced.
 - Root cause is not yet understood and needs further diagnosis (see Future Work).
 
+## Conclusion
+
+These results demonstrate that increasing core counts does not guarantee linear speedup and can lead to resource waste if software limits are unaddressed.
+Figure 2 - ABINIT scaled effectively from 1 → 384 tasks (119s → 6s), but got slightly worse at 768 tasks (9s). This is most likely due to inter-node communication overhead.
+Figure 3 - Quantum Espresso is a similar story: scales well up to 384 tasks (636s → 20s), then degrades at 768 tasks (27s).
+Figure 4 - DFTB+ performed worse with more resources and outright crashed when multiple nodes were introduced.
+Figure 5 - GROMACS scaled the best out of the group, successfully taking advantage of all the resources we gave it. GROMACS did not yield PEAK hits.
+Figure 6 - LAMMPS plateaus fast (32s → 4s by 24 tasks) and stays flat through 384 tasks. The program or test case seems to impose a hard limit on what resources the program allows itself to attempt to use. LAMMPS did not yield PEAK hits.
+To cover a broad survey of Frontera's most-used programs, a breadth-first approach was taken over deep per-program investigation, leaving room to resolve profiling issues and test more permutations for deeper insight.
+For the programs that yielded no PEAK results, it is likely due to how they were compiled. Rebuilding the programs under different configurations may yield PEAK results.
+
 ## Limitations
 
 - This study was very limited on time, so a breadth-first approach was taken. With more time, profiling issues can be solved and more permutations can be tested, giving us deeper insights.
 - For the programs that yielded no PEAK results (LAMMPS, GROMACS), it is likely due to how they were compiled. Rebuilding the programs under different configurations may yield PEAK results.
 
-## Conclusion / Future Work
+## Future Work
 
 - Diagnose why LAMMPS/GROMACS show no BLAS/LAPACK/FFTW PEAK hits.
 - Diagnose the causes of DFTB+'s scaling and crash behavior.
 - Add more test cases per program.
 - Continue to build out a list of actionable programs.
+- Continue to profile programs on our list.
 
 ## Acknowledgments
 
 - TACC
-- NSF // include award number
+- National Science Foundation (NSF) — Award ID's: 2447887 and OAC-2402542
 - Frontera
 - Stampede3
 - UT
 - OCU
+- Rosalia Gomez — Education and Outreach Directorate at TACC
+- Dr. Chun-Yaung Lu (Albert) — Research Associate at TACC and Mentor
+- Dr. Yinzhi Wang (Ian) — Research Associate at TACC and Mentor
+- Bobby Reed — Professor at OCU
+- Dr. Xu Shine — Professor at OCU
 
 ---
 
